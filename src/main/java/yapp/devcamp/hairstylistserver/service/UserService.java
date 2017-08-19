@@ -7,7 +7,7 @@ import yapp.devcamp.hairstylistserver.dao.UserRepository;
 
 @Service
 public class UserService {
-	
+
 	@Autowired
 	private UserRepository userRepository;
 
