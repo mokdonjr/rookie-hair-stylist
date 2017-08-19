@@ -17,25 +17,18 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name="time")
-public class Time implements Serializable {
-	
+@Table(name="hashtag")
+public class Hashtag implements Serializable {
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="time_code")
-	private int timeCode;
+	private int hashtag_code;
 	
-	@Column(name="shoptime")
-	private String shopTime; // 시 (00)
-	
-	@Column(name="shopdate")
-	private String shopDate; // 날짜 (00-00-00)
-	
-	@Column(name="shopday")
-	private String shopDay; // 요일(1~7) - enum으로
+	@Column(name="hash_tag")
+	private String hashtagContent;
 	
 	@ManyToOne
 	@JoinColumn(name="shop_code")
 	private Shop shop;
-
+	
 }
