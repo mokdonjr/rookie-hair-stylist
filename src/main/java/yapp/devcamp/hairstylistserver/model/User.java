@@ -29,11 +29,11 @@ import lombok.Setter;
 public class User implements Serializable{
 
    @Id
-   private long id; // kakao, facebook id (Integer)
+   private long id; 
    
-   private String nickname; // kakao, facebook 등록된 이메일의 아이디
+   private String nickname; 
 
-   private String username; // kakao, facebook 등록된 사용자 이름
+   private String username; 
 
    @Column(name="profile_image_path")
    private String profileImagePath;

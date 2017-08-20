@@ -14,13 +14,10 @@ public class ShopController {
 	
 	/**
 	 * Save booked shop data
-	 * @param : shop data
 	 */
 	@RequestMapping("/book")
 	public String book(Shop shop){
-		//예약하는 shop 정보를 저장해서
 		
-		//shop.html로 리턴
 		return "shop";
 	}
 	

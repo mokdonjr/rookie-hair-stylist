@@ -27,10 +27,10 @@ public class Book implements Serializable {
 	private int bookCode;
 	
 	@Column(name="book_date")
-	private Date bookDate; // 현재시간 Util만들어서 할당
+	private Date bookDate; 
 	
 	@Column(name="book_status")
-	private boolean bookStatus = true; // 예약 생성시 디폴트로 수락상태 (false는 취소상태)
+	private boolean bookStatus = true;
 	
 	@ManyToOne
 	@JoinColumn(name="user_id")

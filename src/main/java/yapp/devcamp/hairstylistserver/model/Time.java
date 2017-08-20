@@ -26,13 +26,13 @@ public class Time implements Serializable {
 	private int timeCode;
 	
 	@Column(name="shoptime")
-	private String shopTime; // 시 (00)
+	private String shopTime;
 	
 	@Column(name="shopdate")
-	private String shopDate; // 날짜 (00-00-00)
+	private String shopDate; 
 	
 	@Column(name="shopday")
-	private String shopDay; // 요일(1~7) - enum으로
+	private String shopDay; 
 	
 	@ManyToOne
 	@JoinColumn(name="shop_code")

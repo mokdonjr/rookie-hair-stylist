@@ -42,7 +42,7 @@ public class Shop implements Serializable {
 	private String content;
 	
 	@Column(name="shop_status")
-	private boolean shopStatus = true; // 샵을 생성하면 디폴트로 열린상태(false는 샵 닫힘)
+	private boolean shopStatus = true; 
 	
 	@OneToMany(mappedBy="shop", cascade=CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)

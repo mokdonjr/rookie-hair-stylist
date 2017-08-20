@@ -2,6 +2,9 @@ package yapp.devcamp.hairstylistserver.controller;
 
 import org.springframework.stereotype.Controller;
 
+import yapp.devcamp.hairstylistserver.model.Book;
+import yapp.devcamp.hairstylistserver.model.User;
+
 /**
  * Book management Controller
  */

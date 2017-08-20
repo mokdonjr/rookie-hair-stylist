@@ -36,9 +36,9 @@ public class Stylist implements Serializable {
 	private int stylistCode;
 	
 	@Column(name="stylist_nickname")
-	private String stylistNickname; // stylist 별명
+	private String stylistNickname; 
 	
-	private boolean qualified = false; // stylist 자격증 인증 여부
+	private boolean qualified = false; 
 	
 	@Column(name="license_image_path")
 	private String licenseImagePath;
@@ -47,10 +47,10 @@ public class Stylist implements Serializable {
 	private MultipartFile licenseImage;
 	
 	@Column(nullable=false)
-	private String location; // 도로명주소
+	private String location; 
 	
 	@Column(name="detail_location", nullable=false)
-	private String detailLocation; // 상세주소. 몇동몇호
+	private String detailLocation;
 	
 	private String career;
 	
