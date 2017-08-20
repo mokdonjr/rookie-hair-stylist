@@ -42,9 +42,4 @@ public class Product implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="shop_code")
 	private Shop shop;
-	
-	@OneToMany(mappedBy="product", cascade=CascadeType.ALL)
-	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<ProductOption> options = new ArrayList<ProductOption>();
-
 }

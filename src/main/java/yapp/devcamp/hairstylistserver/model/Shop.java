@@ -63,5 +63,9 @@ public class Shop implements Serializable {
 	@OneToMany(mappedBy="shop", cascade=CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Product> products = new ArrayList<Product>();
+	
+	@OneToMany(mappedBy="shop", cascade=CascadeType.ALL)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<ProductOption> options = new ArrayList<ProductOption>();
 
 }

@@ -30,9 +30,9 @@ public class ProductOption implements Serializable {
 	
 	@Column(name="option_price")
 	private int optionPrice;
-	
+
 	@ManyToOne
-	@JoinColumn(name="product_id")
-	private Product product;
+	@JoinColumn(name="shop_code")
+	private Shop shop;
 
 }
