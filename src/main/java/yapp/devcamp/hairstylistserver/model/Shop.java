@@ -27,7 +27,7 @@ import lombok.Setter;
 @Setter
 @Table(name="shop")
 public class Shop implements Serializable {
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="shop_code")

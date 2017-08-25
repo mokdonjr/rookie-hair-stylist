@@ -21,6 +21,11 @@ import lombok.Setter;
 @Table(name="alarm")
 public class Alarm implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7990379282850030723L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="alarm_code")

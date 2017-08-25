@@ -54,8 +54,10 @@ public class Stylist implements Serializable {
 	
 	private String career;
 	
-	@OneToOne(optional=false, cascade=CascadeType.ALL)
-	@JoinColumn(unique=true)
+//	@OneToOne(optional=false, cascade=CascadeType.ALL)
+//	@JoinColumn(unique=true)
+	@OneToOne
+	@JoinColumn(name="user_id") // fk
 	private User user;
 	
 	@OneToMany(mappedBy="stylist", cascade=CascadeType.ALL)

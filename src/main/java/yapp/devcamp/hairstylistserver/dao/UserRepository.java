@@ -8,4 +8,9 @@ import yapp.devcamp.hairstylistserver.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>{
 
+	User findByEmail(String email);
+	
+	User findByAccessToken(String accessToken);
+	
+	User findById(int id);
 }
