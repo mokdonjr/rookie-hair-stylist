@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<!-- decorated pattern -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+
+	<title layout:title-pattern="$CONTENT_TITLE :: $DECORATOR_TITLE">Rookies</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	
+	<!-- Bootstrap core CSS -->
+	<link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
+		rel="stylesheet">
+	
+	<!-- Custom styles for this template -->
+	<link href="/css/cover.css" rel="stylesheet">
+	<link href="/css/main.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<header th:replace="fragments/commonHeader :: header"></header>
+
+<section id="content" layout:fragment="content"></section>
+
+<footer th:replace="fragments/commonFooter :: footer"></footer>
+
+</body>
+
+</html>

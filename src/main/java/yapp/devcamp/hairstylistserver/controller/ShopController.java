@@ -2,13 +2,14 @@ package yapp.devcamp.hairstylistserver.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import yapp.devcamp.hairstylistserver.model.Shop;
 
 /**
  * Shop Management Controller
  */
-@Controller
+@RestController
 @RequestMapping("/shop")
 public class ShopController {
 	
