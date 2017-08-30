@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+layout:decorator="layouts/commonLayout">
+<head>
+<meta charset="EUC-KR">
+<title>Login Complete</title>
+</head>
+<body>
+
+<section layout:fragment="content">
+
+Hair Stylist Server - Login Complete
+
+<script>
+    window.parent.opener.focus();
+    window.parent.opener.onSuccess();
+    window.close();
+</script>
+
+</section>
+
+</body>
+</html>

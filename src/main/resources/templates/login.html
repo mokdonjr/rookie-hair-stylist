@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+layout:decorator="layouts/commonLayout">
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+</head>
+<body>
+<section layout:fragment="content">
+
+	Hair Stylist Server - Login Page
+	
+	<br/>
+	<hr/>
+	
+	<div th:if="${name} != null"> 
+		<h2>안녕하세요, </h2>
+		<h2 th:text="${name}">님!</h2>
+		<br>
+		<a href="/logout" class="btn btn-primary">LOGOUT</a>
+	</div>
+	<div th:if="${name} == null">
+		<h2>Select your social for login</h2>
+		<br>
+		<a href="javascript:;" class="btn_social" data-social="facebook"><img src="/images/facebook.png" width="40px" height="40px"></a>
+    	<a href="javascript:;" class="btn_social" data-social="kakao"><img src="/images/kakao.png" width="40px" height="40px"></a>
+		
+	</div>
+	
+	<!-- JQuery -->
+	<script src="/webjars/jquery/3.1.0/jquery.min.js"></script>
+	<script>
+    $('.btn_social').click(function () {
+        var socialType = $(this).data('social');
+        window.open('/login/'+socialType, '', 'scrollbars=yes, resizable=yes, status=yes, location=yes, width=500, height=350, left=0, top=0');
+        window['onSuccess'] = function() {
+            location.reload();
+            window['onSuccess'] = null;
+        }
+    });
+	</script>
+	
+	
+<!-- 	<div ng-app="app" ng-controller="home as home"> -->
+<!-- 	<h1>Login</h1> -->
+<!-- 	<div class="container" ng-show="!home.authenticated"> -->
+<!-- 		<div> -->
+<!-- 			With Facebook: <a href="/login/facebook">click here</a> -->
+<!-- 		</div> -->
+<!-- 		<div> -->
+<!-- 			With Kakao: <a href="/login/kakao">click here</a> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+<!-- 	<div class="container" ng-show="home.authenticated"> -->
+<!-- 		Logged in as: <span ng-bind="home.user"></span> -->
+<!-- 		<div> -->
+<!-- 			<button ng-click="home.logout()" class="btn btn-primary">Logout</button> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+<!-- 	<script type="text/javascript" src="/webjars/angularjs/angular.min.js"></script> -->
+	
+<!-- 	<script type="text/javascript"> -->
+<!-- // 		angular -->
+<!-- // 				.module("app", []) -->
+<!-- // 				.config( -->
+<!-- // 						function($httpProvider) { -->
+<!-- // 							$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'; -->
+<!-- // 						}).controller("home", function($http, $location) { -->
+<!-- // 					var self = this; -->
+<!-- // 					$http.get("/api/users").success(function(data) { -->
+<!-- // 						if (data.name) { -->
+<!-- // 							self.user = data.name; -->
+<!-- // 							self.authenticated = true; -->
+<!-- // 						} else { -->
+<!-- // 							self.user = "N/A"; -->
+<!-- // 							self.authenticated = false; -->
+<!-- // 						} -->
+<!-- // 					}).error(function() { -->
+<!-- // 						self.user = "N/A"; -->
+<!-- // 						self.authenticated = false; -->
+<!-- // 					}); -->
+<!-- // 					self.logout = function() { -->
+<!-- // 						$http.post('logout', {}).success(function() { -->
+<!-- // 							self.authenticated = false; -->
+<!-- // 							$location.path("/"); -->
+<!-- // 						}).error(function(data) { -->
+<!-- // 							console.log("Logout failed") -->
+<!-- // 							self.authenticated = false; -->
+<!-- // 						}); -->
+<!-- // 					}; -->
+<!-- // 				}); -->
+<!-- 	</script> -->
+
+	
+</section>
+</body>
+</html>

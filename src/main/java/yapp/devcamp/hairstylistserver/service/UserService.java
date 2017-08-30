@@ -2,6 +2,7 @@ package yapp.devcamp.hairstylistserver.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import yapp.devcamp.hairstylistserver.dao.UserRepository;
 import yapp.devcamp.hairstylistserver.model.User;
@@ -12,16 +13,13 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
+	@Transactional
 	public void saveUser(User user){
 		userRepository.save(user);
 	}
 	
 	public User findById(int id){
 		return userRepository.findById(id);
-	}
-	
-	public User findByAccessToken(String accessToken){
-		return userRepository.findByAccessToken(accessToken);
 	}
 	
 	public User findByEmail(String email){
@@ -38,8 +36,8 @@ public class UserService {
 		userRepository.delete(user);
 	}
 	
-	public boolean isSavedUser(User user){
-		return userRepository.findByAccessToken(user.getAccessToken()) != null;
+	public boolean isNotExistUser(String principal){
+		return userRepository.findByPrincipal(principal) == null ? true:false;
 	}
 
 }

@@ -1,9 +1,20 @@
 package yapp.devcamp.hairstylistserver.controller;
 
-import javax.servlet.http.HttpSession;
+import java.nio.file.Paths;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import yapp.devcamp.hairstylistserver.model.Shop;
@@ -17,6 +28,7 @@ import yapp.devcamp.hairstylistserver.model.User;
 @RequestMapping("/stylist")
 public class StylistController {
 
+	Logger logger = LoggerFactory.getLogger("yapp.devcamp.hairstylistserver.StylistController");
 	/**
 	 * enroll stylist
 	 * 
@@ -24,17 +36,29 @@ public class StylistController {
 	 *            stylist data
 	 * @return : shopList
 	 */
-	@RequestMapping("/enroll")
-	public ModelAndView enroll(Stylist stylist) {
-		// stylist정보 저장하고
+	@GetMapping("/enroll")
+	public String enrollStylist(Stylist stylist) {
+		
 
-		// shopList를 가져와
-
-		// 메인으로 리턴
-		ModelAndView model = new ModelAndView();
-		model.setViewName("/");
-
-		return model;
+		return "enrollStylist";
+	}
+	
+	@PostMapping("/enroll")
+	public String enrollStylistPost(@Valid Stylist stylist, BindingResult result, HttpServletRequest request){
+		
+		if(result.hasErrors()){
+			logger.debug("From data has errors");
+			List<ObjectError> errors = result.getAllErrors();
+			for(ObjectError error : errors){
+				error.getDefaultMessage();
+			}
+			return "enrollStylist";
+		}
+		
+		MultipartFile licenseImage = stylist.getLicenseImage();
+		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+		
+//		Path savePath = Paths.get(rootDirectory + "\\images\\stylist\\")
 	}
 
 	/**

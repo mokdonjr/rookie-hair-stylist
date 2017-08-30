@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+layout:decorator="layouts/commonLayout">
+<head>
+<meta charset="EUC-KR">
+<title>Error Page</title>
+</head>
+<body>
+
+<section layout:fragment="content">
+
+Hair Stylist Server - Error!!
+
+<div th:if="${message} != null">
+	<h2>${message}</h2>
+</div>
+
+</section>
+
+</body>
+</html>
