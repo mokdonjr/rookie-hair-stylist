@@ -1,6 +1,7 @@
 package yapp.devcamp.hairstylistserver.controller;
 
 import java.nio.file.Paths;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -43,23 +44,23 @@ public class StylistController {
 		return "enrollStylist";
 	}
 	
-	@PostMapping("/enroll")
-	public String enrollStylistPost(@Valid Stylist stylist, BindingResult result, HttpServletRequest request){
-		
-		if(result.hasErrors()){
-			logger.debug("From data has errors");
-			List<ObjectError> errors = result.getAllErrors();
-			for(ObjectError error : errors){
-				error.getDefaultMessage();
-			}
-			return "enrollStylist";
-		}
-		
-		MultipartFile licenseImage = stylist.getLicenseImage();
-		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
-		
-//		Path savePath = Paths.get(rootDirectory + "\\images\\stylist\\")
-	}
+//	@PostMapping("/enroll")
+//	public String enrollStylistPost(@Valid Stylist stylist, BindingResult result, HttpServletRequest request){
+//		
+//		if(result.hasErrors()){
+//			logger.debug("From data has errors");
+//			List<ObjectError> errors = result.getAllErrors();
+//			for(ObjectError error : errors){
+//				error.getDefaultMessage();
+//			}
+//			return "enrollStylist";
+//		}
+//		
+//		MultipartFile licenseImage = stylist.getLicenseImage();
+//		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+//		
+////		Path savePath = Paths.get(rootDirectory + "\\images\\stylist\\")
+//	}
 
 	/**
 	 * redirect apply_form.html
