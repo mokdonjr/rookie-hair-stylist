@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	layout:decorator="layouts/commonLayout">
+<head>
+	<meta charset="utf-8">
+	<title>Login OAuth User</title>
+</head>
+<body>
+<div id="page-wrapper" layout:fragment="content">
+
+	<h1>Hair Stylist Server - Login Page</h1>
+	
+	<!-- Login Error Status -->
+	<h3 th:text="${errorMsg}"></h3><br>
+	
+	<!-- Logout Status -->
+	<h3 th:text="${logoutMsg}"></h3><br>
+	
+	<!-- Logged in Status -->
+	<div sec:authorize="isAuthenticated()">
+	
+		<h2>안녕하세요, </h2>
+		<h2 th:text="${name}"></h2>
+		
+		<div sec:authorize="hasRole('ROLE_STYLIST')">
+		<h2>스타일리스트님!</h2>
+		</div>
+		<div sec:authorize="hasRole('ROLE_USER')">
+		<h2>고객님!</h2>
+		</div>
+		<div sec:authorize="hasRole('ROLE_ADMIN')">
+		<h2>관리자님!</h2>
+		</div>
+	</div>
+	
+	<!-- Login Requests -->
+	<div sec:authorize="isAnonymous()">
+		<h3>SNS 계정으로 로그인</h3>
+		<a href="javascript:;" class="btn_social" data-social="facebook"><img src="/images/facebook.png" width="40px" height="40px"></a>
+    	<a href="javascript:;" class="btn_social" data-social="kakao"><img src="/images/kakao.png" width="40px" height="40px"></a>
+	</div>
+	
+	<!-- JQuery -->
+	<script src="/webjars/jquery/3.1.0/jquery.min.js"></script>
+	<script>
+    $('.btn_social').click(function () {
+        var socialType = $(this).data('social');
+        window.open('/login/'+socialType, '', 'scrollbars=yes, resizable=yes, status=yes, location=yes, width=500, height=350, left=0, top=0');
+        window['onSuccess'] = function() {
+            location.reload();
+            window['onSuccess'] = null;
+        }
+    });
+	</script>
+	
+	
+<!-- 	<div ng-app="app" ng-controller="home as home"> -->
+<!-- 	<h1>Login</h1> -->
+<!-- 	<div class="container" ng-show="!home.authenticated"> -->
+<!-- 		<div> -->
+<!-- 			With Facebook: <a href="/login/facebook">click here</a> -->
+<!-- 		</div> -->
+<!-- 		<div> -->
+<!-- 			With Kakao: <a href="/login/kakao">click here</a> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+<!-- 	<div class="container" ng-show="home.authenticated"> -->
+<!-- 		Logged in as: <span ng-bind="home.user"></span> -->
+<!-- 		<div> -->
+<!-- 			<button ng-click="home.logout()" class="btn btn-primary">Logout</button> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+<!-- 	<script type="text/javascript" src="/webjars/angularjs/angular.min.js"></script> -->
+	
+<!-- 	<script type="text/javascript"> -->
+<!-- // 		angular -->
+<!-- // 				.module("app", []) -->
+<!-- // 				.config( -->
+<!-- // 						function($httpProvider) { -->
+<!-- // 							$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'; -->
+<!-- // 						}).controller("home", function($http, $location) { -->
+<!-- // 					var self = this; -->
+<!-- // 					$http.get("/api/users").success(function(data) { -->
+<!-- // 						if (data.name) { -->
+<!-- // 							self.user = data.name; -->
+<!-- // 							self.authenticated = true; -->
+<!-- // 						} else { -->
+<!-- // 							self.user = "N/A"; -->
+<!-- // 							self.authenticated = false; -->
+<!-- // 						} -->
+<!-- // 					}).error(function() { -->
+<!-- // 						self.user = "N/A"; -->
+<!-- // 						self.authenticated = false; -->
+<!-- // 					}); -->
+<!-- // 					self.logout = function() { -->
+<!-- // 						$http.post('logout', {}).success(function() { -->
+<!-- // 							self.authenticated = false; -->
+<!-- // 							$location.path("/"); -->
+<!-- // 						}).error(function(data) { -->
+<!-- // 							console.log("Logout failed") -->
+<!-- // 							self.authenticated = false; -->
+<!-- // 						}); -->
+<!-- // 					}; -->
+<!-- // 				}); -->
+<!-- 	</script> -->
+
+	
+</div>
+</body>
+</html>

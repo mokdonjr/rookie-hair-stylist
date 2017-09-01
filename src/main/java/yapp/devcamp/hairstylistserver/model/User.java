@@ -3,10 +3,13 @@ package yapp.devcamp.hairstylistserver.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,26 +23,27 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Getter;
 import lombok.Setter;
+import yapp.devcamp.hairstylistserver.oauth.SocialType;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "user")
 public class User implements Serializable {
-
-	// @Id
-	// private long id; // kakao, facebook id (Integer)
+	private static final long serialVersionUID = -2962225427529797300L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id; // pk
+
+	@Column(name="principal")
+	private String principal; // kakao, facebook pk
 	
-	@Column(name="access_token")
-	private String accessToken; // kakao, facebook id (String)
+	@Column(name="social_type")
+	@Enumerated(EnumType.STRING)
+	private SocialType socialType;
 	
 	private String email; // kakao, facebook 등록된 이메일 계정 // test용
 
@@ -52,6 +56,9 @@ public class User implements Serializable {
 
 	@Transient
 	private MultipartFile profileImage;
+	
+	@OneToMany(mappedBy="user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Role> roles;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)

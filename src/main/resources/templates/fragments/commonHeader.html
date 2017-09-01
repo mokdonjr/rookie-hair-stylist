@@ -1,5 +1,11 @@
-
-<header layout:fragment="header">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="utf-8" />
+</head>
+<body>
+<div layout:fragment="header">
 
 	<div class="navbar-wrapper">
 		<div class="container">
@@ -14,28 +20,37 @@
 								class="icon-bar"></span> <span class="icon-bar"></span> <span
 								class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" href="#">SmartShop</a>
+						<a class="navbar-brand" href="/">Home</a>
 					</div>
 					<div id="navbar" class="navbar-collapse collapse">
 						<ul class="nav navbar-nav">
-							<li><a href="#">Home</a></li>
-							<li class="active"><a href="#">Products</a></li>
+							<li><a href="#">Products</a></li>
 							<li><a href="#">Contact</a></li>
-							<li class="dropdown"><a href="#" class="dropdown-toggle"
-								data-toggle="dropdown" role="button" aria-haspopup="true"
-								aria-expanded="false">Dropdown <span class="caret"></span></a>
-								<ul class="dropdown-menu">
-									<li><a href="#">Action</a></li>
-									<li><a href="#">Another action</a></li>
-									<li><a href="#">Something else here</a></li>
-									<li role="separator" class="divider"></li>
-									<li class="dropdown-header">Nav header</li>
-									<li><a href="#">Separated link</a></li>
-									<li><a href="#">One more separated link</a></li>
-								</ul></li>
 						</ul>
 						
-						
+						<!-- Authentication Status -->
+						<div sec:authorize="isAuthenticated()">
+							<ul class="nav navbar-nav pull-right">
+							<!-- Authorization Status -->
+								<li sec:authorize="hasRole('ROLE_STYLIST')">
+									<a href="/stylist/mypage">MyPage(Stylist)</a>
+								</li>
+								<li sec:authorize="hasRole('ROLE_USER')">
+									<a href="/stylist/enroll">헤어디자이너신청</a>
+								</li>
+								<li>
+									<a><span sec:authentication="principal"></span>님 환영합니다!</a><!-- sec:authentication="name" -->
+								</li>
+								<li><a>알림</a></li>
+								<li><a>채팅</a></li>
+								<li><a href="/logout">Log out</a></li>
+							</ul>
+						</div>
+						<div sec:authorize="isAnonymous()">
+							<ul class="nav navbar-nav pull-right">
+								<li><a href="/login">Log in</a></li>
+							</ul>
+						</div>
 						
 					</div>
 	
@@ -44,4 +59,6 @@
 	
 		</div>
 	</div>
-</header>
+</div>
+</body>
+</html>

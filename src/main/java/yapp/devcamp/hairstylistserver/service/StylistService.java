@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import yapp.devcamp.hairstylistserver.dao.StylistRepository;
 import yapp.devcamp.hairstylistserver.model.Stylist;
+import yapp.devcamp.hairstylistserver.model.User;
 
 @Service
 public class StylistService {
@@ -18,15 +19,23 @@ public class StylistService {
 		stylistRepository.save(stylist);
 	}
 	
-	public Stylist getStylistByStylistCode(int stylist_code){
+	public Stylist findStylistByStylistCode(int stylist_code){
 		return stylistRepository.findByStylistCode(stylist_code);
 	}
 	
-	public Stylist getStylistByStylistNickname(String stylist_nickname){
+	public Stylist findStylistByStylistNickname(String stylist_nickname){
 		return stylistRepository.findByStylistNickname(stylist_nickname);
 	}
 	
-	public List<Stylist> getAllStylists(){
+	public Stylist findStylistByUser(User user){
+		return stylistRepository.findByUser(user);
+	}
+	
+	public boolean isAlreadyEnrollUser(User user){ // must be one to one User/Stylist
+		return stylistRepository.findByUser(user) != null;
+	}
+	
+	public List<Stylist> findAllStylists(){
 		return stylistRepository.findAll();
 	}
 	

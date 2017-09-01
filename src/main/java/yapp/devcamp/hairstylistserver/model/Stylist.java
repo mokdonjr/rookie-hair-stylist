@@ -7,7 +7,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,9 +15,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;
@@ -29,6 +31,7 @@ import lombok.Setter;
 @Setter
 @Table(name="stylist")
 public class Stylist implements Serializable {
+	private static final long serialVersionUID = 2792820973956387153L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -38,7 +41,17 @@ public class Stylist implements Serializable {
 	@Column(name="stylist_nickname")
 	private String stylistNickname; 
 	
-	private boolean qualified = false; 
+	@Column(name="stylist_realname")
+	@NotEmpty(message="실명 입력란은 필수 항목 입니다.")
+	private String stylistRealname; // stylist 실명
+	
+	@NotEmpty(message="연락처 입력란은 필수 항목 입니다.")
+	@Size(min=9, max=11, message="연락처를 정확히 입력해주세요.") // 025994498 ~ 01071504498
+//	@Pattern(regexp="/^[0-9]+$/", message="-(하이픈) 없이 숫자만 입력해주세요.")
+	// front 에서 칸 3개 나눠주면 phone number validation 다시
+	private String phone; // 전화번호
+	
+	private boolean qualified = false; // stylist 자격증 인증 여부
 	
 	@Column(name="license_image_path")
 	private String licenseImagePath;

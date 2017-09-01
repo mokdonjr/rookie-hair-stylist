@@ -24,7 +24,7 @@ import yapp.devcamp.hairstylistserver.service.StylistService;
 @RestController
 @RequestMapping("/api/stylists")
 public class StylistRestController {
-	Logger logger = LoggerFactory.getLogger("yapp.devcamp.hairstylistserver.StylistRestController");
+	Logger logger = LoggerFactory.getLogger("yapp.devcamp.hairstylistserver.controller.StylistRestController");
 	
 	@Autowired
 	private StylistService stylistService;
@@ -40,7 +40,7 @@ public class StylistRestController {
 	
 	@GetMapping("/{stylist_code}")
 	public ResponseEntity<Stylist> getStylist(@PathVariable("stylist_code") int stylist_code){
-		Stylist stylist = stylistService.getStylistByStylistCode(stylist_code);
+		Stylist stylist = stylistService.findStylistByStylistCode(stylist_code);
 		
 		if(stylist == null){
 			throw new StylistNotFoundException(stylist_code);
@@ -51,7 +51,7 @@ public class StylistRestController {
 	
 	@GetMapping("/{stylist_nickname}")
 	public ResponseEntity<Stylist> getStylistByStylistNickname(@PathVariable("stylist_nickname") String stylist_nickname){
-		Stylist stylist = stylistService.getStylistByStylistNickname(stylist_nickname);
+		Stylist stylist = stylistService.findStylistByStylistNickname(stylist_nickname);
 		
 		if(stylist == null){
 			throw new StylistNicknameNotFoundException(stylist_nickname);
@@ -63,7 +63,7 @@ public class StylistRestController {
 	@GetMapping("/")
 	public ResponseEntity<List<Stylist>> getAllStylists(){
 		
-		List<Stylist> stylists = stylistService.getAllStylists();
+		List<Stylist> stylists = stylistService.findAllStylists();
 		if(stylists.isEmpty()){
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
@@ -73,7 +73,7 @@ public class StylistRestController {
 	// request body : stylist_nickname, qualified, license_image_path, location, detail_location, career
 	@PutMapping("/{stylist_code}")
 	public ResponseEntity<Stylist> updateStylist(@PathVariable("stylist_code") int stylist_code, @RequestBody Stylist stylist){
-		Stylist currentStylist = stylistService.getStylistByStylistCode(stylist_code);
+		Stylist currentStylist = stylistService.findStylistByStylistCode(stylist_code);
 		
 		if(currentStylist == null){
 			throw new StylistNotFoundException(stylist_code);
@@ -94,7 +94,7 @@ public class StylistRestController {
 	
 	@DeleteMapping("/{stylist_code}")
 	public ResponseEntity<Void> quitStylist(@PathVariable("stylist_code") int stylist_code){
-		Stylist stylist = stylistService.getStylistByStylistCode(stylist_code);
+		Stylist stylist = stylistService.findStylistByStylistCode(stylist_code);
 		
 		if(stylist == null){
 			throw new StylistNotFoundException(stylist_code);

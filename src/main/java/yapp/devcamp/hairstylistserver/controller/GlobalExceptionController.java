@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import yapp.devcamp.hairstylistserver.exception.ErrorResponse;
+import yapp.devcamp.hairstylistserver.exception.StorageFileNotFoundException;
+import yapp.devcamp.hairstylistserver.exception.StylistAlreadyEnrollException;
 import yapp.devcamp.hairstylistserver.exception.StylistNicknameNotFoundException;
 import yapp.devcamp.hairstylistserver.exception.StylistNotFoundException;
 import yapp.devcamp.hairstylistserver.exception.UserNotFoundException;
@@ -53,5 +55,24 @@ public class GlobalExceptionController {
 		errorResponse.setErrorMessage("Stylist with stylist_nickname " + ex.getStylistNickname() + " not found");
 		
 		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.NOT_FOUND);
+	}
+	
+	// should not be restful ...
+	@ExceptionHandler(StylistAlreadyEnrollException.class)
+	public ResponseEntity<ErrorResponse> handleStylistAlreadyEnrollException(HttpServletRequest request,
+			StylistAlreadyEnrollException ex){
+		String requestURL = request.getRequestURL().toString();
+		
+		ErrorResponse errorResponse = new ErrorResponse();
+		errorResponse.setRequestURL(requestURL);
+		errorResponse.setErrorCode("stlist.already-enroll.exepction");
+		errorResponse.setErrorMessage("User with user_id " + ex.getUserId() + " already enrolled stylist");
+		
+		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.CONFLICT);
+	}
+	
+	@ExceptionHandler(StorageFileNotFoundException.class)
+	public ResponseEntity<?> handleStorageFileNotFoundException(StorageFileNotFoundException ex){
+		return ResponseEntity.notFound().build();
 	}
 }
