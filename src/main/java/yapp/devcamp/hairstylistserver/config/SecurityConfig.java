@@ -12,7 +12,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/").permitAll()
 			.antMatchers("/login").permitAll()
 			.antMatchers("/admin/**").hasAuthority("ROLE_ADMIN").anyRequest().authenticated() // 관리자 접근 페이지
 //			.antMatchers("/admin/**").access("ROLE_ADMIN"); // 위에 안되면 이걸로
@@ -27,7 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.logoutSuccessUrl("/"); // 메인페이지 이동
 		
 		http.exceptionHandling().accessDeniedPage("/access-denied");
-			
+		
+		
 	}
 	
 	@Override

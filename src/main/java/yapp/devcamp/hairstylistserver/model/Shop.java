@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -41,31 +42,33 @@ public class Shop implements Serializable {
 	
 	private String content;
 	
-	@Column(name="shop_status")
-	private boolean shopStatus = true; 
+	private String location;
+	
+	@Column(name="shopstatus")
+	private String shopStatus; 
 	
 	@OneToMany(mappedBy="shop", cascade=CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Hashtag> hashtags = new ArrayList<Hashtag>();
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="stylist_code")
 	private Stylist stylist;
 	
 	@OneToMany(mappedBy="shop", cascade=CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<Time> times = new ArrayList<Time>();
+	private List<Time> times;
 	
 	@OneToMany(mappedBy="shop", cascade=CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<Postscript> postscripts = new ArrayList<Postscript>();
+	private List<Postscript> postscripts;
 	
 	@OneToMany(mappedBy="shop", cascade=CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<Product> products = new ArrayList<Product>();
+	private List<Product> products;
 	
 	@OneToMany(mappedBy="shop", cascade=CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<ProductOption> options = new ArrayList<ProductOption>();
+	private List<ProductOption> options;
 
 }
