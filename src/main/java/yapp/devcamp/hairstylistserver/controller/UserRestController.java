@@ -20,7 +20,7 @@ import yapp.devcamp.hairstylistserver.service.UserService;
 @RestController
 @RequestMapping("/api/users")
 public class UserRestController {
-	Logger logger = LoggerFactory.getLogger("yapp.devcamp.hairstylistserver.UserRestController");
+	Logger logger = LoggerFactory.getLogger("yapp.devcamp.hairstylistserver.controller.UserRestController");
 	
 	@Autowired
 	private UserService userService;

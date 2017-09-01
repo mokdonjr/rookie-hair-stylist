@@ -21,7 +21,7 @@ import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 @Configuration
-//@EnableWebSecurity // issue
+@EnableWebSecurity // issue
 //@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER) // issue
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
@@ -39,9 +39,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers("/", "/login", "/login/**", "/webjars/**", "/css/**", "/js/**", "/images/**").permitAll()
 //				.antMatchers("/**").hasAuthority("ROLE_USER").anyRequest().authenticated()
+//				.antMatchers("/stylist/enroll").hasRole("USER")
+//				.antMatchers("/stylist/**").hasRole("STYLIST")
+				.antMatchers("/admin**").hasRole("ADMIN")
 				.anyRequest().authenticated()
-//				.and()
-//			.formLogin().loginProcessingUrl("/login").failureUrl("/login?error=true")
+				.and()
+			.formLogin().loginProcessingUrl("/login").failureUrl("/login?error=true")
 				.and()
 			.headers().frameOptions().disable()
 				.and()
@@ -52,8 +55,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 				.and()
 			.addFilterBefore(filter, CsrfFilter.class)
-			.addFilterBefore((Filter)context.getBean("sso.filter"), BasicAuthenticationFilter.class)
-			.csrf().disable();
+			.addFilterBefore((Filter)context.getBean("sso.filter"), BasicAuthenticationFilter.class);
+//			.csrf().disable(); 보류
 	}
 
 	@Override

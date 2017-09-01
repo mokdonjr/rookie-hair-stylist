@@ -26,6 +26,10 @@ public class UserService {
 		return userRepository.findByEmail(email);
 	}
 	
+	public User findByPrincipal(String principal){
+		return userRepository.findByPrincipal(principal);
+	}
+	
 	public void updateUser(int id, User user){
 		userRepository.save(user); // merge new user
 //		userRepository.saveAndFlush(user); // 위에 안되면 이걸로

@@ -1,30 +1,44 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-layout:decorator="layouts/commonLayout">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	layout:decorator="layouts/commonLayout">
 <head>
-<meta charset="utf-8">
-<title>Insert title here</title>
+	<meta charset="utf-8">
+	<title>Login OAuth User</title>
 </head>
 <body>
-<section layout:fragment="content">
+<div id="page-wrapper" layout:fragment="content">
 
-	Hair Stylist Server - Login Page
+	<h1>Hair Stylist Server - Login Page</h1>
 	
-	<br/>
-	<hr/>
+	<!-- Login Error Status -->
+	<h3 th:text="${errorMsg}"></h3><br>
 	
-	<div th:if="${name} != null"> 
+	<!-- Logout Status -->
+	<h3 th:text="${logoutMsg}"></h3><br>
+	
+	<!-- Logged in Status -->
+	<div sec:authorize="isAuthenticated()">
+	
 		<h2>안녕하세요, </h2>
-		<h2 th:text="${name}">님!</h2>
-		<br>
-		<a href="/logout" class="btn btn-primary">LOGOUT</a>
+		<h2 th:text="${name}"></h2>
+		
+		<div sec:authorize="hasRole('ROLE_STYLIST')">
+		<h2>스타일리스트님!</h2>
+		</div>
+		<div sec:authorize="hasRole('ROLE_USER')">
+		<h2>고객님!</h2>
+		</div>
+		<div sec:authorize="hasRole('ROLE_ADMIN')">
+		<h2>관리자님!</h2>
+		</div>
 	</div>
-	<div th:if="${name} == null">
-		<h2>Select your social for login</h2>
-		<br>
+	
+	<!-- Login Requests -->
+	<div sec:authorize="isAnonymous()">
+		<h3>SNS 계정으로 로그인</h3>
 		<a href="javascript:;" class="btn_social" data-social="facebook"><img src="/images/facebook.png" width="40px" height="40px"></a>
     	<a href="javascript:;" class="btn_social" data-social="kakao"><img src="/images/kakao.png" width="40px" height="40px"></a>
-		
 	</div>
 	
 	<!-- JQuery -->
@@ -92,6 +106,6 @@ layout:decorator="layouts/commonLayout">
 <!-- 	</script> -->
 
 	
-</section>
+</div>
 </body>
 </html>
