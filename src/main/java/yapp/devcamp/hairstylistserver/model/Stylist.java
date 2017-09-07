@@ -64,11 +64,7 @@ public class Stylist implements Serializable {
 	
 	@Column(name="detail_location", nullable=false)
 	private String detailLocation; // 상세주소. 몇동몇호
-	
-	private String career;
-	
-//	@OneToOne(optional=false, cascade=CascadeType.ALL)
-//	@JoinColumn(unique=true)
+
 	@OneToOne
 	@JoinColumn(name="user_id") // fk
 	private User user;

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import yapp.devcamp.hairstylistserver.dao.StylistRepository;
 import yapp.devcamp.hairstylistserver.model.Stylist;
@@ -15,6 +16,7 @@ public class StylistService {
 	@Autowired
 	private StylistRepository stylistRepository;
 	
+	@Transactional
 	public void saveStylist(Stylist stylist){
 		stylistRepository.save(stylist);
 	}

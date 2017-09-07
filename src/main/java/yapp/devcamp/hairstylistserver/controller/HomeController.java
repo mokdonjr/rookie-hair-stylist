@@ -11,10 +11,5 @@ public class HomeController {
 	public String home(){
 		return "index";
 	}
-	
-	@RequestMapping("/secured")
-	public String secured(){
-		return "secured";
-	}
 
 }

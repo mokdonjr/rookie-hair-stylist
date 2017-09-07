@@ -21,34 +21,28 @@ import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 @Configuration
-@EnableWebSecurity // issue
-//@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER) // issue
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private ApplicationContext context;
-	
-	@Autowired
-	@Qualifier("socialUserDetailService")
-	private UserDetailsService socialUserDetailService;
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception{
 		CharacterEncodingFilter filter = new CharacterEncodingFilter();
 		http
 			.authorizeRequests()
-				.antMatchers("/", "/login", "/login/**", "/webjars/**", "/css/**", "/js/**", "/images/**").permitAll()
-//				.antMatchers("/**").hasAuthority("ROLE_USER").anyRequest().authenticated()
-//				.antMatchers("/stylist/enroll").hasRole("USER")
-//				.antMatchers("/stylist/**").hasRole("STYLIST")
-				.antMatchers("/admin**").hasRole("ADMIN")
+				.antMatchers("/", "/users/login**", "/webjars/**", "/css/**", "/js/**", "/images/**").permitAll()
+				.antMatchers("/stylist/enroll", "/stylist/apply").hasRole("USER")
+				.antMatchers("/stylist/**").hasRole("STYLIST")
+				.antMatchers("/admin/**").hasRole("ADMIN")
 				.anyRequest().authenticated()
 				.and()
-			.formLogin().loginProcessingUrl("/login").failureUrl("/login?error=true")
+			.formLogin().loginProcessingUrl("/users/login").failureUrl("/users/login?error=true")
 				.and()
 			.headers().frameOptions().disable()
 				.and()
-			.exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
+			.exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/users/login"))
 				.and()
 			.logout().logoutSuccessUrl("/").invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll()
 				.and()
@@ -58,25 +52,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.addFilterBefore((Filter)context.getBean("sso.filter"), BasicAuthenticationFilter.class);
 //			.csrf().disable(); 보류
 	}
-
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(socialUserDetailService);
-	}
-	
-	// issue 
-	// https://stackoverflow.com/questions/23686022/spring-boot-security-thymeleaf-secauthorize-url-not-working
-//	@Override
-//    public void configure(final WebSecurity web) throws Exception {
-//        final HttpSecurity http = getHttp();
-//        web.postBuildAction(new Runnable() {
-//            @Override
-//            public void run() {
-//                web.securityInterceptor(http.getSharedObject(FilterSecurityInterceptor.class));
-//            }
-//        });
-//    }
-	
-	
 
 }

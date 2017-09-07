@@ -1,10 +1,6 @@
 package yapp.devcamp.hairstylistserver.exception;
 
 public class StylistAlreadyEnrollException extends RuntimeException {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3091173036919551635L;
 
 	private int userId;

@@ -1,4 +1,4 @@
-package yapp.devcamp.hairstylistserver.annotation.storage;
+package yapp.devcamp.hairstylistserver.storage;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

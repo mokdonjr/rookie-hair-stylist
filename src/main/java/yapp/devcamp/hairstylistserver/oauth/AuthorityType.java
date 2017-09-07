@@ -1,13 +1,15 @@
 package yapp.devcamp.hairstylistserver.oauth;
 
-public enum SocialType {
-	FACEBOOK("facebook"),
-	KAKAO("kakao");
+public enum AuthorityType {
+	
+	USER("user"), // 2nd : db저장후
+	STYLIST("stylist"), // 3rd : stylist db 저장후
+	ADMIN("admin"); // 4th
 	
 	private final String ROLE_PREFIX = "ROLE_";
 	private String name;
 	
-	SocialType(String name){
+	AuthorityType(String name){
 		this.name = name;
 	}
 	
@@ -23,12 +25,13 @@ public enum SocialType {
 		return this.getRoleType().equals(authority);
 	}
 	
-	public static SocialType getSocialType(String name){
-		for(SocialType type : SocialType.values()){
+	public static AuthorityType getAuthorityType(String name){
+		for(AuthorityType type : AuthorityType.values()){
 			if(type.getRoleType().equals(name)){
 				return type;
 			}
 		}
 		throw new IllegalArgumentException(); // not existing type
 	}
+
 }

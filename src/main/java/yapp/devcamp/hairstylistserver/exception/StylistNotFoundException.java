@@ -1,10 +1,6 @@
 package yapp.devcamp.hairstylistserver.exception;
 
 public class StylistNotFoundException extends RuntimeException {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -4416898361540117950L;
 	
 	private int stylistCode;

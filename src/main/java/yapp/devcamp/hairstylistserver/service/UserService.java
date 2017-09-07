@@ -8,12 +8,12 @@ import yapp.devcamp.hairstylistserver.dao.UserRepository;
 import yapp.devcamp.hairstylistserver.model.User;
 
 @Service
+@Transactional
 public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
 	
-	@Transactional
 	public void saveUser(User user){
 		userRepository.save(user);
 	}
