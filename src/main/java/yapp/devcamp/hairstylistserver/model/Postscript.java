@@ -28,12 +28,12 @@ public class Postscript implements Serializable {
 	@Column(name="postscript_code")
 	private int postscriptCode;
 	
-	private int grade; // 평점 (1~5)
+	private int grade;
 	
-	private String content; // 후기 텍스트
+	private String content; 
 	
 	@Column(name="write_date")
-	private Date writeDate; // 후기 작성 날짜
+	private Date writeDate; 
 	
 	@Column(name="image_path")
 	private String imagePath;

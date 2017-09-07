@@ -59,9 +59,6 @@ public class StylistController {
 	
 	/**
 	 * enroll stylist
-	 * 
-	 * @param :
-	 *            stylist data
 	 * @return : shopList
 	 */
 	@GetMapping("/apply")
@@ -163,7 +160,7 @@ public class StylistController {
 	 */
 	
 	@RequestMapping("/mypage")
-	public String mypage(Model model){
+	public String mypage(){
 		//session에서 stylistID 가져오기
 		
 		
@@ -200,14 +197,11 @@ public class StylistController {
 	
 	/**
 	 * redirect to shop.html
-	 * @param : shopCode
 	 * @return : shopData
 	 */
 	@RequestMapping("/shop")
 	public ModelAndView shop(Shop shop){
-		//shopCode로 샵정보 읽어와서
 		
-		//shop.html로 정보 리턴
 		
 		ModelAndView model = new ModelAndView();
 		model.setViewName("shop");

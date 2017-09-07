@@ -39,7 +39,7 @@ public class Stylist implements Serializable {
 	private int stylistCode;
 	
 	@Column(name="stylist_nickname")
-	private String stylistNickname; // stylist 별명
+	private String stylistNickname; 
 	
 	@Column(name="stylist_realname")
 	@NotEmpty(message="실명 입력란은 필수 항목 입니다.")
@@ -51,7 +51,7 @@ public class Stylist implements Serializable {
 	// front 에서 칸 3개 나눠주면 phone number validation 다시
 	private String phone; // 전화번호
 	
-	private boolean qualified = false; // stylist 자격증 인증 여부
+//	private boolean qualified = false; // stylist 자격증 인증 여부
 	
 	@Column(name="license_image_path")
 	private String licenseImagePath;
@@ -60,7 +60,7 @@ public class Stylist implements Serializable {
 	private MultipartFile licenseImage;
 	
 	@Column(nullable=false)
-	private String location; // 도로명주소
+	private String location; 
 	
 	@Column(name="detail_location", nullable=false)
 	private String detailLocation; // 상세주소. 몇동몇호

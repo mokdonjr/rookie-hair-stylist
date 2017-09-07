@@ -32,14 +32,14 @@ public class Alarm implements Serializable {
 	private int alarmCode;
 	
 	@Column(name="read_status")
-	private boolean readStatus; // 알람 읽은 여부
+	private boolean readStatus;
 	
 	private String sender;
 	
 	private String receiver;
 	
-	@Column(name="book_status") // Book에서 복사해서 유지해야함
-	private boolean bookStatus = true; // 예약 생성시 디폴트로 수락상태 (false는 취소상태)
+	@Column(name="book_status") 
+	private boolean bookStatus = true;
 	
 	@OneToOne(optional=false, cascade=CascadeType.ALL)
 	@JoinColumn(unique=true)

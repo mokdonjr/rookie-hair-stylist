@@ -80,7 +80,7 @@ public class StylistRestController {
 		}
 		
 		currentStylist.setStylistNickname(stylist.getStylistNickname());
-		currentStylist.setQualified(stylist.isQualified());
+//		currentStylist.setQualified(stylist.isQualified());
 		currentStylist.setLicenseImagePath(stylist.getLicenseImagePath());
 		currentStylist.setLocation(stylist.getLocation());
 		currentStylist.setDetailLocation(stylist.getDetailLocation());

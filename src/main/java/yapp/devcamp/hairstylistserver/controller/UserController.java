@@ -42,7 +42,7 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private StylistService stylistService; // used in oauthComplete for session
 	
@@ -51,7 +51,6 @@ public class UserController {
 	
 	/**
 	 * Login user method
-	 * @param : user login data
 	 */
 	@GetMapping("/login")
 	public String login(OAuth2Authentication auth , Model model, 
@@ -97,7 +96,6 @@ public class UserController {
 		Stylist stylist = stylistService.findStylistByUser(currentUser);
 		if(stylist != null){
 			logger.warn("DB에 스타일리스트로 등록되어있습니다.");
-//			userService.saveUser(currentUser); // issue : update user who authorized STYLIST
 			session.setAttribute("stylist", stylist);
 		}
 		
@@ -145,9 +143,7 @@ public class UserController {
 	public ModelAndView index(){
 		ModelAndView model = new ModelAndView();
 		
-		//shopList를 가져와서
 		
-		//메인으로 리턴
 		model.setViewName("/");
 		
 		return model;
@@ -156,13 +152,10 @@ public class UserController {
 	/**
 	 * Read booking Information method
 	 * @return : booklist
-	 * @param : userId
 	 */
 	@RequestMapping("/orderlist")
 	public ModelAndView bookList(User user){
-		//고객 예약 정보를 가져와
 		
-		//주문조회 페이지로 리턴
 		ModelAndView model = new ModelAndView();
 		model.setViewName("order_list");
 		
