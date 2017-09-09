@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import yapp.devcamp.hairstylistserver.dao.BookRepository;
 import yapp.devcamp.hairstylistserver.dao.ProductOptionRepository;
 import yapp.devcamp.hairstylistserver.dao.ProductRepository;
 import yapp.devcamp.hairstylistserver.dao.ShopRepository;
+import yapp.devcamp.hairstylistserver.model.Book;
 import yapp.devcamp.hairstylistserver.model.Product;
 import yapp.devcamp.hairstylistserver.model.ProductOption;
 import yapp.devcamp.hairstylistserver.model.Shop;
@@ -29,6 +31,9 @@ public class ShopService {
 	
 	@Autowired
 	private ProductOptionRepository productOptionRepository;
+	
+	@Autowired
+	private BookRepository bookRepository;
 	
 	//shop 등록
 	public void saveShop(Shop shopModel,MultipartFile thumbnail) throws IOException{
@@ -116,5 +121,63 @@ public class ShopService {
 	//shop delete
 	public void deleteShop(Shop shop){
 		shopRepository.delete(shop);
+	}
+	
+	/**
+	 * shop 예약하기
+	 */
+	public void book(Book bookModel) throws Exception{
+		//예약한 날짜시간요일 빼기
+		Shop resultShop = shopRepository.findByShopCode(bookModel.getShop().getShopCode());
+		
+		String shopDate = resultShop.getShopDate();
+		String resultDate = subDate(shopDate, bookModel.getBookDate());
+		if(resultDate != null)
+			resultShop.setShopDate(resultDate);
+		else
+			throw new Exception("예약 가능 날짜가 없습니다.");
+		
+		shopDate = resultShop.getShopDay();
+		resultDate = subDate(shopDate, bookModel.getBookDay());
+		if(resultDate != null)
+			resultShop.setShopDay(resultDate);
+		else
+			throw new Exception("예약 가능 요일이 없습니다.");
+		
+		shopDate = resultShop.getShopTime();
+		resultDate = subDate(shopDate, bookModel.getBookTime());
+		if(resultDate != null)
+			resultShop.setShopTime(resultDate);
+		else
+			throw new Exception("예약 가능 시간이 없습니다.");
+		
+		//예약시간 빼서 다시 update
+		shopRepository.save(resultShop);
+		
+		bookRepository.save(bookModel);
+	}
+	
+	/**
+	 * 예약된 날짜 빼는 메소드
+	 */
+	private String subDate(String shopDate,String bookDate){
+		String[] dateArr = shopDate.split(",");
+		String insertDate="";
+		boolean flag = false;
+		
+		for(int i=0;i<dateArr.length;i++){
+			if(!dateArr[i].equals(bookDate)){
+				insertDate += dateArr[i];
+				if(i != dateArr.length-1){
+					insertDate += ",";
+				}
+			} else {
+				flag = true;
+			}
+		}
+		if(flag)
+			return insertDate;
+		else
+			return null;
 	}
 }

@@ -37,26 +37,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		CharacterEncodingFilter filter = new CharacterEncodingFilter();
 		http
 			.authorizeRequests()
-				.antMatchers("/", "/login", "/login/**", "/webjars/**", "/css/**", "/js/**", "/images/**").permitAll()
-//				.antMatchers("/**").hasAuthority("ROLE_USER").anyRequest().authenticated()
-//				.antMatchers("/stylist/enroll").hasRole("USER")
-//				.antMatchers("/stylist/**").hasRole("STYLIST")
-				.antMatchers("/admin**").hasRole("ADMIN")
-				.anyRequest().authenticated()
-				.and()
-			.formLogin().loginProcessingUrl("/login").failureUrl("/login?error=true")
-				.and()
-			.headers().frameOptions().disable()
-				.and()
-			.exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
-				.and()
-			.logout().logoutSuccessUrl("/").invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll()
-				.and()
-			.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-				.and()
-			.addFilterBefore(filter, CsrfFilter.class)
-			.addFilterBefore((Filter)context.getBean("sso.filter"), BasicAuthenticationFilter.class);
-//			.csrf().disable(); 보류
+			.antMatchers("/**").permitAll();
+//				.antMatchers("/", "/login", "/login/**", "/webjars/**", "/css/**", "/js/**", "/images/**").permitAll()
+////				.antMatchers("/**").hasAuthority("ROLE_USER").anyRequest().authenticated()
+////				.antMatchers("/stylist/enroll").hasRole("USER")
+////				.antMatchers("/stylist/**").hasRole("STYLIST")
+//				.antMatchers("/admin**").hasRole("ADMIN")
+//				.anyRequest().authenticated()
+//				.and()
+//			.formLogin().loginProcessingUrl("/login").failureUrl("/login?error=true")
+//				.and()
+//			.headers().frameOptions().disable()
+//				.and()
+//			.exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
+//				.and()
+//			.logout().logoutSuccessUrl("/").invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll()
+//				.and()
+//			.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+//				.and()
+//			.addFilterBefore(filter, CsrfFilter.class)
+//			.addFilterBefore((Filter)context.getBean("sso.filter"), BasicAuthenticationFilter.class);
+////			.csrf().disable(); 보류
 	}
 
 	@Override

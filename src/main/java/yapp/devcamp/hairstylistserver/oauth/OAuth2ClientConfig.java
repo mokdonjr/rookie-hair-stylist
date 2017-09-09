@@ -70,9 +70,9 @@ public class OAuth2ClientConfig {
 		oAuth2ClientAuthenticationFilter.setAuthenticationSuccessHandler(
 			(request, response, authentication) -> response.sendRedirect(redirectUrl.toString())
 		);
-		oAuth2ClientAuthenticationFilter.setAuthenticationFailureHandler(
-			(request, response, exeption) -> response.sendRedirect("/error")
-		);
+//		oAuth2ClientAuthenticationFilter.setAuthenticationFailureHandler(
+//			(request, response, exeption) -> response.sendRedirect("/error")
+//		);
 		
 		return oAuth2ClientAuthenticationFilter;
 	}

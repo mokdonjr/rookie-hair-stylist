@@ -19,6 +19,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.beans.factory.annotation.Configurable;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -45,7 +46,16 @@ public class Shop implements Serializable {
 	private String location;
 	
 	@Column(name="shopstatus")
-	private String shopStatus; 
+	private String shopStatus;
+	
+	@Column(name="shop_time")
+	private String shopTime;
+	
+	@Column(name="shop_date")
+	private String shopDate;
+	
+	@Column(name="shop_day")
+	private String shopDay;
 	
 	@OneToMany(mappedBy="shop", cascade=CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
@@ -54,10 +64,6 @@ public class Shop implements Serializable {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="stylist_code")
 	private Stylist stylist;
-	
-	@OneToMany(mappedBy="shop", cascade=CascadeType.ALL)
-	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<Time> times;
 	
 	@OneToMany(mappedBy="shop", cascade=CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)

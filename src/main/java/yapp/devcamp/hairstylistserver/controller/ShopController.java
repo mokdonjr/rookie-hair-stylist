@@ -9,14 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import yapp.devcamp.hairstylistserver.exception.UserNotFoundException;
+import yapp.devcamp.hairstylistserver.model.Book;
 import yapp.devcamp.hairstylistserver.model.Product;
 import yapp.devcamp.hairstylistserver.model.ProductOption;
 import yapp.devcamp.hairstylistserver.model.Shop;
+import yapp.devcamp.hairstylistserver.model.User;
 import yapp.devcamp.hairstylistserver.service.ShopService;
 
 /**
@@ -28,6 +28,15 @@ public class ShopController {
 	
 	@Autowired
 	private ShopService shopService;
+	
+	@RequestMapping("/test")
+	public String test(MultipartFile[] file){
+		for(MultipartFile f : file){
+			System.out.println(f.getOriginalFilename());
+			
+		}
+		return "index";
+	}
 	
 	/**
 	 * Shop delete method
@@ -85,16 +94,19 @@ public class ShopController {
 	}
 	
 	/**
-	 * Read Shop method
+	 * shop 예약하기
 	 */
-	public void search(){
-		
-	}
-	
-	/**
-	 * Sort shop list
-	 */
-	public void sort(){
-		
+	@RequestMapping("/book")
+	public String book(HttpSession session,Book bookModel) throws Exception{
+		if(bookModel != null){
+//			User user = (User)session.getAttribute("user");
+//			bookModel.setUser(user);
+			User user = new User();
+			user.setId(1);
+			bookModel.setUser(user);
+			bookModel.setBookStatus(true);
+			shopService.book(bookModel);
+		}
+		return "index";
 	}
 }

@@ -27,10 +27,22 @@ public class Book implements Serializable {
 	private int bookCode;
 	
 	@Column(name="book_date")
-	private Date bookDate; 
+	private String bookDate;
+	
+	@Column(name="book_day")
+	private String bookDay;
+	
+	@Column(name="book_time")
+	private String bookTime;
 	
 	@Column(name="book_status")
 	private boolean bookStatus = true;
+	
+	@Column(name="product_code")
+	private int productCode;
+	
+	@Column(name="option_code")
+	private int optionCode;
 	
 	@ManyToOne
 	@JoinColumn(name="user_id")
