@@ -49,4 +49,9 @@ public class Product implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="shop_code")
 	private Shop shop;
+	
+	//
+//	@ManyToOne
+//	@JoinColumn(name="book_code")
+//	private Book book;
 }

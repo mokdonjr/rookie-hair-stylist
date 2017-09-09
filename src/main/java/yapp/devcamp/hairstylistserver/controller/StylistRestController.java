@@ -24,7 +24,7 @@ import yapp.devcamp.hairstylistserver.service.StylistService;
 @RestController
 @RequestMapping("/api/stylists")
 public class StylistRestController {
-	Logger logger = LoggerFactory.getLogger("yapp.devcamp.hairstylistserver.controller.StylistRestController");
+	Logger logger = LoggerFactory.getLogger(StylistRestController.class);
 	
 	@Autowired
 	private StylistService stylistService;
@@ -80,11 +80,10 @@ public class StylistRestController {
 		}
 		
 		currentStylist.setStylistNickname(stylist.getStylistNickname());
-		currentStylist.setQualified(stylist.isQualified());
+//		currentStylist.setQualified(stylist.isQualified());
 		currentStylist.setLicenseImagePath(stylist.getLicenseImagePath());
 		currentStylist.setLocation(stylist.getLocation());
 		currentStylist.setDetailLocation(stylist.getDetailLocation());
-		currentStylist.setCareer(stylist.getCareer());
 		
 		stylistService.updateStylist(stylist_code, currentStylist);
 		

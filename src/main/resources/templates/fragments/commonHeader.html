@@ -24,31 +24,31 @@
 					</div>
 					<div id="navbar" class="navbar-collapse collapse">
 						<ul class="nav navbar-nav">
-							<li><a href="#">Products</a></li>
-							<li><a href="#">Contact</a></li>
+							<li><input type="search" id="search" placeholder="Search..." /></li>
 						</ul>
 						
 						<!-- Authentication Status -->
 						<div sec:authorize="isAuthenticated()">
 							<ul class="nav navbar-nav pull-right">
-							<!-- Authorization Status -->
-								<li sec:authorize="hasRole('ROLE_STYLIST')">
-									<a href="/stylist/mypage">MyPage(Stylist)</a>
-								</li>
 								<li sec:authorize="hasRole('ROLE_USER')">
-									<a href="/stylist/enroll">헤어디자이너신청</a>
+									<a th:if="${session.stylist == null}" href="/stylist/apply">헤어디자이너 신청</a>
+									<a th:if="${session.stylist != null}" href="/stylist/enroll">헤어디자이너 등록</a>
 								</li>
+								<li sec:authorize="hasRole('ROLE_STYLIST')">
+									<a href="/stylist/mypage">My Page</a>
 								<li>
-									<a><span sec:authentication="principal"></span>님 환영합니다!</a><!-- sec:authentication="name" -->
+									<a><span th:text="${session.user.username}"></span>님 환영합니다!</a>
+									<img src="${session.user.profileImagePath}" alt="profile image">
+									<span th:text="${session.user.profileImagePath}"></span>
 								</li>
 								<li><a>알림</a></li>
 								<li><a>채팅</a></li>
-								<li><a href="/logout">Log out</a></li>
+								<li><a href="/users/logout">Log out</a></li>
 							</ul>
 						</div>
 						<div sec:authorize="isAnonymous()">
 							<ul class="nav navbar-nav pull-right">
-								<li><a href="/login">Log in</a></li>
+								<li><a href="/users/login">Log in</a></li>
 							</ul>
 						</div>
 						

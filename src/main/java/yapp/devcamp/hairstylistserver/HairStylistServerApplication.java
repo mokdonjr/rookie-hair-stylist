@@ -1,5 +1,7 @@
 package yapp.devcamp.hairstylistserver;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +14,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 @SpringBootApplication
 @EnableAuthorizationServer
 @Order(6)
-//@EnableConfigurationProperties(StorageProperties.class) // storage configure
 public class HairStylistServerApplication {
+	
+	Logger logger = LoggerFactory.getLogger(HairStylistServerApplication.class);
 	
 	@Configuration
 	@EnableResourceServer

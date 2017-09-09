@@ -16,9 +16,4 @@ public class HomeController {
 	public String secured(){
 		return "secured";
 	}
-	@RequestMapping("/front")
-	public String front(){
-		return "front";
-	}
-
 }

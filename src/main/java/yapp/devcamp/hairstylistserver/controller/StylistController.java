@@ -1,8 +1,5 @@
 package yapp.devcamp.hairstylistserver.controller;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.MailException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -29,6 +27,8 @@ import yapp.devcamp.hairstylistserver.exception.StylistAlreadyEnrollException;
 import yapp.devcamp.hairstylistserver.model.Shop;
 import yapp.devcamp.hairstylistserver.model.Stylist;
 import yapp.devcamp.hairstylistserver.model.User;
+import yapp.devcamp.hairstylistserver.oauth.AuthorityType;
+import yapp.devcamp.hairstylistserver.service.EmailService;
 import yapp.devcamp.hairstylistserver.service.StorageService;
 import yapp.devcamp.hairstylistserver.service.StylistService;
 import yapp.devcamp.hairstylistserver.service.UserService;
@@ -40,86 +40,82 @@ import yapp.devcamp.hairstylistserver.service.UserService;
 @RequestMapping("/stylist")
 public class StylistController {
 
-	Logger logger = LoggerFactory.getLogger("yapp.devcamp.hairstylistserver.controller.StylistController");
+	Logger logger = LoggerFactory.getLogger(StylistController.class);
 	
 	@Autowired
 	private StylistService stylistService;
 	
 	@Autowired
-	private UserService userService; // User getCurrentUser() mothod (user.getUsername())
+	private UserService userService;
 	
 	@Autowired
 	private StorageService storageService;
 	
 	@Value("${spring.http.multipart.max-file-size}")
-	private String licenseImageMaxSize; // max size multipart data
+	private String licenseImageMaxSize;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	/**
 	 * enroll stylist
 	 * @return : shopList
 	 */
-	@GetMapping("/enroll")
-	public String enrollStylist(HttpServletRequest request, Model model) {
+	@GetMapping("/apply")
+	public String applyStylistPage(HttpServletRequest request, Model model) {
 		
-		// 현재 User 정보
 		User user = getCurrentUser();
 		
-		// User의 username을 Stylist의 nickname으로 디폴트
 		Stylist stylist = new Stylist();
 		stylist.setStylistNickname(user.getUsername());
 		model.addAttribute("stylist", stylist);
 		
-		// info max multipart data size
 		model.addAttribute("licenseImageMaxSize", licenseImageMaxSize);
 
-		return "enrollStylist";
+		return "applyStylist";
 	}
 	
-	@PostMapping("/enroll")
-	public String enrollStylistPost(@Valid Stylist stylist, BindingResult result, HttpServletRequest request){
+	@PostMapping("/apply")
+	public String applyStylist(@Valid Stylist stylist, BindingResult result, HttpServletRequest request){
 		
-		// message
 		if(result.hasErrors()){
 			logger.debug("From data has errors");
 			List<ObjectError> errors = result.getAllErrors();
 			for(ObjectError error : errors){
 				error.getDefaultMessage();
 			}
-			return "enrollStylist";
+			return "applyStylist";
 		}
 		
-		// set User must be one to one
 		User user = getCurrentUser();
 		
-		// if not exist
+		// if already Stylist
 		if(stylistService.isAlreadyEnrollUser(user)){
 			throw new StylistAlreadyEnrollException(user.getId());
 		}
+		
+		// set FK
 		stylist.setUser(user);
 		
 		// set Image
 		MultipartFile licenseImage = stylist.getLicenseImage();
+		long imageSize = licenseImage.getSize();
+		logger.warn("uploading image size : " + imageSize + "Bytes(" + imageSize/1024 + "KBytes)");
 		storageService.store(licenseImage);
-		
-		
-		// set Image
-//		MultipartFile licenseImage = stylist.getLicenseImage();
-//		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
-//		logger.warn("rootDirectory : " + rootDirectory);
-//		
-//		Path savePath = Paths.get(rootDirectory + "\\images\\stylist\\" + licenseImage.getOriginalFilename());
-//		if(licenseImage != null && !licenseImage.isEmpty()){
-//			try{
-//				licenseImage.transferTo(new File(savePath.toString())); // save
-//			} catch(Exception e){
-//				e.printStackTrace();
-//			}
-//		}
 		
 		stylist.setLicenseImagePath(licenseImage.getOriginalFilename());
 		stylistService.saveStylist(stylist);
 		
-		return "redirect:/stylist/mypage";
+		// send enroll email (심사대기)
+		try{
+			emailService.sendApplyStylistEmail(user); // User
+			emailService.sendAdminStylistEmail(user, stylist); // Administer (rookies.yapp@gmail.com)
+			
+		} catch(MailException | InterruptedException e) {
+			logger.warn("Error sending email : " + e.getMessage());
+		}
+		
+		return "redirect:/stylist/enroll";
 	}
 	
 	/**
@@ -128,9 +124,6 @@ public class StylistController {
 	 */
 	private User getCurrentUser(){
 		
-//		String currentUserPrincipal = request.getUserPrincipal().getName(); // 506264477
-//		User user = userService.findByPrincipal(currentUserPrincipal); // 백승찬 User
-		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String principal = authentication.getName();
 		logger.warn(principal);
@@ -138,32 +131,43 @@ public class StylistController {
 		User user = userService.findByPrincipal(principal);
 		return user;
 	}
-
-	/**
-	 * redirect apply_form.html
-	 * @return : userId
-	 */
-	@RequestMapping("/apply")
-	public ModelAndView apply(User user) {
+	
+	@RequestMapping("/enroll")
+	public String enrolledStylist(Model model, HttpSession session){
 		
-		ModelAndView model = new ModelAndView();
-		model.setViewName("apply_form");
+		User user = getCurrentUser();
 		
-		return model;
+		// update session
+		Stylist stylist = stylistService.findStylistByUser(user);
+		if(stylist != null){
+			session.setAttribute("stylist", stylist);
+		}
+		
+		// after granted STYLIST authority by ADMIN
+		if(user.getAuthorityType().equals(AuthorityType.STYLIST.getRoleType())){
+			return "redirect:/stylist/mypage";
+		}
+		
+		model.addAttribute("user", user);
+		model.addAttribute("stylist", stylist);
+		
+		return "enrollStylist";
 	}
 	
 	/**
 	 * redirect mypage method
 	 * @return : stylist shop, portfolio, postscript data 
 	 */
+	
 	@RequestMapping("/mypage")
-	public ModelAndView mypage(HttpSession session){
+	public String mypage(){
+		//session에서 stylistID 가져오기
 		
 		
-		ModelAndView model = new ModelAndView();
-		model.setViewName("mypage");
 		
-		return model;
+		//스타일리스트 샵, 포트폴리오, 후기 정보들을 mypage로 전달
+		
+		return "mypage";
 	}
 	
 	/**
