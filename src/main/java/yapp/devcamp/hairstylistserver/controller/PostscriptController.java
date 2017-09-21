@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.annotation.JsonCreator.Mode;
@@ -27,17 +29,10 @@ public class PostscriptController {
 		return "index";
 	}
 	
-	@RequestMapping("/delete")
-	public String deleteScript(int postscriptCode){
-		Postscript postscript = null;
-		
-		if(postscriptCode != 0){
-			postscript = postscriptService.selectByPostscriptCode(postscriptCode);
-		}
-		
-		if(postscript != null){
-			postscriptService.deleteScript(postscript);
-		}
+	@RequestMapping(value="/{postscriptCode}",method=RequestMethod.GET)
+	public String deleteScript(@PathVariable("postscriptCode") int postscriptCode){
+		if(postscriptCode != 0)
+			postscriptService.deleteScript(postscriptCode);
 		
 		return "redirect:read";
 	}

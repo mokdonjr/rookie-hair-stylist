@@ -12,10 +12,11 @@ import yapp.devcamp.hairstylistserver.model.Postscript;
 
 @Repository
 public interface PostscriptRepository extends JpaRepository<Postscript, Integer> {
+	
 	Postscript findByPostscriptCode(int postscriptCode);
 	
 	@Modifying
-	@Query(value="insert into postscript(grade,content,user_id,shop_code) values(?1,?2,?3,?4)",nativeQuery=true)
+	@Query(value="delete from postscript where postscript_code=?1",nativeQuery=true)
 	@Transactional
-	void insert(int grade, String content,int id,int shopCode);
+	void deleteByCode(int postscriptCode);
 }
