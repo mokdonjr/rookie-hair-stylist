@@ -11,7 +11,12 @@ public class HomeController {
 	public String home(){
 		return "index";
 	}
-
+	
+	@RequestMapping("/front")
+	public String front(){
+		return "front";
+	}
+	
 	@RequestMapping("/secured")
 	public String secured(){
 		return "secured";

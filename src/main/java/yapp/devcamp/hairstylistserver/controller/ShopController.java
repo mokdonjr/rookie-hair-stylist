@@ -3,6 +3,7 @@ package yapp.devcamp.hairstylistserver.controller;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,15 +29,6 @@ public class ShopController {
 	
 	@Autowired
 	private ShopService shopService;
-	
-	@RequestMapping("/test")
-	public String test(MultipartFile[] file){
-		for(MultipartFile f : file){
-			System.out.println(f.getOriginalFilename());
-			
-		}
-		return "index";
-	}
 	
 	/**
 	 * Shop delete method
@@ -79,8 +71,9 @@ public class ShopController {
 	 * Shop enroll method
 	 */
 	@RequestMapping("/enroll")
-	public String enroll(HttpSession session,Shop shopModel
-			,MultipartFile thumbnail,Product product,ProductOption productOption) throws IOException{
+	public String enroll(Shop shopModel
+			,MultipartFile[] thumbnail,Product product,ProductOption productOption) throws IOException{
+		
 		if(shopModel != null){
 			shopService.saveShop(shopModel,thumbnail);
 			Shop resultShop = shopService.selectShopByShopName(shopModel.getShopName());

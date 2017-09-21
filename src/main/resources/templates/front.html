@@ -8,10 +8,13 @@
   <body>
   
   <!-- shop 등록 form -->
-    <!-- <form method="post" enctype="multipart/form-data" th:action="@{/shop/enroll}">
+    <form method="post" enctype="multipart/form-data" th:action="@{/shop/home}">
   샵코드 : <input type="text" name="shopCode" value="1">
         이름 : <input type="text" name="shopName" value="shsh">
         파일 : <input type="file" name="thumbnail">
+        <input type="file" name="thumbnail">
+        <input type="file" name="thumbnail">
+        <input type="file" name="thumbnail">
         <input type="submit" name="업로드" value="제출">
         <br>
      설명 : <input type="text" name="content" value="content"><br>
@@ -28,9 +31,18 @@
      날짜 : <input type="text" name="shopDate" value="2017.8.19">
      요일 : <input type="text" name="shopDay" value="월,수,금">
    시간 : <input type="text" name="shopTime" value="19:00">
-    </form> -->
+    </form>
+  
+ <!-- postscript 등록 -->
+	<!-- <form th:action="@{/postscript/enroll}" method="post">
+  		<input type="text" name="content" value="내용">
+  		<input type="text" name="grade" value="등급">
+  		<input type="text" name="shop.shopCode" value="샵코드">
+  		<input type="text" name="user.id" value="id">
+  		<input type="submit" name="업로드" value="제출">
+  	</form> -->
  
- <!-- shop 예약 form -->
+ <!-- shop 삭제 form -->
  <!-- 
  <form th:action="@{/shop/delete}" method="post">
  	삭제 : <input type="text" name="shopCode" value="3">
@@ -47,9 +59,13 @@
   	<input type="submit" value="제출">
   </form> -->
   
-  <form th:action="@{/shop/test}" enctype="multipart/form-data" method="post">
-  	파일 : <input type="file">
-  </form>
-
+  <!-- <form th:action="@{/shop/test}" enctype="multipart/form-data" method="post">
+  	파일 : <input type="file" name="file" >
+  	파일2 : <input type="file" name="file">
+  	<input type="submit" value="제출">
+  </form> -->
+  
+  
+	
    </body>
 </html>

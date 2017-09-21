@@ -42,7 +42,7 @@ public class Postscript implements Serializable {
 	@JoinColumn(name="shop_code")
 	private Shop shop;
 	
-	@OneToOne(optional=false, cascade=CascadeType.ALL)
+	@OneToOne(optional=false)
 	@JoinColumn(unique=true)
 	private User user;
 

@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,11 +37,14 @@ public class ShopService {
 	@Autowired
 	private BookRepository bookRepository;
 	
+	@Autowired
+	private ServletContext context;
+	
 	//shop 등록
-	public void saveShop(Shop shopModel,MultipartFile thumbnail) throws IOException{
-		
-		if(thumbnail !=null)
-			uploadFile(shopModel, thumbnail);
+	public void saveShop(Shop shopModel,MultipartFile[] thumbnail) throws IOException{
+			if(thumbnail !=null){
+				uploadFile(shopModel, thumbnail);
+			}
 		
 		if(shopModel != null){
 			Stylist stylist = new Stylist();
@@ -53,38 +58,45 @@ public class ShopService {
 	}
 	
 	// 파일 업로드
-	public void uploadFile(Shop shopModel, MultipartFile thumbnail) throws IOException {
+	public void uploadFile(Shop shopModel, MultipartFile[] thumbnail) throws IOException {
 		// 경로 설정을 위해 userId 필요
 		String userId = "test";
-		String path = "C:/save/" + userId + "/shop/" + shopModel.getShopName() + "/";
+		String path = context.getRealPath("resources/upload")+"/" + userId + "/" + shopModel.getShopName() + "/";
 		String originName="";
 		String fileName = "thumbnail.jpg";
 		
-		//기존 디렉토리 이름 수정
+		shopModel.setImagePath("/" + userId + "/" + shopModel.getShopName() + "/");
+		
+		
+		//기존 디렉토리 이름 가져오기
 		if(shopModel.getShopCode() != 0){
 			Shop resultShop = selectShopByShopCode(shopModel.getShopCode());
 			originName = resultShop.getShopName();
 		}
 		
-		//파일 업로드
-		if (!thumbnail.isEmpty()) {
-			File file = new File(path);
-			File transFile = new File(path + fileName);
-			//이름 수정
-			if(!originName.equals("")){
-				String originPath = "C:/save/" + userId + "/shop/" + originName + "/";
-				File originFile = new File(originPath);
-				originFile.renameTo(file);
+		for(int i=0;i<thumbnail.length;i++){
+			//파일 업로드
+			if (!thumbnail[i].isEmpty()) {
+				File file = new File(path);
+				
+				//이름 수정
+				if(!originName.equals("")){
+					String originPath = context.getRealPath("resources/upload")+"/" + userId + "/" + originName + "/";
+					File originFile = new File(originPath);
+					originFile.renameTo(file);
+				}
+				
+				if (!file.exists()) {
+					file.mkdirs();
+				}
+				
+				if(i!=0){
+					fileName = thumbnail[i].getOriginalFilename();
+				}
+				File transFile=new File(path + fileName);
+			
+				thumbnail[i].transferTo(transFile);
 			}
-		
-			if (!file.exists()) {
-				file.mkdirs();
-			}
-			if (transFile.exists()) {
-				transFile.delete();
-			}
-
-			thumbnail.transferTo(transFile);
 		}
 	}
 	
@@ -115,7 +127,8 @@ public class ShopService {
 	
 	//shop selectAll
 	public List<Shop> selectAllShop(){
-		return shopRepository.findAll();
+		//return shopRepository.findAll();
+		return shopRepository.orderByshopDate();
 	}
 	
 	//shop delete
