@@ -33,7 +33,7 @@ public class Postscript implements Serializable {
 	private String content; 
 	
 	@Column(name="write_date")
-	private Date writeDate; 
+	private String writeDate; 
 	
 	@Column(name="image_path")
 	private String imagePath;
@@ -42,7 +42,7 @@ public class Postscript implements Serializable {
 	@JoinColumn(name="shop_code")
 	private Shop shop;
 	
-	@OneToOne(optional=false, cascade=CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(unique=true)
 	private User user;
 

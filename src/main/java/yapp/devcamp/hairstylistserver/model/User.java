@@ -68,7 +68,7 @@ public class User implements Serializable {
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<Book> books = new ArrayList<Book>();
+	private List<Book> books;
 	
 	@OneToOne(mappedBy="user", cascade=CascadeType.ALL)
 	@JsonIgnore // issue(recursion) http://www.baeldung.com/jackson-bidirectional-relationships-and-infinite-recursion
