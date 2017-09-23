@@ -97,5 +97,12 @@ Vue.component('shop-box', {
         </div>
     `,
     
-})
+});
 
+Vue.component('pf-img', {
+    template: `
+        <div class="col-xl-4 col-sm-12">
+            <img src="https://scontent-ams3-1.cdninstagram.com/t51.2885-15/e35/10570041_220776811620145_85779000_n.jpg" class="center-block img-responsive" />
+        </div>
+    `
+});

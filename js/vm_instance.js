@@ -15,3 +15,18 @@ const mainShopBox = new Vue({
        
     }
 });
+
+// 디자이너 정보 페이지 샵 박스
+const subShopBox = new Vue({
+    el: '#sales_tab',
+    data: {
+       
+    }
+});
+
+const pfImg = new Vue({
+   el: "#pf_tab",
+   data: {
+       
+   }
+});

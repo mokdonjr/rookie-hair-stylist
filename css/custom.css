@@ -103,7 +103,7 @@ ul > li, ol > li {
 /*** 상단 네비게이션 바 ***/
 
 .navbar-inverse {
-    padding: 5px 0;
+    padding: 10px 0;
     background: #000;
 }
 
@@ -127,12 +127,17 @@ ul > li, ol > li {
     max-width: 130px;
 }
 
+.navbar-inverse form {
+    margin-left: auto;
+}
+
 .navbar-inverse .form-inline input[aria-label="Search"] {
     border-radius: 0px;
     position: relative;
     top: 0px;
     background-color: #e1e1e1;
     padding: 8px 25px;
+    width: 450px;
 }
 
 .navbar-nav {
@@ -547,3 +552,107 @@ ul > li, ol > li {
     color: #a9a9a9;
     font-size: 18px;
 }
+
+/* 예약하기 박스 */
+.reserve_box {
+    margin: 205px auto 0;
+    padding: 70px 40px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    border: 1px solid #636363;
+    background-color: #fff;
+    max-width: 430px;
+    width: 100%;
+}
+
+.reserve_box .designer_profile {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
+    border-radius: 50%;
+    border: 1px solid #333;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('http://scontent-sea1-1.cdninstagram.com/t51.2885-15/s480x480/e35/13397472_1080416115385606_879028410_n.jpg?ig_cache_key=MTI3NjAzMDE5MzgwMTg1MTM4OQ%3D%3D.2');
+        
+}
+
+.reserve_info {
+    margin-top: 2px;
+}
+
+.reserve_info > span {
+    display: block;
+}
+
+.reserve_box .designer_name {
+    font-size: 16px;
+    color: #8b8b8b;
+}
+
+.reserve_info .hairstyle_name {
+    font-size: 20px;
+    letter-spacing: -0.5px;
+    font-weight: 500;
+}
+
+
+.reserve_box .price_box {
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+    margin: 50px 0px;
+    padding: 30px 0;
+}
+
+.reserve_box .price_box p {
+    font-size: 18px;
+}
+
+.reserve_box .price_box #price {
+    font-size: 36px;
+    font-weight: bold;
+    color: #252525;
+    margin-left: 10px;
+}
+
+.reserve_box select.form-control {
+    padding: 0 12px;
+}
+
+.reserve_box label {
+    font-size: 18px;
+    font-weight: 500;
+    color: #252525;
+    letter-spacing: -1px;
+    margin-bottom: 15px;
+}
+
+.reserve_btn {
+    background-color: #636363;
+    border-radius: 0;
+    color: #fff;
+    font-size: 26px;
+    width: 100%;
+    padding: 15px 0;
+    letter-spacing: -1px;
+    font-weight: 500;
+    margin-top: 50px;
+    transition: all .4s ease;
+}
+
+.reserve_btn:hover {
+    background: #000;
+}
+
+
+
+
+
+
+
+
+
+
+

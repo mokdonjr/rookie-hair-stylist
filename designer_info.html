@@ -32,12 +32,35 @@
 <body>
     <div id="pageWrap">
         <nav-header></nav-header>
-        <main-slider></main-slider>
-        <section class="main_service">
-            <h3 class="hidden">헤어샵 리스트</h3>
-            <div class="container">
-                <div id="mainShopBox">
-                    <shop-select-btn></shop-select-btn>
+        <div class="container">
+            <div class="designer_info_box">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="img_wrap"></div>
+                        <p class="designer_name">Designer. 은진</p>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="info_des_box">
+                            <span class="career"></span>
+                            <p class="info_des"></p>
+                            <span class="info_location"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ul class="nav nav-pills nav-fill designer_info_tabbox">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" role="tab" href="#sales_tab">판매 상품</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" role="tab" href="#pf_tab">포트폴리오</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" role="tab" href="#reply_tab">고객후기</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="sales_tab" role="tabpanel">
                     <div class="row">
                         <div class="col-xl-3 col-sm-12">
                             <a href="./sales_detail.html"><shop-box></shop-box></a>
@@ -55,31 +78,21 @@
                         <div class="col-xl-3 col-sm-12">
                             <a href="./sales_detail.html"><shop-box></shop-box></a>
                         </div>
-                        <div class="col-xl-3 col-sm-12">
-                            <a href="./sales_detail.html"><shop-box></shop-box></a>
-                        </div>
-                        <div class="col-xl-3 col-sm-12">
-                            <a href="./sales_detail.html"><shop-box></shop-box></a>
-                        </div>
-                        <div class="col-xl-3 col-sm-12">
-                            <a href="./sales_detail.html"><shop-box></shop-box></a>
-                        </div>
                     </div>
                 </div>
+                <div class="tab-pane fade" id="pf_tab" role="tabpanel">
+                    <div class="row">
+                        <pf-img></pf-img>
+                        <pf-img></pf-img>
+                        <pf-img></pf-img>
+                        <pf-img></pf-img>
+                        <pf-img></pf-img>
+                        <pf-img></pf-img>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="reply_tab" role="tabpanel">.3..</div>
             </div>
-        </section>
-    </div>
-    <div id="preLoader" class="preloader">
-        <img src="./img/logo_big.png" alt="" class="img-responsive center-block tada animated">
-        <!--<div class="letter-wrap">-->
-        <!--    <span class="preloader__letter" data-preloader="R">R</span>-->
-        <!--    <span class="preloader__letter" data-preloader="O">O</span>-->
-        <!--    <span class="preloader__letter" data-preloader="O">O</span>-->
-        <!--    <span class="preloader__letter" data-preloader="K">K</span>-->
-        <!--    <span class="preloader__letter" data-preloader="I">I</span>-->
-        <!--    <span class="preloader__letter" data-preloader="E">E</span>-->
-        <!--    <span class="preloader__letter" data-preloader="S">S</span>    -->
-        <!--</div>-->
+        </div>
     </div>
     <!-- import external CDN-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -88,7 +101,7 @@
     <script src="https://unpkg.com/vue@2.4.2"></script>
     <script src="./js/vm_component.js"></script>
     <script src="./js/vm_instance.js"></script>
-    
+
     <!-- 이벤트 핸들러 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
     <script src="./js/eventhandler.js"></script>
