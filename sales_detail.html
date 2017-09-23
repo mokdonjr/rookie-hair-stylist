@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="Referrer" content="origin">
+    <meta http-equiv="Content-Script-Type" content="text/javascript">
+    <meta http-equiv="Content-Style-Type" content="text/css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--<meta property="og:title" content="루키 헤어 디자이너 플랫폼">-->
+    <!--<meta property="og:url" content=""> 생기면 입력-->
+    <!--<meta property="og:image" content="">-->
+    <!--<meta property="og:description" content="예비 미용사에게 실제 고객의 머리를 만질 수 있는 기회를, 고객에게는 저렴한 비용으로 헤어 스타일링을 할 수 있도록 하는 온라인 예약 서비스입니다.">-->
+    <!--<meta name="twitter:card" content="summary">-->
+    <!--<meta name="twitter:title" content="">-->
+    <!--<meta name="twitter:url" content="">-->
+    <!--<meta name="twitter:image" content="https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png">-->
+    <!--<meta name="twitter:description" content="예비 미용사에게 실제 고객의 머리를 만질 수 있는 기회를, 고객에게는 저렴한 비용으로 헤어 스타일링을 할 수 있도록 하는 온라인 예약 서비스입니다.">-->
+    <link rel="shortcut icon" type="image/x-icon" href="./img/favicon.png">
+    <title>Rookies</title>
+    <link href="https://fonts.googleapis.com/earlyaccess/notosanskr.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Encode+Sans+Expanded" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/custom.css" type="text/css" />
+    <link rel="stylesheet" href="./css/animation.css" type="text/css" />
+    <link rel="stylesheet" href="./css/datepicker.css" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+</head>
+
+<body>
+    <div id="pageWrap">
+        <nav-header></nav-header>
+        <article class="sales_detail">
+            <h2 class="hidden">디자이너 샵</h2>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-8 col-sm-12">
+                        <ul class="sales_navigator clearnext">
+                            <li><a href="#hairstyleInfo"><i class="xi-comment-o"></i> 헤어스타일 설명</a></li>
+                            <li><a href="#portFolio"><i class="xi-border-all"></i> 포트폴리오</a></li>
+                            <li><a href="#replySect"><i class="xi-heart-o"></i> 평점/후기(<span class="reply_num"></span>)</a></li>
+                        </ul>
+                        <section id="hairstyleInfo">
+                            <h3 class="hidden">헤어스타일 설명</h3>
+                            <figure class="hair_info">
+                                <div class="img_wrap"></div>
+                                <figcaption>
+                                    <h4 class="hi_title">여자 탈색/염색 스타일링</h4>
+                                    <p class="hi_des">여자머리탈색 및 염색 스타일링 입니다. 헤어스타일 설명입니다. <br>여자머리탈색 및 염색 스타일링 입니다. 헤어스타일 설명입니다.</p>
+                                </figcaption>
+                            </figure>
+                            <div class="shop_location">
+                                <h4 class="location_title sect_sub_title">장소</h4>
+                                <p class="shop_address">서울특별시 성북구 삼각산동 서경로 124</p>
+                                <div class="map">
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3160.438308328565!2d127.01136071531297!3d37.615376479788786!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357cbcf42ece7fe5%3A0xa2ceb566286582d0!2z7ISc7Jq47Yq567OE7IucIOyEseu2geq1rCDshJzqsr3roZwgMTI0!5e0!3m2!1sko!2skr!4v1506107684163"
+                                        width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+                                </div>
+                        </section>
+                        <section id="portFolio" class="pf_wrap">
+                            <header class="sect_header clearnext">
+                                <h3 class="sect_title">포트폴리오</h3>
+                                <a href="./designer_info.html">포트폴리오 더보기</a>
+                            </header>
+                            <ul class="pf_list">
+                                <li><img src="https://i.ytimg.com/vi/fhl64wesOo0/maxresdefault.jpg" alt="" class="center-block img-responsive"></li>
+                                <li><img src="https://i.ytimg.com/vi/zFy0C7PCgWE/maxresdefault.jpg" alt="" class="center-block img-responsive"></li>
+                                <li><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDME5dszXlS-Ip4Bo12a8cEpwYuG7126PYoQtIo5NKYsw_dCqMKQ" class="img-responsive center-block"></li>
+                            </ul>
+                        </section>
+                        <section id="replySect" class="rp_wrap">
+                            <div class="rp_write">
+                                <form id="rpFrm" method="GET" action="" class="rp_frm">
+                                    <div class="form-group star_rating">
+                                        <div id="starRating"></div>
+                                        <input id="starRatingVal" name="star_rate" type="hidden" value="" />
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea name="reply_content" id="" rows="10" class="form-control" placeholder="후기를 작성해 주세요."></textarea>
+                                    </div>
+                                    <div class="form-group clearnext">
+                                        <span class="photo_add">
+                                            <input type="file" name="reply_photo" />
+                                        </span>
+                                        <span class="submit_btn">
+                                            <button class="btn btn-default" type="submit">후기 등록하기</button>
+                                        </span>
+
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="rp_average">
+                                <h3 class="sect_title">평점/후기 (<span class="reply_num">15</span>개)</h3>
+                                <div class="w-100 clearfix"></div>
+                                <div class="eval_wrap clearnext">
+                                    <div id="starRatingReadAverage" class="starrating_read_average"></div>
+                                    <span id="ratingResult" class="rating_val">4.0</span>
+                                    <span class="eval_cont">"마음에 들어요"</span>
+                                </div>
+                                <ul class="rp_photo_list clearfix">
+                                    <li class="rp_photo_wrap"></li>
+                                    <li class="rp_photo_wrap"></li>
+                                    <li class="rp_photo_wrap"></li>
+                                    <li class="rp_photo_wrap"></li>
+                                    <li class="rp_photo_wrap"></li>
+                                </ul>
+                            </div>
+                            <div class="rp_content">
+                                <header class="rp_content_header">
+                                    <span id="userThumb" class="user_thumb">
+                                        <i class="xi-user"></i>
+                                    </span>
+                                    <span id="userName" class="user_name">dongdong2</span>
+                                    <span class="date">작성일: 2017.09.23</span>
+                                </header>
+                                <div class="w-100 clearfix"></div>
+                                <div class="eval_wrap">
+                                    <div id="starRatingReadOnly" class="starrating_read_only"></div>
+                                    <span class="eval_cont">"마음에 들어요"</span>
+                                    <div class="clearfix w-100"></div>
+                                    <p id="replyDes" class="reply_des">처음 접해보는 미용실이라 처음엔 조금 긴가민가 했는데,<br>다른 어떤 미용실보다 더 마음에 드는 결과가 나왔어요!<br>상담도 친절하게 잘해주셔서 더 좋았습니다~</p>
+                                    <button class="reply_more_btn">더보기</button>
+                                    <div class="rp_photo_wrap"></div>
+                                </div>
+                            </div>
+                            <div class="rp_content">
+                                <header class="rp_content_header">
+                                    <span id="userThumb" class="user_thumb">
+                                        <i class="xi-user"></i>
+                                    </span>
+                                    <span id="userName" class="user_name">dongdong2</span>
+                                    <span class="date">작성일: 2017.09.23</span>
+                                </header>
+                                <div class="w-100 clearfix"></div>
+                                <div class="eval_wrap">
+                                    <div id="starRatingReadOnly" class="starrating_read_only"></div>
+                                    <span class="eval_cont">"마음에 들어요"</span>
+                                    <div class="clearfix w-100"></div>
+                                    <p id="replyDes" class="reply_des">처음 접해보는 미용실이라 처음엔 조금 긴가민가 했는데,<br>다른 어떤 미용실보다 더 마음에 드는 결과가 나왔어요!<br>상담도 친절하게 잘해주셔서 더 좋았습니다~</p>
+                                    <button class="reply_more_btn">더보기</button>
+                                    <div class="reply_photo_wrap"></div>
+                                </div>
+                            </div>
+                            <div class="rp_content">
+                                <header class="rp_content_header">
+                                    <span id="userThumb" class="user_thumb">
+                                        <i class="xi-user"></i>
+                                    </span>
+                                    <span id="userName" class="user_name">dongdong2</span>
+                                    <span class="date">작성일: 2017.09.23</span>
+                                </header>
+                                <div class="w-100 clearfix"></div>
+                                <div class="eval_wrap">
+                                    <div id="starRatingReadOnly" class="starrating_read_only"></div>
+                                    <span class="eval_cont">"마음에 들어요"</span>
+                                    <div class="clearfix w-100"></div>
+                                    <p id="replyDes" class="reply_des">처음 접해보는 미용실이라 처음엔 조금 긴가민가 했는데,<br>다른 어떤 미용실보다 더 마음에 드는 결과가 나왔어요!<br>상담도 친절하게 잘해주셔서 더 좋았습니다~</p>
+                                    <button class="reply_more_btn">더보기</button>
+                                    <div class="reply_photo_wrap"></div>
+                                </div>
+                            </div>
+                        </section>
+                        </div>
+                        <div class="col-xl-4 col-sm-12">
+                            <aside id="reserveBox" class="reserve_box">
+                                <form action="" method="GET">
+                                    <header>
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <div class="designer_profile">
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <div class="reserve_info">
+                                                    <span class="designer_name">Designer 은진</span>
+                                                    <span class="hairstyle_name">여자 탈색/염색 스타일링</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </header>
+                                    <div class="form-group mt-5">
+                                        <label for="exampleFormControlSelect1">상품 선택</label>
+                                        <select class="form-control" id="exampleFormControlSelect1">
+                                           <option>탈색 <span>9,000</span>원</option>
+                                           <option>일반염색 <span>5,000</span>원</option>
+                                           <option>커트 <span>5,000</span>원</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group mt-2">
+                                        <label for="exampleFormControlSelect1">옵션 1</label>
+                                        <select class="form-control" id="exampleFormControlSelect1">
+                                           <option>일반염색 <span>5,000</span>원</option>
+                                           <option>중급염색 <span>7,000</span>원</option>
+                                           <option>고급염색 <span>9,000</span>원</option>
+                                           <option>최고급염색 <span>11,000</span>원</option>
+                                        </select>
+                                    </div>
+                                    <div class="price_box text-right">
+                                        <p>총 금액<span id="price">24,000원</span></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="datepicker" name="date" type="text" class="form-control" placeholder="날짜/시간 선택">
+                                        <div id="datepicker" class="calendar"></div>
+                                    </div>
+                                    <button type="submit" class="btn btn-default reserve_btn">예약하기</button>
+                                </form>
+                            </aside>
+                        </div>
+
+                    </div>
+                </div>
+        </article>
+        </div>
+        <div class="to-top-btn"><i class="xi-caret-up"></i></div>
+        <!-- import external CDN-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/vue@2.4.2"></script>
+        <script src="./js/vm_component.js"></script>
+        <script src="./js/vm_instance.js"></script>
+
+        <!-- 이벤트 핸들러 -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+        <script src="./js/eventhandler.js"></script>
+</body>
+
+</html>
