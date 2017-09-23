@@ -23,7 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import yapp.devcamp.hairstylistserver.oauth.AuthorityType;
 import yapp.devcamp.hairstylistserver.oauth.SocialType;
@@ -31,6 +33,8 @@ import yapp.devcamp.hairstylistserver.oauth.SocialType;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "user")
 public class User implements Serializable {
 	private static final long serialVersionUID = -2962225427529797300L;
@@ -62,19 +66,7 @@ public class User implements Serializable {
 	@Transient
 	private MultipartFile profileImage;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<Chat> chats = new ArrayList<Chat>();
-
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<Book> books;
-	
 	@OneToOne(mappedBy="user", cascade=CascadeType.ALL)
 	@JsonIgnore // issue(recursion) http://www.baeldung.com/jackson-bidirectional-relationships-and-infinite-recursion
 	private Stylist stylist; // user(cascade) is parent for stylist
-	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<Postscript> postscripts;
 }

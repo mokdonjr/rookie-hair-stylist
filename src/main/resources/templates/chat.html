@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	layout:decorator="layouts/commonLayout">
+<head>
+<meta charset="utf-8">
+<title>Chatting</title>
+
+	<!-- JQuery -->
+	<script src="/webjars/jquery/3.1.0/jquery.min.js"></script>
+	
+	<!-- WebSocket -->
+	<script src="/webjars/sockjs-client/1.0.2/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/2.3.3/stomp.min.js"></script>
+    <script src="/js/chatting.js"></script>
+</head>
+<body>
+	<div id="page-wrapper" layout:fragment="content">
+
+		<h1>Hair Stylist Server - Chat Page</h1>
+
+		<div id="main-content" class="container">
+			<div class="row">
+				<form class="form-inline">
+					<div class="form-group">
+						<div th:if="${shop != null}">
+							<!-- accessed from shop '/shop/chat' -->
+							<label for="content" th:text="@{${shop.shopName} + '에 문의하기'}"></label> 
+						</div>
+						<input type="text" id="content" class="form-control">
+					</div>
+					<button id="send" class="btn btn-default" type="submit">Send</button>
+				</form>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<table id="conversation" class="table table-striped">
+						<tbody id="greetings">
+							<tr th:each="chatMessage : ${chatMessages}">
+								<td th:text="${chatMessage.user.nickname}"></td>
+								<td th:text="${chatMessage.content}"></td>
+								<td th:text="@{${chatMessage.receiver} + '에게 전송'}"></td>
+								<td th:text="${#dates.format(chatMessage.writeDate, 'dd-MMM-yyyy')}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	
+	
+</body>
+</html>

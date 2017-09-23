@@ -6,6 +6,7 @@
 </head>
 <body>
 <div layout:fragment="header">
+<<<<<<< HEAD
 	<header role="banner">
         <div class="navbar navbar-inverse justify-content-between">
             <div class="container">
@@ -23,6 +24,61 @@
             </div>
         </div>
     </header>	
+=======
+
+	<div class="navbar-wrapper">
+		<div class="container">
+	
+			<nav class="navbar navbar-inverse navbar-static-top">
+				<div class="container">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed"
+							data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+							aria-controls="navbar">
+							<span class="sr-only">Toggle navigation</span> <span
+								class="icon-bar"></span> <span class="icon-bar"></span> <span
+								class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="/">Home</a>
+					</div>
+					<div id="navbar" class="navbar-collapse collapse">
+						<ul class="nav navbar-nav">
+							<li><input type="search" id="search" placeholder="Search..." /></li>
+						</ul>
+						
+						<!-- Authentication Status -->
+						<div sec:authorize="isAuthenticated()">
+							<ul class="nav navbar-nav pull-right">
+								<li sec:authorize="hasRole('ROLE_USER')">
+									<a th:if="${session.stylist == null}" href="/stylist/apply">헤어디자이너 신청</a>
+									<a th:if="${session.stylist != null}" href="/stylist/enroll">헤어디자이너 등록</a>
+								</li>
+								<li sec:authorize="hasRole('ROLE_STYLIST')">
+									<a href="/stylist/mypage">My Page</a>
+								<li>
+									<a><span th:text="${session.user.username}"></span>님 환영합니다!</a>
+									<img src="${session.user.profileImagePath}" alt="profile image">
+									<span th:text="${session.user.profileImagePath}"></span>
+								</li>
+								<li><a>알림</a></li>
+								<li sec:authorize="hasRole('ROLE_STYLIST')"><a href="/chat">채팅</a></li>
+								<li><a href="/users/logout">Log out</a></li>
+							</ul>
+						</div>
+						<div sec:authorize="isAnonymous()">
+							<ul class="nav navbar-nav pull-right">
+								<li><a href="/users/login">Log in</a></li>
+							</ul>
+						</div>
+						
+					</div>
+	
+				</div>
+			</nav>
+	
+		</div>
+	</div>
+>>>>>>> origin/backbranch
 </div>
 </body>
 </html>

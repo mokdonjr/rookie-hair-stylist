@@ -3,11 +3,14 @@ package yapp.devcamp.hairstylistserver.controller;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,6 +30,7 @@ import yapp.devcamp.hairstylistserver.service.ShopService;
 @Controller
 @RequestMapping("/shop")
 public class ShopController {
+	Logger logger = LoggerFactory.getLogger(ShopController.class);
 	
 	@Autowired
 	private ShopService shopService;
@@ -34,7 +38,7 @@ public class ShopController {
 	/**
 	 * Shop delete method
 	 */
-	@RequestMapping(value="/{shopCode}",method=RequestMethod.GET)
+	@RequestMapping(value="/{shopCode}",method=RequestMethod.DELETE)
 	public String delete(@PathVariable("shopCode") int shopCode){
 		Shop resultShop = shopService.selectShopByShopCode(shopCode);
 		if(resultShop != null){
@@ -46,13 +50,13 @@ public class ShopController {
 	/**
 	 * select Shop by shopCode
 	 */
-	@RequestMapping("/{shopCode}")
+	@RequestMapping(value="/{shopCode}", method=RequestMethod.GET)
 	public ModelAndView selectByShopCode(@PathVariable("shopCode") int shopCode){
 		ModelAndView mv = new ModelAndView();
-		Shop resultShop = shopService.selectShopByShopCode(shopCode);
+		Shop shop = shopService.selectShopByShopCode(shopCode);
 		//수정 페이지 정해지면 수정할 것
-		mv.setViewName("index");
-		mv.addObject("result", resultShop);
+		mv.setViewName("shop");
+		mv.addObject("shop", shop);
 		return mv;
 	}
 	
@@ -71,10 +75,9 @@ public class ShopController {
 	/**
 	 * Shop enroll method
 	 */
-	@RequestMapping("/enroll")
+	@RequestMapping(value="/enroll", method=RequestMethod.POST)
 	public String enroll(Shop shopModel
 			,MultipartFile[] thumbnail,Product product,ProductOption productOption) throws IOException{
-		
 		if(shopModel != null){
 			shopService.saveShop(shopModel,thumbnail);
 			Shop resultShop = shopService.selectShopByShopName(shopModel.getShopName());
@@ -84,7 +87,19 @@ public class ShopController {
 				shopService.saveOption(productOption.getOptionList(), resultShop);
 		}
 		
-		return "redirect:home";
+		return "redirect:/stylist/mypage";
+	}
+	
+	@RequestMapping("/enroll")
+	public String enroll(){
+		return "enrollShop";
+	}
+
+	@GetMapping("/chat/{shopCode}")
+	public String chat(@PathVariable int shopCode, Model model){
+		Shop shop = shopService.selectShopByShopCode(shopCode);
+		model.addAttribute("shop", shop);
+		return "chat";
 	}
 	
 	/**

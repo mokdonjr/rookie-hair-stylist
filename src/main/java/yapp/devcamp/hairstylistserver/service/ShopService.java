@@ -94,6 +94,10 @@ public class ShopService {
 		return shopRepository.findByShopCode(shopCode);
 	}
 	
+	public List<Shop> findByStylist(Stylist stylist){
+		return shopRepository.findByStylist(stylist);
+	}
+	
 	//product 등록
 	public void saveProduct(List<Product> productList,Shop shop){
 		for(Product product : productList){

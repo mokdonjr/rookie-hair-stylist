@@ -15,7 +15,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.LazyCollection;
@@ -23,12 +22,16 @@ import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="stylist")
 public class Stylist implements Serializable {
 	private static final long serialVersionUID = 2792820973956387153L;
@@ -68,8 +71,4 @@ public class Stylist implements Serializable {
 	@OneToOne
 	@JoinColumn(name="user_id") // fk
 	private User user;
-	
-	@OneToMany(mappedBy="stylist", cascade=CascadeType.ALL)
-	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<Shop> shops = new ArrayList<Shop>();
 }

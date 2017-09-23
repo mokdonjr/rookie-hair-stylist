@@ -11,14 +11,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="hashtag")
 public class Hashtag implements Serializable {
+	private static final long serialVersionUID = -3717115168611329619L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

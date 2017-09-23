@@ -23,14 +23,19 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.beans.factory.annotation.Configurable;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="shop")
 public class Shop implements Serializable {
+	private static final long serialVersionUID = 486537536990323693L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -62,28 +67,7 @@ public class Shop implements Serializable {
 	@Transient
 	private File[] files;
 	
-	@OneToMany(mappedBy="shop", cascade=CascadeType.ALL)
-	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<Hashtag> hashtags = new ArrayList<Hashtag>();
-	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="stylist_code")
 	private Stylist stylist;
-	
-	@OneToMany(mappedBy="shop", cascade=CascadeType.ALL)
-	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<Postscript> postscripts;
-	
-	@OneToMany(mappedBy="shop", cascade=CascadeType.ALL)
-	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<Product> products;
-	
-	@OneToMany(mappedBy="shop", cascade=CascadeType.ALL)
-	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<ProductOption> options;
-
-	// 
-//	@OneToMany(mappedBy="shop", cascade=CascadeType.ALL)
-//	@LazyCollection(LazyCollectionOption.FALSE)
-//	private List<Time> times;
 }

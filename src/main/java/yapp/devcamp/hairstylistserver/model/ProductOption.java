@@ -13,15 +13,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="product_option")
 public class ProductOption implements Serializable {
-	
+	private static final long serialVersionUID = 2280008708531643990L;
+
 	@Transient
 	private List<ProductOption> optionList;
 	

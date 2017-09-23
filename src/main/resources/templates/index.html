@@ -8,6 +8,7 @@
 
 <body>
 <div id="page-wrapper" layout:fragment="content">
+<<<<<<< HEAD
     <div id="pageWrap">
         
         <main-slider></main-slider>
@@ -59,6 +60,20 @@
         <!--    <span class="preloader__letter" data-preloader="S">S</span>    -->
         <!--</div>-->
     </div>
+=======
+
+	Hair Stylist Server
+	<br/>
+	<table>
+		<tr th:each="shop : ${shopList}">
+			<td><img th:src="@{shop.imagePath}"/ alt="shop image"></td>
+			<td><a th:href="@{'/shop/' + ${shop.shopCode}}"><span th:text="${shop.shopName}"></span></a>
+			</td>
+		</tr>
+	</table>
+	
+</div>
+>>>>>>> origin/backbranch
 </body>
 
 </html>
