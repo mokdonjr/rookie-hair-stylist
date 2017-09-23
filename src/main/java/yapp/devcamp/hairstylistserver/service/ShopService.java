@@ -150,19 +150,19 @@ public class ShopService {
 		else
 			throw new Exception("예약 가능 날짜가 없습니다.");
 		
-		shopDate = resultShop.getShopDay();
-		resultDate = subDate(shopDate, bookModel.getBookDay());
-		if(resultDate != null)
-			resultShop.setShopDay(resultDate);
-		else
-			throw new Exception("예약 가능 요일이 없습니다.");
+//		shopDate = resultShop.getShopDay();
+//		resultDate = subDate(shopDate, bookModel.getBookDay());
+//		if(resultDate != null)
+//			resultShop.setShopDay(resultDate);
+//		else
+//			throw new Exception("예약 가능 요일이 없습니다.");
 		
-		shopDate = resultShop.getShopTime();
-		resultDate = subDate(shopDate, bookModel.getBookTime());
-		if(resultDate != null)
-			resultShop.setShopTime(resultDate);
-		else
-			throw new Exception("예약 가능 시간이 없습니다.");
+//		shopDate = resultShop.getShopTime();
+//		resultDate = subDate(shopDate, bookModel.getBookTime());
+//		if(resultDate != null)
+//			resultShop.setShopTime(resultDate);
+//		else
+//			throw new Exception("예약 가능 시간이 없습니다.");
 		
 		//예약시간 빼서 다시 update
 		shopRepository.save(resultShop);
@@ -192,5 +192,47 @@ public class ShopService {
 			return insertDate;
 		else
 			return null;
+	}
+	
+	/**
+	 * 예약 취소
+	 */
+	public void cancelBook(int bookCode){
+		Book resultBook = selectBookByCode(bookCode);
+		
+		if(resultBook != null){
+			int shopCode = resultBook.getShop().getShopCode();
+			Shop resultShop = selectShopByShopCode(shopCode);
+			if(resultShop != null){
+				String shopDate = resultShop.getShopDate();
+				if(shopDate.length()!=0){
+					shopDate += ","+resultBook.getBookDate();
+				} else{
+					shopDate = resultBook.getBookDate();
+				}
+				resultShop.setShopDate(shopDate);
+				
+				shopRepository.save(resultShop);
+				bookRepository.deleteByCode(bookCode);
+			}
+		}
+	}
+	
+	/**
+	 * 예약 시술 완료
+	 */
+	public void completeBook(int bookCode){
+		Book resultBook = selectBookByCode(bookCode);
+		if(resultBook != null){
+			resultBook.setBookStatus(false);
+		}
+		bookRepository.save(resultBook);
+	}
+	
+	/**
+	 * 예약 코드로 레코드 찾아오기
+	 */
+	public Book selectBookByCode(int bookCode){
+		return bookRepository.findBybookCode(bookCode);
 	}
 }

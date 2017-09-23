@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -33,8 +34,8 @@ public class ShopController {
 	/**
 	 * Shop delete method
 	 */
-	@RequestMapping("/delete")
-	public String delete(int shopCode){
+	@RequestMapping(value="/{shopCode}",method=RequestMethod.GET)
+	public String delete(@PathVariable("shopCode") int shopCode){
 		Shop resultShop = shopService.selectShopByShopCode(shopCode);
 		if(resultShop != null){
 			shopService.deleteShop(resultShop);
@@ -100,6 +101,22 @@ public class ShopController {
 			bookModel.setBookStatus(true);
 			shopService.book(bookModel);
 		}
+		return "index";
+	}
+	/**
+	 * 예약 취소
+	 */
+	@RequestMapping(value="/cancel/{bookCode}",method=RequestMethod.GET)
+	public String cancelBook(@PathVariable("bookCode") int bookCode){
+		shopService.cancelBook(bookCode);
+		return "index";
+	}
+	/**
+	 * 예약 완료
+	 */
+	@RequestMapping(value ="/complete/{bookCode}",method=RequestMethod.GET)
+	public String conpleteBook(@PathVariable("bookCode") int bookCode){
+		shopService.completeBook(bookCode);
 		return "index";
 	}
 }

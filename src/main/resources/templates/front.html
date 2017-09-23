@@ -31,10 +31,10 @@
      날짜 : <input type="text" name="shopDate" value="2017.8.19">
      요일 : <input type="text" name="shopDay" value="월,수,금">
    시간 : <input type="text" name="shopTime" value="19:00">
-    </form> --> 
+    </form> -->
   
  <!-- postscript 등록 -->
-	 <form th:action="@{/postscript/update}" method="post">
+	<!--  <form th:action="@{/postscript/update}" method="post">
 	 	<input type="text" name="postscriptCode" value="17">
   		<input type="text" name="content" value="내용">
   		<input type="text" name="grade" value="등급">
@@ -42,7 +42,7 @@
   		<input type="text" name="user.id" value="id"> 
   		<input type="submit" name="업로드" value="제출">
   	</form>
-  	
+  	 -->
   	<!-- postscript 삭제 -->
  	<!-- <form th:action="@{/postscript/delete}" method="post">
   		<input type="text" name="content" value="내용">
@@ -61,13 +61,13 @@
   -->
   
   <!-- shop 예약 form -->
-  <!-- <form th:action="@{/shop/book}" method="post">
+ <form th:action="@{/shop/book}" method="post">
   	예약할 shop_code : <input type="text" name="shop.shopCode"><br>
   	날짜 : <input type="text" name="bookDate"><br>
   	요일 : <input type="text" name="bookDay"><br>
   	시간 : <input type="text" name="bookTime"><br>
   	<input type="submit" value="제출">
-  </form> -->
+  </form>
   
   <!-- <form th:action="@{/shop/test}" enctype="multipart/form-data" method="post">
   	파일 : <input type="file" name="file" >
