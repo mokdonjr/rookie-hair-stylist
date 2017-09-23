@@ -101,7 +101,9 @@ public class StylistController {
 		MultipartFile licenseImage = stylist.getLicenseImage();
 		long imageSize = licenseImage.getSize();
 		logger.warn("uploading image size : " + imageSize + "Bytes(" + imageSize/1024 + "KBytes)");
-		storageService.store(licenseImage);
+//		storageService.store(licenseImage); // StylistService에 직접 구현!!
+		
+		storageService.storeStylistEnrollImage(stylist.getStylistCode(), licenseImage);
 		
 		stylist.setLicenseImagePath(licenseImage.getOriginalFilename());
 		stylistService.saveStylist(stylist);
@@ -148,6 +150,7 @@ public class StylistController {
 			return "redirect:/stylist/mypage";
 		}
 		
+		// before granted STYLIST authority
 		model.addAttribute("user", user);
 		model.addAttribute("stylist", stylist);
 		
@@ -159,7 +162,7 @@ public class StylistController {
 	 * @return : stylist shop, portfolio, postscript data 
 	 */
 	
-	@RequestMapping("/mypage")
+	@GetMapping("/mypage")
 	public String mypage(){
 		//session에서 stylistID 가져오기
 		

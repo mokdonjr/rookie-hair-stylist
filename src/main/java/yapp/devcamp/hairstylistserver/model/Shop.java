@@ -77,4 +77,8 @@ public class Shop implements Serializable {
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<ProductOption> options;
 
+	// 
+//	@OneToMany(mappedBy="shop", cascade=CascadeType.ALL)
+//	@LazyCollection(LazyCollectionOption.FALSE)
+//	private List<Time> times;
 }
