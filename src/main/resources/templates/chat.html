@@ -21,35 +21,27 @@
 
 		<div id="main-content" class="container">
 			<div class="row">
-				<div class="col-md-6">
-					<form class="form-inline">
-						<div class="form-group">
-							<label for="connect">WebSocket connection:</label>
-							<button id="connect" class="btn btn-default" type="submit">Connect</button>
-							<button id="disconnect" class="btn btn-default" type="submit"
-								disabled="disabled">Disconnect</button>
+				<form class="form-inline">
+					<div class="form-group">
+						<div th:if="${shop != null}">
+							<!-- accessed from shop '/shop/chat' -->
+							<label for="content" th:text="@{${shop.shopName} + '에 문의하기'}"></label> 
 						</div>
-					</form>
-				</div>
-				<div class="col-md-6">
-					<form class="form-inline">
-						<div class="form-group">
-							<label for="content">보낼 메시지</label> <input type="text"
-								id="content" class="form-control" placeholder="Your name here...">
-						</div>
-						<button id="send" class="btn btn-default" type="submit">Send</button>
-					</form>
-				</div>
+						<input type="text" id="content" class="form-control">
+					</div>
+					<button id="send" class="btn btn-default" type="submit">Send</button>
+				</form>
 			</div>
 			<div class="row">
 				<div class="col-md-12">
 					<table id="conversation" class="table table-striped">
-						<thead>
-							<tr>
-								<th>메시지 보기</th>
-							</tr>
-						</thead>
 						<tbody id="greetings">
+							<tr th:each="chatMessage : ${chatMessages}">
+								<td th:text="${chatMessage.user.nickname}"></td>
+								<td th:text="${chatMessage.content}"></td>
+								<td th:text="@{${chatMessage.receiver} + '에게 전송'}"></td>
+								<td th:text="${#dates.format(chatMessage.writeDate, 'dd-MMM-yyyy')}"></td>
+							</tr>
 						</tbody>
 					</table>
 				</div>

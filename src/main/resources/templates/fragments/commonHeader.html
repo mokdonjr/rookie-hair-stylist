@@ -42,7 +42,7 @@
 									<span th:text="${session.user.profileImagePath}"></span>
 								</li>
 								<li><a>알림</a></li>
-								<li><a href="/chat">채팅</a></li>
+								<li sec:authorize="hasRole('ROLE_STYLIST')"><a href="/chat">채팅</a></li>
 								<li><a href="/users/logout">Log out</a></li>
 							</ul>
 						</div>

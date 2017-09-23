@@ -2,6 +2,8 @@ package yapp.devcamp.hairstylistserver.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import yapp.devcamp.hairstylistserver.service.ShopService;
 
 @Controller
 public class HomeController {
+	Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	@Autowired
 	private ShopService shopService;
@@ -20,6 +23,9 @@ public class HomeController {
 	@GetMapping("/")
 	public String home(Model model){
 		List<Shop> shopList = shopService.selectAllShop();
+		for(Shop shop : shopList){
+			logger.warn("shop : " + shop.getShopCode() + " / " + shopList.size());
+		}
 		
 		model.addAttribute("shopList", shopList);
 		

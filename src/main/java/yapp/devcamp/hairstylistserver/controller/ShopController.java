@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,7 +38,7 @@ public class ShopController {
 	/**
 	 * Shop delete method
 	 */
-	@RequestMapping(value="/{shopCode}",method=RequestMethod.GET)
+	@RequestMapping(value="/{shopCode}",method=RequestMethod.DELETE)
 	public String delete(@PathVariable("shopCode") int shopCode){
 		Shop resultShop = shopService.selectShopByShopCode(shopCode);
 		if(resultShop != null){
@@ -48,7 +50,7 @@ public class ShopController {
 	/**
 	 * select Shop by shopCode
 	 */
-	@RequestMapping("/{shopCode}")
+	@RequestMapping(value="/{shopCode}", method=RequestMethod.GET)
 	public ModelAndView selectByShopCode(@PathVariable("shopCode") int shopCode){
 		ModelAndView mv = new ModelAndView();
 		Shop shop = shopService.selectShopByShopCode(shopCode);
@@ -92,21 +94,13 @@ public class ShopController {
 	public String enroll(){
 		return "enrollShop";
 	}
-	
-//	@RequestMapping("/enroll")
-//	public String enroll(@Valid Shop shop, BindingResult result, HttpServletRequest request){
-//		
-//		if(result.hasErrors()){
-//			logger.debug("form data has errors");
-//			List<ObjectError> errors = result.getAllErrors();
-//			for(ObjectError error : errors){
-//				error.getDefaultMessage();
-//			}
-//			return "enrollStylist";
-//		}
-//		
-//		shop.set
-//	}
+
+	@GetMapping("/chat/{shopCode}")
+	public String chat(@PathVariable int shopCode, Model model){
+		Shop shop = shopService.selectShopByShopCode(shopCode);
+		model.addAttribute("shop", shop);
+		return "chat";
+	}
 	
 	/**
 	 * shop 예약하기

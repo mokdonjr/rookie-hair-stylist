@@ -12,15 +12,22 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="chat")
 public class Chat implements Serializable {
-	
+	private static final long serialVersionUID = -6459435579286957657L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="chat_code")
@@ -32,6 +39,7 @@ public class Chat implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name="user_id")
+	@JsonIgnore
 	private User user;
 	
 	private String content;

@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import yapp.devcamp.hairstylistserver.model.Shop;
+import yapp.devcamp.hairstylistserver.model.Stylist;
 
 @Repository
 public interface ShopRepository extends JpaRepository<Shop, Integer> {
@@ -19,4 +20,6 @@ public interface ShopRepository extends JpaRepository<Shop, Integer> {
 	
 	@Query(value="select u from Shop u order by shop_date desc")
 	List<Shop> orderByshopDate();
+	
+	List<Shop> findByStylist(Stylist stylist);
 }
