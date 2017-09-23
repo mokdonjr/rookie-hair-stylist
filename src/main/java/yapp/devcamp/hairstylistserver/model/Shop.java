@@ -55,9 +55,6 @@ public class Shop implements Serializable {
 	@JoinColumn(name="stylist_code")
 	private Stylist stylist;
 	
-	@OneToMany(mappedBy="shop", cascade=CascadeType.ALL)
-	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<Time> times;
 	
 	@OneToMany(mappedBy="shop", cascade=CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
@@ -70,5 +67,19 @@ public class Shop implements Serializable {
 	@OneToMany(mappedBy="shop", cascade=CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<ProductOption> options;
+
+	// 
+//	@OneToMany(mappedBy="shop", cascade=CascadeType.ALL)
+//	@LazyCollection(LazyCollectionOption.FALSE)
+//	private List<Time> times;
+	
+	@Column(name="shop_time")
+	private String shopTime;
+	
+	@Column(name="shop_date")
+	private String shopDate; 
+	
+	@Column(name="shop_day")
+	private String shopDay;
 
 }
