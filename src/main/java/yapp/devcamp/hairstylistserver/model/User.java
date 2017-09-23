@@ -70,11 +70,11 @@ public class User implements Serializable {
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Book> books;
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<Postscript> postscripts;
-	
 	@OneToOne(mappedBy="user", cascade=CascadeType.ALL)
 	@JsonIgnore // issue(recursion) http://www.baeldung.com/jackson-bidirectional-relationships-and-infinite-recursion
 	private Stylist stylist; // user(cascade) is parent for stylist
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<Postscript> postscripts;
 }

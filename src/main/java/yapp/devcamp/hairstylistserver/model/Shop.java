@@ -1,5 +1,6 @@
 package yapp.devcamp.hairstylistserver.model;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -56,6 +58,9 @@ public class Shop implements Serializable {
 	
 	@Column(name="shop_day")
 	private String shopDay;
+	
+	@Transient
+	private File[] files;
 	
 	@OneToMany(mappedBy="shop", cascade=CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)

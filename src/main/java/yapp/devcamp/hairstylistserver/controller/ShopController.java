@@ -36,8 +36,8 @@ public class ShopController {
 	/**
 	 * Shop delete method
 	 */
-	@RequestMapping("/delete")
-	public String delete(int shopCode){
+	@RequestMapping(value="/{shopCode}",method=RequestMethod.GET)
+	public String delete(@PathVariable("shopCode") int shopCode){
 		Shop resultShop = shopService.selectShopByShopCode(shopCode);
 		if(resultShop != null){
 			shopService.deleteShop(resultShop);
@@ -122,6 +122,22 @@ public class ShopController {
 			bookModel.setBookStatus(true);
 			shopService.book(bookModel);
 		}
+		return "index";
+	}
+	/**
+	 * 예약 취소
+	 */
+	@RequestMapping(value="/cancel/{bookCode}",method=RequestMethod.GET)
+	public String cancelBook(@PathVariable("bookCode") int bookCode){
+		shopService.cancelBook(bookCode);
+		return "index";
+	}
+	/**
+	 * 예약 완료
+	 */
+	@RequestMapping(value ="/complete/{bookCode}",method=RequestMethod.GET)
+	public String conpleteBook(@PathVariable("bookCode") int bookCode){
+		shopService.completeBook(bookCode);
 		return "index";
 	}
 }

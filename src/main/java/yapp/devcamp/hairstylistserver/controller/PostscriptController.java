@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.annotation.JsonCreator.Mode;
@@ -22,9 +23,10 @@ public class PostscriptController {
 	PostscriptService postscriptService;
 	
 	@RequestMapping("/enroll")
-	public String enrollScript(Postscript postscript){
+	public String enrollScript(Postscript postscript,MultipartFile[] inputFiles){
+		System.out.println("*************");
 		if(postscript != null){
-			postscriptService.enrollScript(postscript);
+			postscriptService.enrollScript(postscript,inputFiles);
 		}
 		return "index";
 	}

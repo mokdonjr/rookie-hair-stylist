@@ -38,66 +38,51 @@ public class ShopService {
 	private BookRepository bookRepository;
 	
 	@Autowired
-	private ServletContext context;
+	private StorageService storageService;
 	
 	//shop 등록
 	public void saveShop(Shop shopModel,MultipartFile[] thumbnail) throws IOException{
-			if(thumbnail !=null){
-				uploadFile(shopModel, thumbnail);
-			}
+		int stylistCode = 0;
+		String shopName = shopModel.getShopName();
 		
 		if(shopModel != null){
 			Stylist stylist = new Stylist();
 			//세션에서 받아와서 저장할 것
 			stylist.setStylistCode(1);
+			stylistCode = stylist.getStylistCode();
 			shopModel.setStylist(stylist);
 			shopModel.setShopStatus("true");
 		}
-		
-		shopRepository.save(shopModel);
-	}
-	
-	// 파일 업로드
-	public void uploadFile(Shop shopModel, MultipartFile[] thumbnail) throws IOException {
-		// 경로 설정을 위해 userId 필요
-		String userId = "test";
-		String path = context.getRealPath("resources/upload")+"/" + userId + "/" + shopModel.getShopName() + "/";
-		String originName="";
-		String fileName = "thumbnail.jpg";
-		
-		shopModel.setImagePath("/" + userId + "/" + shopModel.getShopName() + "/");
-		
-		
-		//기존 디렉토리 이름 가져오기
-		if(shopModel.getShopCode() != 0){
-			Shop resultShop = selectShopByShopCode(shopModel.getShopCode());
-			originName = resultShop.getShopName();
-		}
-		
-		for(int i=0;i<thumbnail.length;i++){
-			//파일 업로드
-			if (!thumbnail[i].isEmpty()) {
-				File file = new File(path);
-				
-				//이름 수정
-				if(!originName.equals("")){
-					String originPath = context.getRealPath("resources/upload")+"/" + userId + "/" + originName + "/";
-					File originFile = new File(originPath);
-					originFile.renameTo(file);
-				}
-				
-				if (!file.exists()) {
-					file.mkdirs();
-				}
-				
-				if(i!=0){
-					fileName = thumbnail[i].getOriginalFilename();
-				}
-				File transFile=new File(path + fileName);
+		int shopCode = shopModel.getShopCode();
+		//shopname 수정
+		if(shopCode !=0){
+			Shop resultShop = selectShopByShopCode(shopCode);
+			int resultStylistCode = resultShop.getStylist().getStylistCode();
+			String resultShopName = resultShop.getShopName();
 			
-				thumbnail[i].transferTo(transFile);
+			String originPath = storageService.shopLoad(resultStylistCode, resultShopName).toString();
+			File originFile = new File(originPath);
+			
+			String newPath = storageService.shopLoad(stylistCode, shopName).toString();
+			File newFile = new File(newPath);
+			originFile.renameTo(newFile);
+			
+			originPath = storageService.postscriptLoad(resultStylistCode, resultShopName).toString();
+			originFile = new File(originPath);
+			
+			newPath = storageService.postscriptLoad(resultStylistCode, resultShopName).toString();
+			newFile = new File(newPath);
+			originFile.renameTo(newFile);
+		}
+		if(thumbnail !=null){
+			for(int i=0;i<thumbnail.length;i++){
+				if(!thumbnail[i].getOriginalFilename().equals("")){
+					storageService.storeShopImage(shopModel.getStylist().getStylistCode(), shopModel.getShopName(), thumbnail[i],i);
+				}
 			}
 		}
+		
+		shopRepository.save(shopModel);
 	}
 	
 	//shop_code 알아오기
@@ -127,8 +112,16 @@ public class ShopService {
 	
 	//shop selectAll
 	public List<Shop> selectAllShop(){
-		//return shopRepository.findAll();
-		return shopRepository.orderByshopDate();
+		List<Shop> list = shopRepository.orderByshopDate();
+		for(Shop shop : list){
+			String filePath = storageService.shopLoad(shop.getStylist().getStylistCode(), shop.getShopName()).toString();
+			File file = new File(filePath);
+			if(file != null && file.listFiles()!=null){
+				shop.setFiles(file.listFiles());
+			}
+
+		}
+		return list;
 	}
 	
 	//shop delete
@@ -149,20 +142,6 @@ public class ShopService {
 			resultShop.setShopDate(resultDate);
 		else
 			throw new Exception("예약 가능 날짜가 없습니다.");
-		
-		shopDate = resultShop.getShopDay();
-		resultDate = subDate(shopDate, bookModel.getBookDay());
-		if(resultDate != null)
-			resultShop.setShopDay(resultDate);
-		else
-			throw new Exception("예약 가능 요일이 없습니다.");
-		
-		shopDate = resultShop.getShopTime();
-		resultDate = subDate(shopDate, bookModel.getBookTime());
-		if(resultDate != null)
-			resultShop.setShopTime(resultDate);
-		else
-			throw new Exception("예약 가능 시간이 없습니다.");
 		
 		//예약시간 빼서 다시 update
 		shopRepository.save(resultShop);
@@ -192,5 +171,47 @@ public class ShopService {
 			return insertDate;
 		else
 			return null;
+	}
+	
+	/**
+	 * 예약 취소
+	 */
+	public void cancelBook(int bookCode){
+		Book resultBook = selectBookByCode(bookCode);
+		
+		if(resultBook != null){
+			int shopCode = resultBook.getShop().getShopCode();
+			Shop resultShop = selectShopByShopCode(shopCode);
+			if(resultShop != null){
+				String shopDate = resultShop.getShopDate();
+				if(shopDate.length()!=0){
+					shopDate += ","+resultBook.getBookDate();
+				} else{
+					shopDate = resultBook.getBookDate();
+				}
+				resultShop.setShopDate(shopDate);
+				
+				shopRepository.save(resultShop);
+				bookRepository.deleteByCode(bookCode);
+			}
+		}
+	}
+	
+	/**
+	 * 예약 시술 완료
+	 */
+	public void completeBook(int bookCode){
+		Book resultBook = selectBookByCode(bookCode);
+		if(resultBook != null){
+			resultBook.setBookStatus(false);
+		}
+		bookRepository.save(resultBook);
+	}
+	
+	/**
+	 * 예약 코드로 레코드 찾아오기
+	 */
+	public Book selectBookByCode(int bookCode){
+		return bookRepository.findBybookCode(bookCode);
 	}
 }
