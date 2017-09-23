@@ -1,7 +1,7 @@
 // 페이지 로더
 $(function() {
     
-    if (location.pathname != "/rookie-hair-stylist/") {
+    if (location.pathname != "/") {
         $('body').css('overflow-y', 'scroll');
     }
     

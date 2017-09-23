@@ -7,7 +7,7 @@ Vue.component('nav-header', {
         <div class="navbar navbar-inverse justify-content-between">
             <div class="container">
                 <h1 class="navbar-header">
-                    <a class="navbar-brand" href="./"><img src="./img/logo.png" alt="rookies" class="img-responsive center-block"></a>
+                    <a class="navbar-brand" href="./"><img src="./images/logo.png" alt="rookies" class="img-responsive center-block"></a>
                 </h1>
                 <form class="form-inline">
                     <input class="form-control mr-sm-2" type="text" placeholder="검색어를 입력해주세요" aria-label="Search">
