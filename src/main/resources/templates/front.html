@@ -8,8 +8,8 @@
   <body>
   
   <!-- shop 등록 form -->
-     <!-- <form method="post" enctype="multipart/form-data" th:action="@{/shop/enroll}">
-  샵코드 : <input type="text" name="shopCode" value="1">
+  <!-- <form method="post" enctype="multipart/form-data" th:action="@{/shop/enroll}">
+     샵코드 : <input type="text" name="shopCode" value="1">
         이름 : <input type="text" name="shopName" value="shsh">
         파일 : <input type="file" name="thumbnail">
         <input type="file" name="thumbnail">
@@ -18,31 +18,35 @@
         <input type="submit" name="업로드" value="제출">
         <br>
      설명 : <input type="text" name="content" value="content"><br>
-      상품코드 : <input type="text" name="productList[0].productCode" value="5"> 
+    상품코드 : <input type="text" name="productList[0].productCode" value="5"> 
      상품명 : <input type="text" name="productList[0].productName" value="물결펌">
      상품 가격 : <input type="text" name="productList[0].productPrice" value="20000"><br>
-      상품코드 : <input type="text" name="productList[1].productCode" value="6"> 
+    상품코드 : <input type="text" name="productList[1].productCode" value="6"> 
       상품명 : <input type="text" name="productList[1].productName" value="호랑이컷">
      상품 가격 : <input type="text" name="productList[1].productPrice" value="30000"><br>
-    옵션코드 : <input type="text" name="optionList[0].optionCode" value="3"> 
+    옵션코드 : <input type="text" name="optionList[0].optionCode" value="3">
      옵션 : <input type="text" name="optionList[0].optionName" value="두피마사지">
      옵션 가격 : <input type="text" name="optionList[0].optionPrice" value="3000"><br>
      장소 : <input type="text" name="location" value="서울시 강남구 강남동">
      날짜 : <input type="text" name="shopDate" value="2017.8.19">
      요일 : <input type="text" name="shopDay" value="월,수,금">
    시간 : <input type="text" name="shopTime" value="19:00">
-    </form> -->
+   </form> -->
   
  <!-- postscript 등록 -->
-	<!--  <form th:action="@{/postscript/update}" method="post">
-	 	<input type="text" name="postscriptCode" value="17">
-  		<input type="text" name="content" value="내용">
-  		<input type="text" name="grade" value="등급">
-  		<input type="text" name="shop.shopCode" value="샵코드">
-  		<input type="text" name="user.id" value="id"> 
+	<form th:action="@{/postscript/enroll}" enctype="multipart/form-data" method="post">
+	 	<!-- 후기 코드 : <input type="text" name="postscriptCode" value="17"><br> -->
+	 	파일 : <input type="file" name="inputFiles">
+        <input type="file" name="inputFiles">
+        <input type="file" name="inputFiles"><br>
+  		내용 : <input type="text" name="content" value="내용"><br>
+  		등급 : <input type="text" name="grade" value="등급"><br>
+  		샵코드 : <input type="text" name="shop.shopCode" value="샵코드"><br>
+  		userId : <input type="text" name="user.id" value="id"> <br>
+  		
   		<input type="submit" name="업로드" value="제출">
   	</form>
-  	 -->
+  	 
   	<!-- postscript 삭제 -->
  	<!-- <form th:action="@{/postscript/delete}" method="post">
   		<input type="text" name="content" value="내용">
@@ -61,13 +65,13 @@
   -->
   
   <!-- shop 예약 form -->
- <form th:action="@{/shop/book}" method="post">
+ <!-- <form th:action="@{/shop/book}" method="post">
   	예약할 shop_code : <input type="text" name="shop.shopCode"><br>
   	날짜 : <input type="text" name="bookDate"><br>
   	요일 : <input type="text" name="bookDay"><br>
   	시간 : <input type="text" name="bookTime"><br>
   	<input type="submit" value="제출">
-  </form>
+  </form> -->
   
   <!-- <form th:action="@{/shop/test}" enctype="multipart/form-data" method="post">
   	파일 : <input type="file" name="file" >

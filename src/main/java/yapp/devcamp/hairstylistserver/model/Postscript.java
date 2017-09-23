@@ -1,9 +1,8 @@
 package yapp.devcamp.hairstylistserver.model;
 
+import java.io.File;
 import java.io.Serializable;
-import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -38,11 +40,14 @@ public class Postscript implements Serializable {
 	@Column(name="image_path")
 	private String imagePath;
 	
+	@Transient
+	private File[] resultFiles;
+	
 	@ManyToOne
 	@JoinColumn(name="shop_code")
 	private Shop shop;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(unique=true)
 	private User user;
 
