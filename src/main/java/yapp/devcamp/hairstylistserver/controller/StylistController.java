@@ -166,7 +166,7 @@ public class StylistController {
 	 * @return : stylist shop, portfolio, postscript data 
 	 */
 	
-	@GetMapping("/mypage")
+	@GetMapping("/designerInfo")
 	public String mypage(HttpSession session, Model model){
 		//session에서 stylistID 가져오기
 		Stylist stylist = (Stylist) session.getAttribute("stylist");
@@ -176,7 +176,7 @@ public class StylistController {
 		model.addAttribute("shopList", shopList);
 		//스타일리스트 샵, 포트폴리오, 후기 정보들을 mypage로 전달
 		
-		return "mypage";
+		return "designer_info";
 	}
 	
 	/**

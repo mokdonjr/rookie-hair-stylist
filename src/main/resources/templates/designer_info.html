@@ -72,6 +72,18 @@
         </div>
     </div>
     
+    <!-- Merged backbranch -->
+    <!-- <div class="row">
+		<a href="/shop/enroll" class="btn btn-default">판매상품등록</a><br>
+			<table>
+				<tr th:each="shop : ${shopList}">
+					<td><img th:src="@{shop.imagePath}"/ alt="shop image"></td>
+					<td><a th:href="@{'/shop/' + ${shop.shopCode}}"><span th:text="${shop.shopName}"></span></a>
+					</td>
+				</tr>
+			</table>
+	</div> -->
+    
 </body>
 
 </html>

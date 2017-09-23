@@ -55,7 +55,7 @@ public class ShopController {
 		ModelAndView mv = new ModelAndView();
 		Shop shop = shopService.selectShopByShopCode(shopCode);
 		//수정 페이지 정해지면 수정할 것
-		mv.setViewName("shop");
+		mv.setViewName("sales_detail");
 		mv.addObject("shop", shop);
 		return mv;
 	}
