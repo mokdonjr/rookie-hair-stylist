@@ -1,4 +1,549 @@
-* {
-    color: red;
-    
+/*pubulished by YAPP 4TH TEAM - ROOKIE HAIR DESIGNER, Rookies*/
+
+/*** Basic Setting ***/
+
+body {
+    overflow-y: hidden;
+}
+
+.hidden {
+    display: none;
+}
+
+.center-block {
+    display: block;
+    margin: 0 auto;
+}
+
+.img-responsive  {
+    max-width: 100%;
+    display: block;
+}
+
+.clearbefore:before,
+.clearnext:after {
+    content: "";
+    clear: both;
+    display: block;
+}
+
+/* 폰트 스타일 */
+
+h1, h2, h3, h4, h5, h6, div, p, th, td, dt, dd, span:not(.glyficon) {
+    font-family: "noto sans KR", sans-serif;
+    word-break: keep-all;
+    word-wrap: break-word;
+}
+
+a {
+    color: #646464;
+    text-decoration: none;
+}
+
+/* 버튼 스타일 */
+/* totop btn */
+.to-top-btn {
+    position: fixed;
+    top: 85%;
+    right: -100px;
+    z-index: 999999;
+    background: gray;
+    color: white;
+    margin: 0;
+    padding: 0;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+	text-align: center;
+    opacity: 0.8;
+    -webkit-transition: all 1s cubic-bezier(0, 0, 0.2, 1);
+    -moz-transition: all 1s cubic-bezier(0, 0, 0.2, 1);
+    -ms-transition: all 1s cubic-bezier(0, 0, 0.2, 1);
+    -o-transition: all 1s cubic-bezier(0, 0, 0.2, 1);
+    transition: all 1s cubic-bezier(0, 0, 0.2, 1);
+}
+.to-top-btn:hover {
+  color: white;
+  background: black;
+  cursor: pointer;
+}
+.to-top-btn.showme {
+ 	right: 50px;
+}
+.to-top-btn i {
+  font-size: 30px;
+  margin-top: 7px;
+  margin-left: -2px;
+  color: #ffffff;
+}
+
+
+/* 레이아웃 세팅 */
+
+.container {
+    max-width: 1520px;
+    width: 100%;
+    padding: 0;
+    position: relative;
+}
+
+.br {
+    margin: 15px 0;
+}
+
+ul, ol {
+    padding-left: 0;
+}
+ul > li, ol > li {
+    list-style-type: none;
+}
+
+
+/*** 상단 네비게이션 바 ***/
+
+.navbar-inverse {
+    padding: 5px 0;
+    background: #000;
+}
+
+.navbar>.container,
+.navbar>.container-fluid {
+    justify-content: flex-start;
+}
+
+.navbar * > a {
+    color: #ffffff;
+}
+
+.navbar-header {
+    margin: 0;
+}
+
+.navbar-brand {
+    position: relative;
+    bottom: 2px;
+    font-size: 35px;
+    max-width: 130px;
+}
+
+.navbar-inverse .form-inline input[aria-label="Search"] {
+    border-radius: 0px;
+    position: relative;
+    top: 0px;
+    background-color: #e1e1e1;
+    padding: 8px 25px;
+}
+
+.navbar-nav {
+    margin-left: auto;
+    flex-flow: row wrap;
+}
+
+.navbar-nav>li:not(:first-child) {
+    margin-left: 15px;
+}
+
+.navbar-nav > li > a {
+    font-size: 18px;
+}
+
+/*************** 메인페이지 스타일 설정 ****************/
+
+/*** 메인페이지 슬라이드 ***/
+
+.main_slide {
+    padding: 78px 0 76px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* 메인 컨텐츠 드롭다운 버튼 */
+.main_service .dropdown {
+    margin-bottom: 80px;
+    text-align: right;
+}
+
+.main_service .dropdown button {
+    border: 1px solid #363636;
+    border-radius: 0px;
+    background: #ffffff;
+    color: #616161;
+    padding: 0;
+}
+
+.main_service .dropdown button > span {
+    display: inline-block;
+}
+
+.main_service .dropdown button .btn_title {
+    padding: 12px 46px;
+}
+.main_service .dropdown button .btn_icon {
+    padding: 14px 15px;
+    background-color: #252525;
+    color: #ffffff;
+}
+
+
+.main_service .dropdown button:after{
+    display: none;
+}
+
+
+/*** 메인페이지 숍 박스 영역 ***/
+.main_service {
+    padding: 40px 0;
+}
+
+.main_service a {
+    text-decoration: none;
+    color: #646464;
+}
+
+.shop_card {
+    border: solid 1px #555555;
+}
+
+.shop_card .sc_location {
+    padding: 12px 20px;
+    background-color: #000;    
+}
+
+.shop_card .sc_location span {
+    color: #ffffff;
+    font-size: 16px;
+}
+
+
+/* 샵박스 이미지 영역 */
+.sc_imgarea {
+    height: 300px;
+    position: relative;
+    background: url('http://postfiles5.naver.net/MjAxNzA3MjJfMTk3/MDAxNTAwNjk2ODI4OTY4.5EZdiCTBMwiE9HxqE3BO4WFDSF0hfYxKN4TO2YDl-kkg.u98iPhKgxlEFFRL8qebdow4v9045QuLOqwgpxJ3Scgsg.JPEG.hyja0000/IMG_9471.jpg?type=w966') no-repeat center / cover;
+}
+
+.sc_imgarea .profile_img {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 99;
+    right: 42px;
+    bottom: -42px;
+    border: 1px solid #fff;
+    background: url('http://scontent-sea1-1.cdninstagram.com/t51.2885-15/s480x480/e35/13397472_1080416115385606_879028410_n.jpg?ig_cache_key=MTI3NjAzMDE5MzgwMTg1MTM4OQ%3D%3D.2') no-repeat center / cover;
+}
+
+/* 샵박스 정보 영역 */
+
+.sc_bottom {
+    padding: 35px 20px 25px;
+    transition: all .3s cubic-bezier(0.18, 0.89, 0.32, 1.28)
+}
+
+.sc_title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #252525;
+}
+
+.sc_des {
+    display: block;
+    margin: 5px 0 15px;
+    font-size: 14px;
+    color: #646464;
+}
+
+
+.sc_info .designer_name {
+    font-size: 14px;
+    float: left;
+    color: #646464;
+}
+
+.sc_info .designer_name span {
+    border: solid 1px #636363;
+    padding: 5px 20px;
+}
+
+.sc_info .stars {
+    color: #ffba00;
+    font-size: 14px;
+    float: right;
+}
+
+.sc_info .reply_num {
+    color: #646464;    
+}
+
+/* 샵카드 효과 */
+.shop_card:hover .sc_bottom {
+    background: #333;
+}
+
+.shop_card:hover .sc_title,
+.shop_card:hover .sc_des,
+.shop_card:hover .designer_name,
+.shop_card:hover .reply_num {
+    color: #ffffff;
+}
+
+
+/*************** 샵 상세페이지 스타일 설정 ****************/
+/* 기본 레이아웃 */
+.sales_detail {
+    padding-bottom: 40px;
+}
+
+/* 상단 타이틀 */
+.sales_detail .sect_header {
+    margin-bottom: 40px;
+}
+
+
+/* 기본 폰트 */
+.sales_detail .sect_title {
+    font-size: 40px;
+    font-weight: bold;
+    display: inline-block;
+    float: left;
+}
+
+
+/* 샵 내용 네비게이터 */
+
+.sales_navigator {
+    margin: 85px 0px;
+}
+
+.sales_navigator > li {
+    float: left;
+}
+
+.sales_navigator > li:not(:first-child) {
+    margin-left: 100px;
+}
+
+
+.sales_navigator > li > a{  
+    font-size: 24px;
+    color: #252525;
+}
+
+.sales_navigator > li > a > i {
+    background: #333;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 70%;
+    position: relative;
+    top: -3px;
+    margin-right: 10px;
+}
+
+/* 포트폴리오 설명 영역  */
+
+.hair_info {
+    border: 1px solid #252525;
+}
+
+.hair_info .img_wrap {
+    height: 660px;
+    overflow-y: hidden;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url('https://scontent-lax3-1.cdninstagram.com/t51.2885-15/e35/17077095_1297724726973891_791848985626148864_n.jpg');
+}
+
+.hair_info figcaption {
+    padding: 80px;
+    color: #000;
+}
+
+.hair_info .hi_title {
+    font-size: 48px;
+    color: #252525;
+    font-weight: bold;
+    margin-bottom: 35px;
+}
+
+
+.hair_info .hi_des {
+    font-size: 30px;
+    color: #252525;
+    font-weight: 500;
+}
+
+/* 시술 장소 */
+.shop_location {
+    margin-top: 70px;
+}
+
+.shop_location .location_title {
+    font-size: 40px;
+    margin: 0 0 40px;
+    font-weight: bold;
+}
+
+.shop_location .shop_address {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.shop_location .map {
+     margin-top: 25px;   
+}
+
+
+/* 포트폴리오 리스트 영역  */
+
+.pf_wrap {
+    margin-top: 70px;
+}
+
+.pf_wrap .sect_header a {
+    display: inline-block;
+    float: right;
+    font-size: 16px;
+    color: #252525;
+    margin-top: 20px;
+}
+
+.pf_list img {
+    max-width: 600px;
+}
+
+.pf_list li {
+    max-width: 950px;
+}
+
+.pf_list li + li {
+    margin-top: 70px;
+}
+
+/* 후기 영역 */
+
+.rp_wrap {
+    margin-top: 100px;
+}
+
+
+/* 후기 작성 폼 */
+.rp_frm {
+    margin-top: 20px;
+}
+
+.rp_frm textarea {
+    width: 100%;
+    border-radius: 0;
+    height: 250px;
+    resize: none;
+    border: 1px solid #252525;
+    padding: 25px;
+    font-size: 25px;
+    overflow-y: scroll;
+}
+
+.rp_frm .photo_add {
+    float: left;
+}
+
+.rp_frm .submit_btn {
+    float: right;
+}
+
+/* 대표 후기 */
+.rp_average {
+    margin: 50px 0;
+}
+
+.rp_average .eval_wrap .starrating_read_average,
+.rp_average .eval_wrap .rating_val {
+    float: left;
+}
+
+.rp_average .rating_val {
+    font-size: 22px;
+    margin-left: 6px;
+    color: #949494;
+    letter-spacing: -0.5px;
+    position: relative;
+    top: 4px;
+}
+
+.rp_average .eval_wrap {
+    padding: 30px;
+}
+
+.rp_average .eval_wrap .eval_cont {
+    float: right;
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+    position: relative;
+    top: -9px;
+}
+
+.rp_average .rp_photo_wrap {
+    width: calc(100% / 5);
+    float: left;
+}
+
+
+/* 후기 내용  */
+.rp_content {
+    padding: 50px 0;
+    border-top: 2px solid #ccc;
+}
+
+.rp_content .user_thumb {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #333;
+    position: relative;
+    top: -6px;
+    margin-right: 15px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    float: left;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+.rp_content .user_thumb i {
+    font-size: 25px;
+}
+
+.rp_content .user_name {
+    display: inline-block;
+    float: left;
+    font-size: 20px;
+}
+
+.rp_content header .date {
+    float: right;
+}
+
+.rp_content .eval_wrap .starrating_read_only,
+.rp_content .eval_wrap .eval_cont {
+    float: left;
+    display: inline-block;
+    margin: 15px 0;
+}
+
+.reply_more_btn {
+    background: none;
+    box-shadow: none;
+    border: none;
+    color: #a9a9a9;
+    font-size: 18px;
 }
