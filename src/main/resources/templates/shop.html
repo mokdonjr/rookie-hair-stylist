@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" 
+	layout:decorator="layouts/commonLayout">
+<head>
+	<meta charset="utf-8">
+  	<title>Shop</title>
+</head>
+<body>
+<div id="page-wrapper" layout:fragment="content">
+
+<h1>Shop Page</h1><br><br>
+
+	<div class="col-md-8">
+	
+		<img th:src="@{shop.imagePath}" alt="shop image"><br>
+		<h2 th:text="${shop.shopName}"></h2>
+		<p th:text="${shop.content}"></p>
+		<p th:text="${shop.location}"></p>
+		
+	</div>
+	
+	<div class="col-md-4">
+	
+		<a href="/chat"><span>채팅문의하기</span></a>
+		
+	</div>
+
+
+</div>
+</body>
+</html>

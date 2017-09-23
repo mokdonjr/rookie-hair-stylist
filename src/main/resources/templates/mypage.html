@@ -10,11 +10,28 @@
 
 <h1>Stylist My Page</h1><br><br>
 
-<h2>판매상품</h2><br><br>
-
-<h2>포트폴리오</h2><br><br>
-
+<div class="col-md-4">
+	<h2>판매상품</h2>
+	<a href="/shop/enroll" class="btn btn-default">판매상품등록</a><br>
+	<table>
+		<tr th:each="shop : ${shopList}">
+			<td><img th:src="@{shop.imagePath}"/ alt="shop image"></td>
+			<td><a th:href="@{'/shop/' + ${shop.shopCode}}"><span th:text="${shop.shopName}"></span></a>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="col-md-4">
+	<h2>포트폴리오</h2><br><br>
+</div>
+<div class="col-md-4">
 <h2>고객 후기</h2><br><br>
+</div>
+
+
+
+
+
 
 </div>
 </body>

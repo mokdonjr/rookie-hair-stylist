@@ -42,8 +42,8 @@ public class Postscript implements Serializable {
 	@JoinColumn(name="shop_code")
 	private Shop shop;
 	
-	@OneToOne
-	@JoinColumn(unique=true)
+	@ManyToOne
+	@JoinColumn(name="user_id")
 	private User user;
 
 }
