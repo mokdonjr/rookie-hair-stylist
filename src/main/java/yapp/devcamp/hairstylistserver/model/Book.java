@@ -55,15 +55,4 @@ public class Book implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="shop_code")
 	private Shop shop;
-	
-//	// product fk (2017-09-04 13:43 카톡회의)
-//	@OneToMany(mappedBy="book", cascade=CascadeType.ALL)
-//	@LazyCollection(LazyCollectionOption.FALSE)
-//	private List<Product> products = new ArrayList<>();
-//	
-//	// productOption fk (2017-09-04 13:43 카톡회의)
-//	@OneToMany(mappedBy="book", cascade=CascadeType.ALL)
-//	@LazyCollection(LazyCollectionOption.FALSE)
-//	private List<ProductOption> productOptions = new ArrayList<>();
-
 }
