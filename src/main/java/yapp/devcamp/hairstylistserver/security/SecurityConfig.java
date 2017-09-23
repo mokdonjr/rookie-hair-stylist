@@ -26,28 +26,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		CharacterEncodingFilter filter = new CharacterEncodingFilter();
 		http
 			.authorizeRequests()
-				.antMatchers("/", "/users/login**", "/webjars/**", "/css/**", "/js/**", "/images/**").permitAll()
-				.antMatchers("/stylist/enroll", "/stylist/apply").hasRole("USER")
-				.antMatchers("/stylist/**").hasRole("STYLIST") // stylist/mypage
-				.antMatchers("/admin/**").hasRole("ADMIN")
-				.antMatchers("/shop/**").hasAnyRole("USER", "STYLIST", "ADMIN")
-				.antMatchers("/chat/**").hasAnyRole("USER", "STYLIST", "ADMIN")
-				.antMatchers("/websocketHandler","/chat**", "/app**", "/topic**").hasAnyRole("USER", "STYLIST", "ADMIN")
-				//.antMatchers("/front/**").hasAnyRole("USER", "STYLIST", "ADMIN") // 성훈 테스트
-				.anyRequest().authenticated()
-				.and()
-			.formLogin().loginProcessingUrl("/users/login").failureUrl("/users/login?error=true")
-				.and()
-			.headers().frameOptions().disable()
-				.and()
-			.exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/users/login"))
-				.and()
-			.logout().logoutSuccessUrl("/").invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll()
-				.and()
-			.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-				.and()
-			.addFilterBefore(filter, CsrfFilter.class)
-			.addFilterBefore((Filter)context.getBean("sso.filter"), BasicAuthenticationFilter.class);
+				.anyRequest().permitAll();
+//				.antMatchers("/", "/users/login**", "/webjars/**", "/css/**", "/js/**", "/images/**").permitAll()
+//				.antMatchers("/stylist/enroll", "/stylist/apply").hasRole("USER")
+//				.antMatchers("/stylist/**").hasRole("STYLIST") // stylist/mypage
+//				.antMatchers("/admin/**").hasRole("ADMIN")
+//				.antMatchers("/shop/**").hasAnyRole("USER", "STYLIST", "ADMIN")
+//				.antMatchers("/chat/**").hasAnyRole("USER", "STYLIST", "ADMIN")
+//				.antMatchers("/websocketHandler","/chat**", "/app**", "/topic**").hasAnyRole("USER", "STYLIST", "ADMIN")
+//				//.antMatchers("/front/**").hasAnyRole("USER", "STYLIST", "ADMIN") // 성훈 테스트
+//				.anyRequest().authenticated()
+//				.and()
+//			.formLogin().loginProcessingUrl("/users/login").failureUrl("/users/login?error=true")
+//				.and()
+//			.headers().frameOptions().disable()
+//				.and()
+//			.exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/users/login"))
+//				.and()
+//			.logout().logoutSuccessUrl("/").invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll()
+//				.and()
+//			.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+//				.and()
+//			.addFilterBefore(filter, CsrfFilter.class)
+//			.addFilterBefore((Filter)context.getBean("sso.filter"), BasicAuthenticationFilter.class);
 //			.csrf().disable();// 보류
 	}
 

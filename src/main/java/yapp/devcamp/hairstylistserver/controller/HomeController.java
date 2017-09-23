@@ -43,6 +43,11 @@ public class HomeController {
 		return "sales_detail";
 	}
 	
+	@RequestMapping("/detail2")
+	public String detail2(){
+		return "designer_info";
+	}
+	
 	@RequestMapping("/secured")
 	public String secured(){
 		return "secured";
