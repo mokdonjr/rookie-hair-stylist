@@ -17,6 +17,12 @@ public class HomeController {
 		return "front";
 	}
 	
+	@RequestMapping("/detail")
+	public String detail(){
+		System.out.println("asdaasd");
+		return "sales_detail";
+	}
+	
 	@RequestMapping("/secured")
 	public String secured(){
 		return "secured";

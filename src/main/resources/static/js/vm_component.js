@@ -1,29 +1,5 @@
 //// 글로벌 컴포넌트 설정 ////
 
-// 페이지 상단 네비게이션 바 
-Vue.component('nav-header', {
-    template: `
-    <header role="banner">
-        <div class="navbar navbar-inverse justify-content-between">
-            <div class="container">
-                <h1 class="navbar-header">
-                    <a class="navbar-brand" href="./"><img src="./images/logo.png" alt="rookies" class="img-responsive center-block"></a>
-                </h1>
-                <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="text" placeholder="검색어를 입력해주세요" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">찾기</button>
-                </form>
-                <ul class="nav navbar-nav navbar-right" role="navigation">
-                    <li><a href="">회원가입/로그인</a></li>
-                    <li><a href="#">서비스 소개</a></li>
-                </ul>
-            </div>
-        </div>
-    </header>
-  `
-})
-
-
 // 메인 슬라이더
 Vue.component('main-slider', {
     template: `
