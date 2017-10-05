@@ -8,6 +8,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import yapp.devcamp.hairstylistserver.model.Shop;
 import yapp.devcamp.hairstylistserver.model.Stylist;
 import yapp.devcamp.hairstylistserver.model.User;
 
@@ -74,10 +75,48 @@ public class EmailService {
 		mailSender.send(mail);
 	}
 	
+	@Async
+	public void sendEditStylistEmail(Stylist stylist) throws MailException, InterruptedException{
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(stylist.getUser().getEmail());
+		mail.setFrom(rookiesEmailAddress);
+		mail.setSubject("[Rookies] 예비 헤어디자이너 플랫폼 Rookies 스타일리스트 정보 수정이 완료되었습니다.");
+		mail.setText(stylist.getStylistNickname() + " 스타일리스트 님 정보가 수정되었습니다.\n"
+				+ "고객에게 나의 정보가 어떻게 보여질까요? 확인해보세요 - " + getDesignerInfoUrl(stylist));
+		mailSender.send(mail);
+	}
+	
+	@Async
+	public void sendCreatedShopEmail(Shop shop) throws MailException, InterruptedException{
+		
+		Stylist stylist = shop.getStylist();
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(stylist.getUser().getEmail());
+		mail.setFrom(rookiesEmailAddress);
+		mail.setSubject("[Rookies] 예비 헤어디자이너 플랫폼 Rookies 샵을 성공적으로 오픈했습니다!");
+		mail.setText(stylist.getStylistNickname() + " 스타일리스트 님!\n"
+				+ shop.getShopName() + " 이 성공적으로 오픈했습니다!\n"
+				+ "고객에게 나의 샵이 어떻게 보여질까요? 확인해보세요 - " + getShopUrl(shop));
+		mailSender.send(mail);
+	}
+	
+	@Async
+	public void sendEditShopEmail(Shop shop) throws MailException, InterruptedException{
+
+		Stylist stylist = shop.getStylist();
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(stylist.getUser().getEmail());
+		mail.setFrom(rookiesEmailAddress);
+		mail.setSubject("[Rookies] 예비 헤어디자이너 플랫폼 Rookies 샵정보가 수정되었습니다.\n");
+		mail.setText(stylist.getStylistNickname() + " 스타일리스트 님!\n"
+				+ "고객에게 나의 샵이 어떻게 보여질까요? 확인해보세요 - " + getShopUrl(shop));
+		mailSender.send(mail);
+	}
+	
 	// admin do
 	private String grantStylistAuthorityUrl(User user, Stylist stylist){
 		StringBuilder url = new StringBuilder(currentContextPath);
-		url.append("/admin").append("/grant").append("/stylist").append("/" + user.getId());
+		url.append("/admin").append("/grant").append("/stylist/").append(user.getId());
 		return url.toString();
 	}
 	
@@ -85,6 +124,19 @@ public class EmailService {
 	private String getStylistAuthorityUrl(){
 		StringBuilder url = new StringBuilder(currentContextPath);
 		url.append("/stylist").append("/enroll");
+		return url.toString();
+	}
+	
+	private String getDesignerInfoUrl(Stylist stylist){
+		StringBuilder url = new StringBuilder(currentContextPath);
+		url.append("/stylist").append("/designerInfo/").append(stylist.getStylistCode());
+		return url.toString();
+	}
+	
+	// stylist enrolled shop do
+	private String getShopUrl(Shop shop){
+		StringBuilder url = new StringBuilder(currentContextPath);
+		url.append("/shop/").append(shop.getShopCode());
 		return url.toString();
 	}
 }

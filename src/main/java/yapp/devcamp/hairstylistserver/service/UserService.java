@@ -31,9 +31,7 @@ public class UserService {
 	}
 	
 	public void updateUser(int id, User user){
-		userRepository.save(user); // merge new user
-//		userRepository.saveAndFlush(user); // 위에 안되면 이걸로
-//		return findById(id);
+		userRepository.save(user);
 	}
 	
 	public void deleteUser(User user){

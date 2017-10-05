@@ -1,16 +1,12 @@
 // 페이지 로더
+$('html, body').css('overflow-y', 'hidden');
 $(function() {
-    
-    if (location.pathname != "/") {
-        $('body').css('overflow-y', 'scroll');
-    }
-    
     setTimeout(function() {
         $('#preLoader').fadeOut(1000, function() {
             $(this).remove();
-            $('body').css('overflow-y', 'scroll');
         });
-    }, 1000)
+    }, 1000);
+    $('html, body').css('overflow-y', 'scroll');
 });
 
 // anchor click smooth scrolling
@@ -20,7 +16,6 @@ $(function() {
         $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 500);
     });
 }());
-
 
 // totop 버튼
 $(window).scroll(function() {

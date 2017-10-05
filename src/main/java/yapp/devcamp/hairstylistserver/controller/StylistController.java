@@ -1,5 +1,7 @@
 package yapp.devcamp.hairstylistserver.controller;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,10 +20,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import yapp.devcamp.hairstylistserver.exception.StylistAlreadyEnrollException;
 import yapp.devcamp.hairstylistserver.model.Shop;
@@ -91,25 +95,32 @@ public class StylistController {
 			return "applyStylist";
 		}
 		
+		// set FK
 		User user = getCurrentUser();
+		stylist.setUser(user);
 		
 		// if already Stylist
 		if(stylistService.isAlreadyEnrollUser(user)){
 			throw new StylistAlreadyEnrollException(user.getId());
 		}
 		
-		// set FK
-		stylist.setUser(user);
+		// stylistCode >= 1
+		if(!stylistService.isExistAnyStylist()){
+			stylist.setStylistCode(1);
+		}
 		
-		// set Image
+		// store Image
 		MultipartFile licenseImage = stylist.getLicenseImage();
-		long imageSize = licenseImage.getSize();
-		logger.warn("uploading image size : " + imageSize + "Bytes(" + imageSize/1024 + "KBytes)");
-//		storageService.store(licenseImage); // StylistService에 직접 구현!!
-		
 		storageService.storeStylistEnrollImage(stylist.getStylistCode(), licenseImage);
 		
-		stylist.setLicenseImagePath(licenseImage.getOriginalFilename());
+		// set ImagePath
+		String imagePath = null;
+		try {
+			imagePath = getUploadedImage(stylist.getStylistCode());
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		stylist.setLicenseImagePath(imagePath);
 		stylistService.saveStylist(stylist);
 		
 		// send enroll email (심사대기)
@@ -123,6 +134,54 @@ public class StylistController {
 		
 		return "redirect:/stylist/enroll";
 	}
+	
+	@GetMapping("/edit")
+	public String editStylistPage(HttpSession session, Model model){
+		
+		Stylist stylist = (Stylist) session.getAttribute("stylist");
+		if(stylist == null){
+			model.addAttribute("errorMsg", "스타일리스트가 아닙니다.");
+			return "error";
+		}
+		
+		model.addAttribute("stylist", stylist);
+		
+		return "editStylist";
+	}
+	
+	@PostMapping("/edit")
+	public String editStylist(@Valid Stylist stylist, BindingResult result, HttpServletRequest request){
+		
+		if(result.hasErrors()){
+			logger.debug("From data has errors");
+			List<ObjectError> errors = result.getAllErrors();
+			for(ObjectError error : errors){
+				error.getDefaultMessage();
+			}
+			return "editStylist";
+		}
+		
+		stylistService.saveStylist(stylist);
+		
+		try{
+			emailService.sendEditStylistEmail(stylist);
+		} catch(MailException | InterruptedException e) {
+			logger.warn("Error sending email : " + e.getMessage());
+		}
+		
+		return "redirect:/stylist/mypage";
+	}
+	
+	public String getUploadedImage(int stylistCode) throws IOException {
+		
+		Path path = storageService.loadStylistEnrollImage(stylistCode);
+		
+		String url = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveStylistEnrollImage", stylistCode, path.getFileName().toString())
+						.build().toString();
+		logger.warn("getUploadedImage : " + url);
+		
+		return url;
+    }
 	
 	/**
 	 * current login user
@@ -151,7 +210,7 @@ public class StylistController {
 		
 		// after granted STYLIST authority by ADMIN
 		if(user.getAuthorityType().equals(AuthorityType.STYLIST.getRoleType())){
-			return "redirect:/stylist/mypage";
+			return "redirect:/stylist/designerInfo";
 		}
 		
 		// before granted STYLIST authority
@@ -166,15 +225,30 @@ public class StylistController {
 	 * @return : stylist shop, portfolio, postscript data 
 	 */
 	
-	@GetMapping("/designerInfo")
+	@GetMapping("/mypage")
 	public String mypage(HttpSession session, Model model){
-		//session에서 stylistID 가져오기
-		Stylist stylist = (Stylist) session.getAttribute("stylist");
-//		List<Shop> shopList = stylist.getShops();
+		
+		Stylist stylist;
+		if((stylist = (Stylist) session.getAttribute("stylist")) == null){
+			model.addAttribute("errorMsg", "권한이 없습니다");
+			return "error";
+		}
 		List<Shop> shopList = shopService.findByStylist(stylist);
 		
+		model.addAttribute("stylist", stylist);
 		model.addAttribute("shopList", shopList);
-		//스타일리스트 샵, 포트폴리오, 후기 정보들을 mypage로 전달
+		
+		return "designer_info";
+	}
+	
+	@GetMapping("/designerInfo/{stylistCode}")
+	public String showDesignerInfo(@PathVariable("stylistCode") int stylistCode, Model model){
+		
+		Stylist stylist = stylistService.findStylistByStylistCode(stylistCode);
+		List<Shop> shopList = shopService.findByStylist(stylist);
+		
+		model.addAttribute("stylist", stylist);
+		model.addAttribute("shopList", shopList);
 		
 		return "designer_info";
 	}

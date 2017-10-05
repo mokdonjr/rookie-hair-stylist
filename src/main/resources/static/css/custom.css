@@ -2,10 +2,6 @@
 
 /*** Basic Setting ***/
 
-body {
-    overflow-y: hidden;
-}
-
 .hidden {
     display: none;
 }
@@ -27,7 +23,7 @@ body {
     display: block;
 }
 
-/* Ìè∞Ìä∏ Ïä§ÌÉÄÏùº */
+/* ∆˘∆Æ Ω∫≈∏¿œ */
 
 h1, h2, h3, h4, h5, h6, div, p, th, td, dt, dd, span:not(.glyficon) {
     font-family: "noto sans KR", sans-serif;
@@ -40,7 +36,7 @@ a {
     text-decoration: none;
 }
 
-/* Î≤ÑÌäº Ïä§ÌÉÄÏùº */
+/* πˆ∆∞ Ω∫≈∏¿œ */
 /* totop btn */
 .to-top-btn {
     position: fixed;
@@ -55,7 +51,7 @@ a {
     width: 50px;
     height: 50px;
     overflow: hidden;
-	text-align: center;
+   text-align: center;
     opacity: 0.8;
     -webkit-transition: all 1s cubic-bezier(0, 0, 0.2, 1);
     -moz-transition: all 1s cubic-bezier(0, 0, 0.2, 1);
@@ -69,7 +65,7 @@ a {
   cursor: pointer;
 }
 .to-top-btn.showme {
- 	right: 50px;
+    right: 50px;
 }
 .to-top-btn i {
   font-size: 30px;
@@ -79,7 +75,7 @@ a {
 }
 
 
-/* Î†àÏù¥ÏïÑÏõÉ ÏÑ∏ÌåÖ */
+/* ∑π¿Ãæ∆øÙ ºº∆√ */
 
 .container {
     max-width: 1520px;
@@ -100,7 +96,7 @@ ul > li, ol > li {
 }
 
 
-/*** ÏÉÅÎã® ÎÑ§ÎπÑÍ≤åÏù¥ÏÖò Î∞î ***/
+/*** ªÛ¥‹ ≥◊∫Ò∞‘¿Ãº« πŸ ***/
 
 .navbar-inverse {
     padding: 10px 0;
@@ -153,16 +149,16 @@ ul > li, ol > li {
     font-size: 18px;
 }
 
-/*************** Î©îÏù∏ÌéòÏù¥ÏßÄ Ïä§ÌÉÄÏùº ÏÑ§Ï†ï ****************/
+/*************** ∏ﬁ¿Œ∆‰¿Ã¡ˆ Ω∫≈∏¿œ º≥¡§ ****************/
 
-/*** Î©îÏù∏ÌéòÏù¥ÏßÄ Ïä¨ÎùºÏù¥Îìú ***/
+/*** ∏ﬁ¿Œ∆‰¿Ã¡ˆ ΩΩ∂Û¿ÃµÂ ***/
 
 .main_slide {
     padding: 78px 0 76px;
     border-bottom: 1px solid #ddd;
 }
 
-/* Î©îÏù∏ Ïª®ÌÖêÏ∏† ÎìúÎ°≠Îã§Ïö¥ Î≤ÑÌäº */
+/* ∏ﬁ¿Œ ƒ¡≈Ÿ√˜ µÂ∑”¥ŸøÓ πˆ∆∞ */
 .main_service .dropdown {
     margin-bottom: 80px;
     text-align: right;
@@ -195,9 +191,9 @@ ul > li, ol > li {
 }
 
 
-/*** Î©îÏù∏ÌéòÏù¥ÏßÄ Ïàç Î∞ïÏä§ ÏòÅÏó≠ ***/
+/*** ∏ﬁ¿Œ∆‰¿Ã¡ˆ ºÛ π⁄Ω∫ øµø™ ***/
 .main_service {
-    padding: 40px 0;
+    padding: 40px 0 115px;
 }
 
 .main_service a {
@@ -220,7 +216,7 @@ ul > li, ol > li {
 }
 
 
-/* ÏÉµÎ∞ïÏä§ Ïù¥ÎØ∏ÏßÄ ÏòÅÏó≠ */
+/* º•π⁄Ω∫ ¿ÃπÃ¡ˆ øµø™ */
 .sc_imgarea {
     height: 300px;
     position: relative;
@@ -239,7 +235,7 @@ ul > li, ol > li {
     background: url('http://scontent-sea1-1.cdninstagram.com/t51.2885-15/s480x480/e35/13397472_1080416115385606_879028410_n.jpg?ig_cache_key=MTI3NjAzMDE5MzgwMTg1MTM4OQ%3D%3D.2') no-repeat center / cover;
 }
 
-/* ÏÉµÎ∞ïÏä§ Ï†ïÎ≥¥ ÏòÅÏó≠ */
+/* º•π⁄Ω∫ ¡§∫∏ øµø™ */
 
 .sc_bottom {
     padding: 35px 20px 25px;
@@ -281,7 +277,7 @@ ul > li, ol > li {
     color: #646464;    
 }
 
-/* ÏÉµÏπ¥Îìú Ìö®Í≥º */
+/* º•ƒ´µÂ »ø∞˙ */
 .shop_card:hover .sc_bottom {
     background: #333;
 }
@@ -294,19 +290,19 @@ ul > li, ol > li {
 }
 
 
-/*************** ÏÉµ ÏÉÅÏÑ∏ÌéòÏù¥ÏßÄ Ïä§ÌÉÄÏùº ÏÑ§Ï†ï ****************/
-/* Í∏∞Î≥∏ Î†àÏù¥ÏïÑÏõÉ */
+/*************** º• ªÛºº∆‰¿Ã¡ˆ Ω∫≈∏¿œ º≥¡§ ****************/
+/* ±‚∫ª ∑π¿Ãæ∆øÙ */
 .sales_detail {
-    padding-bottom: 40px;
+    padding-bottom: 115px;
 }
 
-/* ÏÉÅÎã® ÌÉÄÏù¥ÌãÄ */
+/* ªÛ¥‹ ≈∏¿Ã∆≤ */
 .sales_detail .sect_header {
     margin-bottom: 40px;
 }
 
 
-/* Í∏∞Î≥∏ Ìè∞Ìä∏ */
+/* ±‚∫ª ∆˘∆Æ */
 .sales_detail .sect_title {
     font-size: 40px;
     font-weight: bold;
@@ -315,7 +311,7 @@ ul > li, ol > li {
 }
 
 
-/* ÏÉµ ÎÇ¥Ïö© ÎÑ§ÎπÑÍ≤åÏù¥ÌÑ∞ */
+/* º• ≥ªøÎ ≥◊∫Ò∞‘¿Ã≈Õ */
 
 .sales_navigator {
     margin: 85px 0px;
@@ -350,7 +346,7 @@ ul > li, ol > li {
     margin-right: 10px;
 }
 
-/* Ìè¨Ìä∏Ìè¥Î¶¨Ïò§ ÏÑ§Î™Ö ÏòÅÏó≠  */
+/* ∆˜∆Æ∆˙∏Æø¿ º≥∏Ì øµø™  */
 
 .hair_info {
     border: 1px solid #252525;
@@ -384,7 +380,7 @@ ul > li, ol > li {
     font-weight: 500;
 }
 
-/* ÏãúÏà† Ïû•ÏÜå */
+/* Ω√º˙ ¿Âº“ */
 .shop_location {
     margin-top: 70px;
 }
@@ -405,7 +401,7 @@ ul > li, ol > li {
 }
 
 
-/* Ìè¨Ìä∏Ìè¥Î¶¨Ïò§ Î¶¨Ïä§Ìä∏ ÏòÅÏó≠  */
+/* ∆˜∆Æ∆˙∏Æø¿ ∏ÆΩ∫∆Æ øµø™  */
 
 .pf_wrap {
     margin-top: 70px;
@@ -431,14 +427,14 @@ ul > li, ol > li {
     margin-top: 70px;
 }
 
-/* ÌõÑÍ∏∞ ÏòÅÏó≠ */
+/* »ƒ±‚ øµø™ */
 
 .rp_wrap {
     margin-top: 100px;
 }
 
 
-/* ÌõÑÍ∏∞ ÏûëÏÑ± Ìèº */
+/* »ƒ±‚ ¿€º∫ ∆˚ */
 .rp_frm {
     margin-top: 20px;
 }
@@ -462,7 +458,7 @@ ul > li, ol > li {
     float: right;
 }
 
-/* ÎåÄÌëú ÌõÑÍ∏∞ */
+/* ¥Î«• »ƒ±‚ */
 .rp_average {
     margin: 50px 0;
 }
@@ -500,7 +496,7 @@ ul > li, ol > li {
 }
 
 
-/* ÌõÑÍ∏∞ ÎÇ¥Ïö©  */
+/* »ƒ±‚ ≥ªøÎ  */
 .rp_content {
     padding: 50px 0;
     border-top: 2px solid #ccc;
@@ -553,7 +549,7 @@ ul > li, ol > li {
     font-size: 18px;
 }
 
-/* ÏòàÏïΩÌïòÍ∏∞ Î∞ïÏä§ */
+/* øπæ‡«œ±‚ π⁄Ω∫ */
 .reserve_box {
     margin: 205px auto 0;
     padding: 70px 40px;
@@ -647,12 +643,147 @@ ul > li, ol > li {
 }
 
 
+/*************** µ¿⁄¿Ã≥  ¡§∫∏ ∆‰¿Ã¡ˆ Ω∫≈∏¿œ º≥¡§ ****************/
+
+.designer_info_box {
+    padding: 70px 0;
+}
+
+.designer_info_box .img_wrap {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url('https://scontent-sea1-1.cdninstagram.com/t51.2885-15/s480x480/e35/14374274_1798508830423172_5390521107117768704_n.jpg?ig_cache_key=MTM0NTM1MjQ4Mzg5OTMwNzY3NA%3D%3D.2');
+    margin: 45px auto 10px;
+}
+
+.designer_info_box .designer_name {
+    text-align: center;
+    font-size: 20px;
+    color: #8b8b8b;
+}
+
+.designer_info_box .info_des_box {
+    border: 1px solid #252525;
+    padding: 40px 35px;
+    max-width: 850px;
+    background: url('../img/scissor.png') no-repeat right 5% bottom/ 150px;
+}
+
+.designer_info_box .info_des_box .career {
+    font-size: 28px;
+    font-weight: bold;
+    color: #252525;
+}
+
+.designer_info_box .info_des_box .info_des {
+    margin-top: 15px;
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+.designer_info_box .info_des_box .info_location {
+    font-size: 20px;
+    color: #838383;
+}
+
+/* µ¿⁄¿Ã≥  ∆‰¿Ã¡ˆ ≈«∏ﬁ¥∫ ≥◊∫Ò∞‘¿Ã≈Õ */
+
+.designer_info_tabbox > li {
+    padding: 0px;
+}
+
+.designer_info_tabbox .nav-link {
+    font-size: 25px;
+    padding: 30px 0;
+    border-radius: 0px;
+    background: none;
+    border: 1px solid #252525;
+    margin-bottom: 120px;
+    color: #a8a8a8;
+}
+
+.designer_info_tabbox .nav-link.active {
+    background: #636363;
+    color: #ffffff;
+}
+
+.designer_content_box {
+    margin-bottom: 115px;
+}
 
 
+/* ≈«∏ﬁ¥∫ ªÛºº ∆‰¿Ã¡ˆ */
+
+#sales_tab .shop_add_btn {
+    display: inline-block;
+    margin-bottom: 35px;
+    color: #333;
+    font-size: 20px;
+    letter-spacing: -1px;
+    font-weight: bold;
+}
+
+#sales_tab .shop_add_btn i {
+    font-weight: bold;
+    margin-right: 7px;
+}
+
+#pf_tab .row > div[class*="col-"]:nth-child(3) ~ div[class*="col-"] img  {
+    margin-top: 25px;
+}
 
 
+/*************** º• µÓ∑œ ∆‰¿Ã¡ˆ Ω∫≈∏¿œ º≥¡§ ****************/
 
+.shop_create_frm form {
+    padding-bottom: 115px;
+}
 
+.shop_create_frm .frm_big_title {
+    font-size: 48px;
+    color: #000000;
+    font-weight: bold;
+    letter-spacing: -3px;
+    margin-top: 100px;
+}
+.shop_create_frm .frm_big_des {
+    font-size: 30px;
+    color: #676767;
+    letter-spacing: -0.05em;
+    margin-bottom: 70px;
+}
 
+.shop_create_frm .btn-group {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 50px;
+    padding-bottom: 30px;
+    border-bottom: 2px solid #000000;
+}
 
+.shop_create_frm .tmp_save_btn,
+.shop_create_frm .delete_btn {
+    font-size: 24px;
+    margin-left: 15px;
+    border: 2px solid #000000;
+    background-color: #fff;
+    padding: 15px 50px;
+}
 
+.shop_create_frm .frm_title {
+    font-size: 34px;
+    font-weight: bold;
+    letter-spacing: -0.05em;
+    margin-bottom: 25px;
+}
+
+.shop_create_frm .frm_des {
+    font-size: 22px;
+    color: #676767;
+    font-weight: 500;
+    letter-spacing: -.05em;
+}

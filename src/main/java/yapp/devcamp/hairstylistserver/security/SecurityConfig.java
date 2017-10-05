@@ -30,10 +30,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/stylist/enroll", "/stylist/apply").hasRole("USER")
 				.antMatchers("/stylist/**").hasRole("STYLIST") // stylist/mypage
 				.antMatchers("/admin/**").hasRole("ADMIN")
+				.antMatchers("/shop/enroll", "/shop/edit").hasRole("STYLIST")
 				.antMatchers("/shop/**").hasAnyRole("USER", "STYLIST", "ADMIN")
 				.antMatchers("/chat/**").hasAnyRole("USER", "STYLIST", "ADMIN")
 				.antMatchers("/websocketHandler","/chat**", "/app**", "/topic**").hasAnyRole("USER", "STYLIST", "ADMIN")
-				//.antMatchers("/front/**").hasAnyRole("USER", "STYLIST", "ADMIN") // 성훈 테스트
+				.antMatchers("/front/**").permitAll() // 테스트
 				.anyRequest().authenticated()
 				.and()
 			.formLogin().loginProcessingUrl("/users/login").failureUrl("/users/login?error=true")
@@ -48,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 			.addFilterBefore(filter, CsrfFilter.class)
 			.addFilterBefore((Filter)context.getBean("sso.filter"), BasicAuthenticationFilter.class);
-//			.csrf().disable();// 보류
+//			.csrf().disable();// don't disable csrf() as much as possible
 	}
 
 }

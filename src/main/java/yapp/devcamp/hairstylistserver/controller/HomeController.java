@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import yapp.devcamp.hairstylistserver.model.Shop;
 import yapp.devcamp.hairstylistserver.service.ShopService;
+import yapp.devcamp.hairstylistserver.service.StorageService;
 
 @Controller
 public class HomeController {
@@ -22,10 +23,8 @@ public class HomeController {
 	
 	@GetMapping("/")
 	public String home(Model model){
+		
 		List<Shop> shopList = shopService.selectAllShop();
-		for(Shop shop : shopList){
-			logger.warn("shop : " + shop.getShopCode() + " / " + shopList.size());
-		}
 		
 		model.addAttribute("shopList", shopList);
 		
@@ -34,13 +33,8 @@ public class HomeController {
 	
 	@RequestMapping("/front")
 	public String front(){
+		
 		return "front";
-	}
-	
-	@RequestMapping("/detail")
-	public String detail(){
-		System.out.println("asdaasd");
-		return "sales_detail";
 	}
 	
 	@RequestMapping("/secured")
