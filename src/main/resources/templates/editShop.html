@@ -53,6 +53,7 @@
                             <h4 class="frm_title">상품 등록</h4>
                             <p class="frm_des">헤어스타일링 상품을 등록해주세요.</p>
                             <div class="form-row">
+                            	<input type="hidden" th:field="*{products[0].productCode}">
                                 <div class="form-group col-md-6">
                                     <label for="productUpload">상품명</label>
                                     <p class="frm_small_des">(예시)</p>
@@ -74,12 +75,13 @@
                             <h4 class="frm_title">옵션 등록</h4>
                             <p class="frm_des">헤어스타일링 상품의 추가 옵션을 등록해주세요.</p>
                             <div class="form-row">
+                            	<input type="hidden" th:field="*{options[0].optionCode}">
                                 <div class="form-group col-md-6">
                                     <label for="optionUpload">옵션</label>
                                     <p class="frm_small_des">(예시)</p>
                                     <div class="example_frm">두피 마사지</div>
                                     <label th:if="${#fields.hasErrors('options[0].optionName')}" th:errors="*{options[0].optionName}" class="validation-message"></label>
-                                    <input id="optionUpload" th:field="*{options[0].optionName}" vclass="form-control" type="text" placeholder="옵션명을 입력해 주세요">
+                                    <input id="optionUpload" th:field="*{options[0].optionName}" class="form-control" type="text" placeholder="옵션명을 입력해 주세요">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="optionPriceUpload">옵션 가격</label>

@@ -213,6 +213,9 @@ public class ShopController {
 			}
 			return "editShop";
 		}
+		// set shop status
+		shop.setShopStatus(ShopStatus.OPENED);
+		
 		String shopName = shop.getShopName();
 		
 		// save images
@@ -229,25 +232,21 @@ public class ShopController {
 		shop.setImagePath(imagePath);
 		
 		// set products, options, stylist FKs
+		shop.setStylist(stylist);
+		
 		List<Product> products = shop.getProducts();
-//		for(Product product : products){
-//			product.setShop(shop);
-//		}
 		List<ProductOption> options = shop.getOptions();
-//		for(ProductOption option : options){
-//			option.setShop(shop);
-//		}
 		shopService.saveProduct(products, shop);
 		shopService.saveOption(options, shop);
 		
 		shopService.saveShop(shop);
 		
 		// null point issue encountered
-//		try{
-//			emailService.sendEditShopEmail(shop);	
-//		} catch(MailException | InterruptedException e) {
-//			logger.warn("Error sending email : " + e.getMessage());
-//		}
+		try{
+			emailService.sendEditShopEmail(shop);	
+		} catch(MailException | InterruptedException e) {
+			logger.warn("Error sending email : " + e.getMessage());
+		}
 		return "redirect:/stylist/mypage";
 	}
 	
