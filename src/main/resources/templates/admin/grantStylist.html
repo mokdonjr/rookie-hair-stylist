@@ -13,11 +13,8 @@
 	
 	<ul>
 		<li th:text="${user.email}"></li>
-		<li th:if="${user.profileImagePath != null}">
+		<li>
 			<img th:src="@{${user.profileImagePath}}" width="40px" height="40px">
-		</li>
-		<li th:if="${user.profileImagePath == null}">
-			<img src="/images/default_profile_image.png" width="40px" height="35px">
 		</li>
 		<li th:text="${user.username}"></li>
 	</ul>

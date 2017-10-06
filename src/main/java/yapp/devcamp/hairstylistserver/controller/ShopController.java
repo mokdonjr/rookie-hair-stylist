@@ -230,14 +230,15 @@ public class ShopController {
 		
 		// set products, options, stylist FKs
 		List<Product> products = shop.getProducts();
-		for(Product product : products){
-			product.setShop(shop);
-		}
-		// set options
+//		for(Product product : products){
+//			product.setShop(shop);
+//		}
 		List<ProductOption> options = shop.getOptions();
-		for(ProductOption option : options){
-			option.setShop(shop);
-		}
+//		for(ProductOption option : options){
+//			option.setShop(shop);
+//		}
+		shopService.saveProduct(products, shop);
+		shopService.saveOption(options, shop);
 		
 		shopService.saveShop(shop);
 		

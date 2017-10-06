@@ -85,7 +85,11 @@ public class UserAspect {
 		user.setPrincipal(String.valueOf(map.get("id")));
 		user.setUsername(propertyMap.get("nickname"));
 		user.setEmail(map.get("kaccount_email"));
-		user.setProfileImagePath(propertyMap.get("thumbnail_image"));
+		String profileImagePath = propertyMap.get("thumbnail_image");
+		if(profileImagePath == null){
+			profileImagePath = "/images/default_image_path_sized.png";
+		}
+		user.setProfileImagePath(profileImagePath);
 		user.setSocialType(SocialType.KAKAO);
 		user.setAuthorityType(AuthorityType.getAuthorityType(authority));
 		return user;

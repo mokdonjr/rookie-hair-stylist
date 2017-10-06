@@ -30,8 +30,7 @@
 					<li sec:authorize="hasRole('ROLE_STYLIST')">
 						<a href="/stylist/mypage">My Page</a>
 					<li>
-						<img th:if="${session.user.profileImagePath != null}" th:src="@{${session.user.profileImagePath}}" width="35px" height="35px">
-						<img th:if="${session.user.profileImagePath == null}" src="/images/default_profile_image.png" width="35px" height="35px">
+						<img th:src="@{${session.user.profileImagePath}}">
 						<a href="#" th:text="${session.user.username}"></a>
 					</li>
 					<li><a href="#">알림</a></li>

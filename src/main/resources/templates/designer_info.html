@@ -14,8 +14,7 @@
             <div class="designer_info_box">
                 <div class="row">
                     <div class="col-md-3">
-                        <div class="img_wrap" th:if="${stylist.user.profileImagePath != null}" th:style="'background:url(' + @{${stylist.user.profileImagePath}} + ');'"></div>
-                        <div class="img_wrap" th:if="${stylist.user.profileImagePath == null}" th:style="'background:url(' + @{/images/default_profile_image.png} + ');'"></div>
+                        <div class="img_wrap" th:style="'background:url(' + @{${stylist.user.profileImagePath}} + ');'"></div>
                         <p class="designer_name">Designer. <span th:text="${stylist.stylistNickname}"></span></p>
                     </div>
                     <div class="col-md-9">
@@ -58,9 +57,7 @@
 						            </div>
 						            <div class="sc_imgarea" th:style="'background:url(' + @{${shop.imagePath}} + ');'">
 						                
-						                <div th:if="${shop.stylist.user.profileImagePath != null}" class="profile_img" th:style="'background:url(' + @{${shop.stylist.user.profileImagePath}} + ');'">
-						                </div>
-						                <div th:if="${shop.stylist.user.profileImagePath == null}" class="profile_img" th:style="'background:url(' + @{/images/default_profile_image.png} + ');'">
+						                <div class="profile_img" th:style="'background:url(' + @{${shop.stylist.user.profileImagePath}} + ');'">
 						                </div>
 						            </div>
 						            <div class="sc_bottom">
