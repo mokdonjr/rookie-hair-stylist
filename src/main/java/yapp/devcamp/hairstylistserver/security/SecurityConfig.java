@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		CharacterEncodingFilter filter = new CharacterEncodingFilter();
 		http
 			.authorizeRequests()
-				.antMatchers("/", "/users/login**", "/webjars/**", "/css/**", "/js/**", "/images/**").permitAll()
+				.antMatchers("/", "/users/login**", "/webjars/**", "/css/**", "/js/**", "/images/**", "/files/**").permitAll()
 				.antMatchers("/stylist/enroll", "/stylist/apply").hasRole("USER")
 				.antMatchers("/stylist/**").hasRole("STYLIST") // stylist/mypage
 				.antMatchers("/admin/**").hasRole("ADMIN")
