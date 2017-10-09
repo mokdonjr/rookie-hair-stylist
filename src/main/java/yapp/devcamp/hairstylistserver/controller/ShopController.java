@@ -35,6 +35,7 @@ import yapp.devcamp.hairstylistserver.model.User;
 import yapp.devcamp.hairstylistserver.service.EmailService;
 import yapp.devcamp.hairstylistserver.service.ShopService;
 import yapp.devcamp.hairstylistserver.service.StorageService;
+import yapp.devcamp.hairstylistserver.utils.StringUtil;
 
 /**
  * Shop Management Controller
@@ -167,8 +168,10 @@ public class ShopController {
 		shopService.saveShop(shop);
 		
 		// send enroll email
+		String requestURL = request.getRequestURL().toString();
+		String baseURL = StringUtil.getBaseURL(requestURL);
 		try{
-			emailService.sendCreatedShopEmail(shop);	
+			emailService.sendCreatedShopEmail(baseURL, shop);	
 		} catch(MailException | InterruptedException e) {
 			logger.warn("Error sending email : " + e.getMessage());
 		}
@@ -241,9 +244,10 @@ public class ShopController {
 		
 		shopService.saveShop(shop);
 		
-		// null point issue encountered
+		String requestURL = request.getRequestURL().toString();
+		String baseURL = StringUtil.getBaseURL(requestURL);
 		try{
-			emailService.sendEditShopEmail(shop);	
+			emailService.sendEditShopEmail(baseURL, shop);	
 		} catch(MailException | InterruptedException e) {
 			logger.warn("Error sending email : " + e.getMessage());
 		}

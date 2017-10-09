@@ -1,10 +1,10 @@
 package yapp.devcamp.hairstylistserver.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import yapp.devcamp.hairstylistserver.exception.UserNotFoundException;
 import yapp.devcamp.hairstylistserver.model.Stylist;
 import yapp.devcamp.hairstylistserver.model.User;
 import yapp.devcamp.hairstylistserver.oauth.AuthorityType;
 import yapp.devcamp.hairstylistserver.service.EmailService;
 import yapp.devcamp.hairstylistserver.service.StylistService;
 import yapp.devcamp.hairstylistserver.service.UserService;
+import yapp.devcamp.hairstylistserver.utils.StringUtil;
 
 @Controller
 @RequestMapping("/admin")
@@ -35,7 +35,7 @@ public class AdminController {
 	private EmailService emailService;
 	
 	@GetMapping("/grant/stylist/{id}")
-	public String grantStylistAuthorityToUser(@PathVariable("id") int userId, Model model){
+	public String grantStylistAuthorityToUser(@PathVariable("id") int userId, HttpServletRequest request, Model model){
 		
 		// 1. 스타일리스트 신청(apply)한 사용자
 		User appliedUser = userService.findById(userId);
@@ -55,8 +55,10 @@ public class AdminController {
 		appliedUser.setAuthorityType(AuthorityType.STYLIST);
 		userService.saveUser(appliedUser); 
 		
+		String requestURL = request.getRequestURL().toString();
+		String baseURL = StringUtil.getBaseURL(requestURL);
 		try{
-			emailService.sendEnrollStylistEmail(appliedUser);
+			emailService.sendEnrollStylistEmail(baseURL, appliedUser);
 		} catch(MailException | InterruptedException e){
 			logger.warn("Error sending mail : " + e.getMessage());
 		}

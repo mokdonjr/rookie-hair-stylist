@@ -3,6 +3,7 @@ package yapp.devcamp.hairstylistserver.controller;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -37,6 +38,7 @@ import yapp.devcamp.hairstylistserver.service.ShopService;
 import yapp.devcamp.hairstylistserver.service.StorageService;
 import yapp.devcamp.hairstylistserver.service.StylistService;
 import yapp.devcamp.hairstylistserver.service.UserService;
+import yapp.devcamp.hairstylistserver.utils.StringUtil;
 
 /**
  * Stylist management Controller
@@ -64,6 +66,8 @@ public class StylistController {
 	
 	@Autowired
 	private ShopService shopService;
+	
+	private static AtomicInteger counter = new AtomicInteger(); // only use applyStylist method
 	
 	/**
 	 * enroll stylist
@@ -105,9 +109,8 @@ public class StylistController {
 		}
 		
 		// stylistCode >= 1
-		if(!stylistService.isExistAnyStylist()){
-			stylist.setStylistCode(1);
-		}
+		stylist.setStylistCode(counter.incrementAndGet());
+		logger.warn("applyStylist - setStylistCode(" + stylist.getStylistCode() + ")");
 		
 		// store Image
 		MultipartFile licenseImage = stylist.getLicenseImage();
@@ -124,9 +127,11 @@ public class StylistController {
 		stylistService.saveStylist(stylist);
 		
 		// send enroll email (심사대기)
+		String requestURL = request.getRequestURL().toString();
+		String baseURL = StringUtil.getBaseURL(requestURL);
 		try{
-			emailService.sendApplyStylistEmail(user); // User
-			emailService.sendAdminStylistEmail(user, stylist); // Administer (rookies.yapp@gmail.com)
+			emailService.sendApplyStylistEmail(baseURL, user); // User
+			emailService.sendAdminStylistEmail(baseURL, user, stylist); // Administer (rookies.yapp@gmail.com)
 			
 		} catch(MailException | InterruptedException e) {
 			logger.warn("Error sending email : " + e.getMessage());
@@ -163,8 +168,10 @@ public class StylistController {
 		
 		stylistService.saveStylist(stylist);
 		
+		String requestURL = request.getRequestURL().toString();
+		String baseURL = StringUtil.getBaseURL(requestURL);
 		try{
-			emailService.sendEditStylistEmail(stylist);
+			emailService.sendEditStylistEmail(baseURL, stylist);
 		} catch(MailException | InterruptedException e) {
 			logger.warn("Error sending email : " + e.getMessage());
 		}
