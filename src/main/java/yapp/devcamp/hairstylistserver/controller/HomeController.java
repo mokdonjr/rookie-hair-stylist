@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import yapp.devcamp.hairstylistserver.model.Shop;
 import yapp.devcamp.hairstylistserver.service.ShopService;
@@ -23,14 +24,12 @@ public class HomeController {
 	@GetMapping("/")
 	public String home(Model model){
 		List<Shop> shopList = shopService.selectAllShop();
-		for(Shop shop : shopList){
-			logger.warn("shop : " + shop.getShopCode() + " / " + shopList.size());
-		}
 		
 		model.addAttribute("shopList", shopList);
 		
 		return "index";
 	}
+	
 	
 	@RequestMapping("/front")
 	public String front(){

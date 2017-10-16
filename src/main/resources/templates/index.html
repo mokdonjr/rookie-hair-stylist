@@ -17,10 +17,34 @@
                 <div id="mainShopBox">
                     <shop-select-btn></shop-select-btn>
                     <div class="row">
-                        <div class="col-xl-3 col-sm-12">
-                            <a href="/detail2"><shop-box></shop-box></a>
+                        <div th:each="shop : ${shopList}" class="col-xl-3 col-sm-12">
+                            <a href="/detail2">
+                            	<div id="shopCard" class="shop_card">
+	          						  <div id="mcLocation" class="sc_location">
+	           						     <span th:text="${shop.stylist.location}">혜화/대학로</span>
+	          						  </div>
+	          						
+	          						  <div class="sc_imgarea" id="scImg">
+	                					
+	             					   	<div class="profile_img" id="profileImg">
+	                    
+	              					  	</div>
+	           						 </div>
+						            <div class="sc_bottom">
+						                <h4 class="sc_title" th:text="${shop.shopName}">남자 투블럭/염색/스타일링</h4>  
+						                <span class="sc_des">#투블럭 #남자 #머리 #염색 #컷</span>
+						                <div class="sc_info clearnext">
+						                    <span  th:text="${shop.stylist.user.nickname}" class="designer_name"><span>Designer</span"> 은진</span>
+						                    <span class="stars">
+						                        <i class="xi-star"></i><i class="xi-star"></i><i class="xi-star"></i><i class="xi-star"></i><i class="xi-star"></i>
+						                        <span class="reply_num">(15)</span>
+						                    </span>
+						                </div>
+						            </div>
+						        </div>
+                            </a>
                         </div>
-                        <div class="col-xl-3 col-sm-12">
+                        <!-- <div class="col-xl-3 col-sm-12">
                             <a href="/detail"><shop-box></shop-box></a>
                         </div>
                         <div class="col-xl-3 col-sm-12">
@@ -41,7 +65,7 @@
                         </div>
                         <div class="col-xl-3 col-sm-12">
                             <a href="/detail"><shop-box></shop-box></a>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -59,26 +83,15 @@
         <!--    <span class="preloader__letter" data-preloader="S">S</span>    -->
         <!--</div>-->
     </div>
-<<<<<<< HEAD
 	<br/>
-	<table>
-=======
-    </div>
 	<!-- merged backbranch -->
 	<!-- <table>
->>>>>>> a734ddbbd57539c0b4c3b4da09c9730a45fbdc41
 		<tr th:each="shop : ${shopList}">
 			<td><img th:src="@{shop.imagePath}"/ alt="shop image"></td>
 			<td><a th:href="@{'/shop/' + ${shop.shopCode}}"><span th:text="${shop.shopName}"></span></a>
 			</td>
 		</tr>
-<<<<<<< HEAD
-	</table>
-	
-</div>
-=======
 	</table>-->
->>>>>>> a734ddbbd57539c0b4c3b4da09c9730a45fbdc41
 </body>
 
 </html>
