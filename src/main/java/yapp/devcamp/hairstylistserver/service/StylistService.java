@@ -33,6 +33,10 @@ public class StylistService {
 		return stylistRepository.findByUser(user);
 	}
 	
+	public boolean isExistAnyStylist(){
+		return stylistRepository.findOne(1) != null;
+	}
+	
 	public boolean isAlreadyEnrollUser(User user){ // must be one to one User/Stylist
 		return stylistRepository.findByUser(user) != null;
 	}
@@ -43,8 +47,6 @@ public class StylistService {
 	
 	public void updateStylist(int stylist_code, Stylist stylist){
 		stylistRepository.save(stylist);
-//		stylistRepository.saveAndFlush(stylist);
-//		return stylistRepository.findByStylistCode(stylist_code);
 	}
 	
 	public void deleteStylist(Stylist stylist){

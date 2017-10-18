@@ -13,7 +13,7 @@ const mainShopBox = new Vue({
     el: '#mainShopBox',
     data: {
        
-    }
+    } 
 });
 
 // 디자이너 정보 페이지 샵 박스

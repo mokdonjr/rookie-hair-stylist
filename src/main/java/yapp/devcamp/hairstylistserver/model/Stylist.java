@@ -53,9 +53,7 @@ public class Stylist implements Serializable {
 //	@Pattern(regexp="/^[0-9]+$/", message="-(하이픈) 없이 숫자만 입력해주세요.")
 	// front 에서 칸 3개 나눠주면 phone number validation 다시
 	private String phone; // 전화번호
-	
-//	private boolean qualified = false; // stylist 자격증 인증 여부
-	
+		
 	@Column(name="license_image_path")
 	private String licenseImagePath;
 	

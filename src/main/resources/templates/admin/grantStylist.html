@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	layout:decorator="layouts/commonLayout">
+<head>
+	<meta charset="utf-8">
+	<title>Grant Stylist</title>
+</head>
+<body>
+<div id="page-wrapper" layout:fragment="content">
+
+	<h1>아래 고객에게 헤어디자이너 권한을 부여하였습니다.</h1>
+	
+	<ul>
+		<li th:text="${user.email}"></li>
+		<li>
+			<img th:src="@{${user.profileImagePath}}" width="40px" height="40px">
+		</li>
+		<li th:text="${user.username}"></li>
+	</ul>
+	
+	<ul>
+		<li th:text="${stylist.stylistRealname}"></li>
+		<li th:text="${stylist.stylistNickname}"></li>
+		<li th:text="${stylist.phone}"></li>
+		<li th:if="${stylist.licenseImagePath != null}">
+			<img th:src="@{${stylist.licenseImagePath}}" th:alt="${stylist.licenseImagePath}">
+		</li>
+		<li th:text="${stylist.location}"></li>
+		<li th:text="${stylist.detailLocation}"></li>
+	</ul>
+	
+</div>
+</body>
+</html>

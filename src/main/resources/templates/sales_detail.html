@@ -22,24 +22,29 @@
                         <section id="hairstyleInfo">
                             <h3 class="hidden">헤어스타일 설명</h3>
                             <figure class="hair_info">
-                                <div class="img_wrap"></div>
+<!--                                 <div class="img_wrap"></div> -->
+								<div class="img_wrap" th:style="'background-image:url(' + @{${shop.imagePath}} + ');'"></div>
                                 <figcaption>
-                                    <h4 class="hi_title">여자 탈색/염색 스타일링</h4>
-                                    <p class="hi_des">여자머리탈색 및 염색 스타일링 입니다. 헤어스타일 설명입니다. <br>여자머리탈색 및 염색 스타일링 입니다. 헤어스타일 설명입니다.</p>
+                                    <h4 th:text="${shop.shopName}" class="hi_title">여자 탈색/염색 스타일링</h4>
+                                    <p th:text="${shop.content}" class="hi_des">여자머리탈색 및 염색 스타일링 입니다. 헤어스타일 설명입니다. <br>여자머리탈색 및 염색 스타일링 입니다. 헤어스타일 설명입니다.</p>
                                 </figcaption>
                             </figure>
                             <div class="shop_location">
                                 <h4 class="location_title sect_sub_title">장소</h4>
-                                <p class="shop_address">서울특별시 성북구 삼각산동 서경로 124</p>
+                                <p th:text="${shop.location}" class="shop_address">서울특별시 성북구 삼각산동 서경로 124</p>
                                 <div class="map">
-                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3160.438308328565!2d127.01136071531297!3d37.615376479788786!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357cbcf42ece7fe5%3A0xa2ceb566286582d0!2z7ISc7Jq47Yq567OE7IucIOyEseu2geq1rCDshJzqsr3roZwgMTI0!5e0!3m2!1sko!2skr!4v1506107684163"
+                                    <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3160.438308328565!2d127.01136071531297!3d37.615376479788786!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357cbcf42ece7fe5%3A0xa2ceb566286582d0!2z7ISc7Jq47Yq567OE7IucIOyEseu2geq1rCDshJzqsr3roZwgMTI0!5e0!3m2!1sko!2skr!4v1506107684163"
+                                        width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe> -->
+                                        <iframe th:src="@{'https://www.google.com/maps/embed/v1/place?key=AIzaSyA1DjlvhvauQ8FH43J9YiNx0Jh_rVSzT4M&q=' + ${shop.location}}"
                                         width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
                                 </div>
                         </section>
                         <section id="portFolio" class="pf_wrap">
                             <header class="sect_header clearnext">
                                 <h3 class="sect_title">포트폴리오</h3>
-                                <a href="./designer_info.html">포트폴리오 더보기</a>
+<!--                                 <a href="./designer_info.html">포트폴리오 더보기</a> -->
+								<a th:href="@{'/stylist/designerInfo/' + ${stylist.stylistCode}}">포트폴리오 더보기&nbsp;&nbsp;</a>
+								<a th:href="@{'/shop/chat/' + ${shop.shopCode}}"><span>채팅문의하기&nbsp;&nbsp;</span></a>
                             </header>
                             <ul class="pf_list">
                                 <li><img src="https://i.ytimg.com/vi/fhl64wesOo0/maxresdefault.jpg" alt="" class="center-block img-responsive"></li>
@@ -184,6 +189,7 @@
                                     </div>
                                     <button type="submit" class="btn btn-default reserve_btn">예약하기</button>
                                 </form>
+                                
                             </aside>
                         </div>
 
@@ -193,16 +199,6 @@
         </div>
         <div class="to-top-btn"><i class="xi-caret-up"></i></div>
         </div>
-        <!-- Merged backbranch -->
-        <!-- <div class="col-md-8">
-			<img th:src="@{shop.imagePath}" alt="shop image"><br>
-			<h2 th:text="${shop.shopName}"></h2>
-			<p th:text="${shop.content}"></p>
-			<p th:text="${shop.location}"></p>
-		</div>
-		<div class="col-md-4">
-			<a th:href="@{'/shop/chat/' + ${shop.shopCode}}"><span>채팅문의하기</span></a>
-		</div> -->
 </body>
 
 </html>

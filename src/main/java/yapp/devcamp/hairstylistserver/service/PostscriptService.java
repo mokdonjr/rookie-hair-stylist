@@ -45,7 +45,6 @@ public class PostscriptService {
 		
 		if(files != null && resultShop != null && resultShop.getStylist() != null){	
 			for(MultipartFile file : files){
-				System.out.println(file.getOriginalFilename());
 				if(!file.getOriginalFilename().equals("")){
 					storageService.storePostscriptImage(resultShop.getStylist().getStylistCode(), resultShop.getShopName(), postscript.getUser().getId(), file);
 				}

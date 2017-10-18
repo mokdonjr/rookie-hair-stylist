@@ -2,6 +2,8 @@ package yapp.devcamp.hairstylistserver.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +24,11 @@ public class HomeController {
 	private ShopService shopService;
 	
 	@GetMapping("/")
-	public String home(Model model){
+	public String home(Model model, HttpServletRequest request){
+		String requestURL = request.getRequestURL().toString();
 		List<Shop> shopList = shopService.selectAllShop();
 		
+		logger.warn("Rookies Request URL : " + requestURL);
 		model.addAttribute("shopList", shopList);
 		
 		return "index";
@@ -33,6 +37,7 @@ public class HomeController {
 	
 	@RequestMapping("/front")
 	public String front(){
+		
 		return "front";
 	}
 	

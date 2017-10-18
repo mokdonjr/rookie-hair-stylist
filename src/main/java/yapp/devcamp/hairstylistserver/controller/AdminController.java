@@ -1,29 +1,29 @@
 package yapp.devcamp.hairstylistserver.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import yapp.devcamp.hairstylistserver.exception.UserNotFoundException;
 import yapp.devcamp.hairstylistserver.model.Stylist;
 import yapp.devcamp.hairstylistserver.model.User;
 import yapp.devcamp.hairstylistserver.oauth.AuthorityType;
 import yapp.devcamp.hairstylistserver.service.EmailService;
 import yapp.devcamp.hairstylistserver.service.StylistService;
 import yapp.devcamp.hairstylistserver.service.UserService;
+import yapp.devcamp.hairstylistserver.utils.StringUtil;
 
-@RestController
+@Controller
 @RequestMapping("/admin")
-public class AdminRestController {
-	
-	Logger logger = LoggerFactory.getLogger(AdminRestController.class);
+public class AdminController {
+	Logger logger = LoggerFactory.getLogger(AdminController.class);
 	
 	@Autowired
 	private UserService userService;
@@ -35,27 +35,40 @@ public class AdminRestController {
 	private EmailService emailService;
 	
 	@GetMapping("/grant/stylist/{id}")
-	public ResponseEntity<Stylist> grantStylistAuthorityToUser(@PathVariable("id") int userId){
+	public String grantStylistAuthorityToUser(@PathVariable("id") int userId, HttpServletRequest request, Model model){
 		
 		// 1. 스타일리스트 신청(apply)한 사용자
 		User appliedUser = userService.findById(userId);
 		if(appliedUser == null){
-			throw new UserNotFoundException(userId);
+//			throw new UserNotFoundException(userId);
+			model.addAttribute("errorMsg", "존재하지 않는 유저입니다.");
+			return "error";
 		}
 		
-		// 2. update authority USER to STYLIST
+		// 2. already granted STYLIST
+		if(appliedUser.getAuthorityType().isEquals(AuthorityType.STYLIST.getRoleType())){
+			model.addAttribute("errorMsg", "이미 스타일리스트 입니다.");
+			return "error";
+		}
+		
+		// 3. update authority USER to STYLIST
 		appliedUser.setAuthorityType(AuthorityType.STYLIST);
 		userService.saveUser(appliedUser); 
 		
+		String requestURL = request.getRequestURL().toString();
+		String baseURL = StringUtil.getBaseURL(requestURL);
 		try{
-			emailService.sendEnrollStylistEmail(appliedUser);
+			emailService.sendEnrollStylistEmail(baseURL, appliedUser);
 		} catch(MailException | InterruptedException e){
 			logger.warn("Error sending mail : " + e.getMessage());
 		}
 		
 		Stylist startingStylist = stylistService.findStylistByUser(appliedUser);
 		
-		return new ResponseEntity<Stylist>(startingStylist, HttpStatus.OK);
+		model.addAttribute("user", appliedUser);
+		model.addAttribute("stylist", startingStylist);
+//		return new ResponseEntity<Stylist>(startingStylist, HttpStatus.OK);
+		return "admin/grantStylist";
 	}
 
 }
