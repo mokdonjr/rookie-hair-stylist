@@ -71,8 +71,13 @@ public class Shop implements Serializable {
 	private String shopDay;
 	
 	@Transient
-//	private File[] files;
 	private MultipartFile shopImage;
+	
+	@Transient
+	private MultipartFile[] portfolio;
+	
+	@Transient
+	private String[] portfolioImg;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="stylist_code")

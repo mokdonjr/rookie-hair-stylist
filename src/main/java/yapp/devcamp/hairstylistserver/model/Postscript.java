@@ -42,8 +42,8 @@ public class Postscript implements Serializable {
 	@Column(name="image_path")
 	private String imagePath;
 	
-	@Transient
-	private File[] resultFiles;
+//	@Transient
+//	private File[] resultFiles;
 	
 	@ManyToOne
 	@JoinColumn(name="shop_code")

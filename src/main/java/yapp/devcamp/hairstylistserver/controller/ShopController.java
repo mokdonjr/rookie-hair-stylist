@@ -1,5 +1,6 @@
 package yapp.devcamp.hairstylistserver.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
@@ -11,14 +12,12 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,15 +26,12 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 
 import yapp.devcamp.hairstylistserver.enums.ShopStatus;
 import yapp.devcamp.hairstylistserver.model.Book;
-import yapp.devcamp.hairstylistserver.model.Product;
-import yapp.devcamp.hairstylistserver.model.ProductOption;
 import yapp.devcamp.hairstylistserver.model.Shop;
 import yapp.devcamp.hairstylistserver.model.Stylist;
 import yapp.devcamp.hairstylistserver.model.User;
 import yapp.devcamp.hairstylistserver.service.EmailService;
 import yapp.devcamp.hairstylistserver.service.ShopService;
 import yapp.devcamp.hairstylistserver.service.StorageService;
-import yapp.devcamp.hairstylistserver.utils.StringUtil;
 
 /**
  * Shop Management Controller
@@ -70,9 +66,23 @@ public class ShopController {
 	 * select Shop by shopCode
 	 */
 	@RequestMapping(value="/{shopCode}", method=RequestMethod.GET)
-	public ModelAndView selectByShopCode(@PathVariable("shopCode") int shopCode){
+	public ModelAndView selectByShopCode(@PathVariable("shopCode") int shopCode) throws IOException{
 		ModelAndView mv = new ModelAndView();
 		Shop shop = shopService.selectShopByShopCode(shopCode);
+		String url = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", shop.getStylist().getStylistCode(), shop.getShopName(), "thumbnail.jpg")
+				.build().toString();
+		shop.setImagePath(url);
+		
+		String portfolioPath = getUploadedImage(shop.getStylist().getStylistCode(), shop.getShopName());
+		File file = new File(portfolioPath);
+		File[] fileList = file.listFiles();
+		for(File f : fileList){
+			String filename = f.getName();
+			String portfolioUrl = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", shop.getStylist().getStylistCode(), shop.getShopName(), "thumbnail.jpg")
+					.build().toString();
+			
+		}
+		
 		Stylist stylist = shop.getStylist();
 		//수정 페이지 정해지면 수정할 것
 		mv.setViewName("sales_detail");
@@ -81,41 +91,14 @@ public class ShopController {
 		return mv;
 	}
 	
-	/**
-	 * Shop selectAll
-	 */
-	@RequestMapping("/home")
-	public ModelAndView selectAll(){
-		List<Shop> shopList = shopService.selectAllShop();
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("index");
-		mv.addObject("shopList", shopList);
-		return mv;
-	}
 	
 	/**
 	 * Shop enroll method
 	 */
-//	@RequestMapping(value="/enroll", method=RequestMethod.POST)
-//	public String enroll(Shop shopModel
-//			,MultipartFile[] thumbnail,Product product,ProductOption productOption) throws IOException{
-//		if(shopModel != null){
-//			shopService.saveShop(shopModel,thumbnail);
-//			Shop resultShop = shopService.selectShopByShopName(shopModel.getShopName());
-//			if(product != null)
-//				shopService.saveProduct(product.getProductList(), resultShop);
-//			if(productOption != null)
-//				shopService.saveOption(productOption.getOptionList(), resultShop);
-//		}
-//		
-//		return "redirect:/stylist/designerInfo";
-//	}
-	
-	@PostMapping(value="/enroll")
-	public String enrollShop(@Valid Shop shop, BindingResult result, HttpServletRequest request, Model model) {
+	@RequestMapping(value="/enroll", method=RequestMethod.POST)
+	public String enroll(@Valid Shop shop
+			,BindingResult result,HttpServletRequest request) throws Exception{
 		
-		Stylist stylist = (Stylist) request.getSession().getAttribute("stylist");
-		int stylistCode = stylist.getStylistCode();
 		
 		if(result.hasErrors()){
 			logger.debug("From data has errors");
@@ -126,58 +109,139 @@ public class ShopController {
 			return "shop_create";
 		}
 		
-		// if shop already exists
-		String shopName = shop.getShopName();
-		if(shopService.isAlreadyEnrollShopName(shopName)){
-			model.addAttribute("alreadyExistShop", shopName);
-			return "shop_create";
-		}
+		Stylist stylist = (Stylist) request.getSession().getAttribute("stylist");
 		
-		// shopCode >= 1
-		if(!shopService.isExistAnyShop()){
-			shop.setShopCode(1);
-		}
-		
-		// save images
-		MultipartFile shopImage = shop.getShopImage();
-		storageService.storeShopImage(stylistCode, shopName, shopImage);
-		
-		// save imagepaths
-		String imagePath = null;
-		try {
-			imagePath = getUploadedImage(stylistCode, shopName);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		shop.setImagePath(imagePath);
+		if(shop != null){
+			MultipartFile shopImage = shop.getShopImage();
+			storageService.storeShopImage(stylist.getStylistCode(), shop.getShopName(), shopImage);
+			
+			//포트폴리오 이미지 업로드
+			MultipartFile[] pImages = shop.getPortfolio();
+			for(MultipartFile pImage : pImages){
+				storageService.storePortfolioImage(stylist.getStylistCode(), shop.getShopName(), pImage);
+			}
+			
+			// save imagepaths
+			String imagePath = null;
+			try {
+				imagePath = getUploadedImage(stylist.getStylistCode(), shop.getShopName());
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			shop.setImagePath(imagePath);
 
-		// set products, options, stylist FKs
-		List<Product> products = shop.getProducts();
-		for(Product product : products){
-			product.setShop(shop);
+			shop.setStylist(stylist);
+			shop.setShopStatus(ShopStatus.OPENED);
+			shopService.saveShop(shop);
+			
+			Shop resultShop = shopService.selectShopByShopName(shop.getShopName());
+			if(shop.getProducts() != null){
+				shopService.saveProduct(shop.getProducts(), resultShop);
+			}
+			if(shop.getOptions() != null)
+				shopService.saveOption(shop.getOptions(), resultShop);
 		}
-		// set options
-		List<ProductOption> options = shop.getOptions();
-		for(ProductOption option : options){
-			option.setShop(shop);
+		else {
+			throw new NullPointerException("shop이 null입니다.");
 		}
-		shop.setStylist(stylist);
 		
-		// set shopStatus
-		shop.setShopStatus(ShopStatus.OPENED); // 신고 또는 영업종료시 CLOSED
-		shopService.saveShop(shop);
-		
-		// send enroll email
-		String requestURL = request.getRequestURL().toString();
-		String baseURL = StringUtil.getBaseURL(requestURL);
-		try{
-			emailService.sendCreatedShopEmail(baseURL, shop);	
-		} catch(MailException | InterruptedException e) {
-			logger.warn("Error sending email : " + e.getMessage());
-		}
+//		// send enroll email
+//		String requestURL = request.getRequestURL().toString();
+//		String baseURL = StringUtil.getBaseURL(requestURL);
+//		try{
+//			emailService.sendCreatedShopEmail(baseURL, shop);	
+//		} catch(MailException | InterruptedException e) {
+//			logger.warn("Error sending email : " + e.getMessage());
+//		}
 		
 		return "redirect:/stylist/mypage";
 	}
+	
+//	public String getUploadedImage(int stylistCode, String shopName) throws IOException {
+//		logger.warn("getUploadedImage 메서드 진입");
+//		
+//		Path path = storageService.loadShopImage(stylistCode, shopName);
+//		String url = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", stylistCode, shopName, path.getFileName().toString())
+//						.build().toString();
+//		logger.warn("getUploadedImage : " + url);
+//				
+//		return url;
+//    }
+	public String getUploadedImage(int stylistCode, String shopName) throws IOException {
+		logger.warn("getUploadedImage 메서드 진입");
+		
+		
+		Path path = storageService.shopLoad(stylistCode, shopName);
+		return path.toString();
+    }
+	
+//	@PostMapping(value="/enroll")
+//	public String enrollShop(@Valid Shop shop, BindingResult result, HttpServletRequest request, Model model) {
+//		
+//		Stylist stylist = (Stylist) request.getSession().getAttribute("stylist");
+//		int stylistCode = stylist.getStylistCode();
+//		
+//		if(result.hasErrors()){
+//			logger.debug("From data has errors");
+//			List<ObjectError> errors = result.getAllErrors();
+//			for(ObjectError error : errors){
+//				error.getDefaultMessage();
+//			}
+//			return "shop_create";
+//		}
+//		
+//		// if shop already exists
+//		String shopName = shop.getShopName();
+//		if(shopService.isAlreadyEnrollShopName(shopName)){
+//			model.addAttribute("alreadyExistShop", shopName);
+//			return "shop_create";
+//		}
+//		
+//		// shopCode >= 1
+//		if(!shopService.isExistAnyShop()){
+//			shop.setShopCode(1);
+//		}
+//		
+//		// save images
+//		MultipartFile shopImage = shop.getShopImage();
+//		storageService.storeShopImage(stylistCode, shopName, shopImage);
+//		
+//		// save imagepaths
+//		String imagePath = null;
+//		try {
+//			imagePath = getUploadedImage(stylistCode, shopName);
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//		}
+//		shop.setImagePath(imagePath);
+//
+//		// set products, options, stylist FKs
+//		List<Product> products = shop.getProducts();
+//		for(Product product : products){
+//			product.setShop(shop);
+//		}
+//		// set options
+//		List<ProductOption> options = shop.getOptions();
+//		for(ProductOption option : options){
+//			option.setShop(shop);
+//		}
+//		shop.setStylist(stylist);
+//		
+//		// set shopStatus
+//		shop.setShopStatus(ShopStatus.OPENED); // 신고 또는 영업종료시 CLOSED
+//		shopService.saveShop(shop);
+//		
+//		// send enroll email
+//		String requestURL = request.getRequestURL().toString();
+//		String baseURL = StringUtil.getBaseURL(requestURL);
+//		try{
+//			emailService.sendCreatedShopEmail(baseURL, shop);	
+//		} catch(MailException | InterruptedException e) {
+//			logger.warn("Error sending email : " + e.getMessage());
+//		}
+//		
+//		return "redirect:/stylist/mypage";
+//	}
 	
 	@GetMapping("/enroll")
 	public String enrollShopPage(Model model, HttpSession session){
@@ -202,69 +266,59 @@ public class ShopController {
 		return "editShop";
 	}
 	
-	@PostMapping("/edit")
-	public String editShop(@Valid Shop shop, BindingResult result, HttpServletRequest request){
-		
-		Stylist stylist = (Stylist) request.getSession().getAttribute("stylist");
-		int stylistCode = stylist.getStylistCode();
-		
-		if(result.hasErrors()){
-			logger.debug("From data has errors");
-			List<ObjectError> errors = result.getAllErrors();
-			for(ObjectError error : errors){
-				error.getDefaultMessage();
-			}
-			return "editShop";
-		}
-		// set shop status
-		shop.setShopStatus(ShopStatus.OPENED);
-		
-		String shopName = shop.getShopName();
-		
-		// save images
-		MultipartFile shopImage = shop.getShopImage();
-		storageService.storeShopImage(stylistCode, shopName, shopImage);
-		
-		// save imagepaths
-		String imagePath = null;
-		try {
-			imagePath = getUploadedImage(stylistCode, shopName);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		shop.setImagePath(imagePath);
-		
-		// set products, options, stylist FKs
-		shop.setStylist(stylist);
-		
-		List<Product> products = shop.getProducts();
-		List<ProductOption> options = shop.getOptions();
-		shopService.saveProduct(products, shop);
-		shopService.saveOption(options, shop);
-		
-		shopService.saveShop(shop);
-		
-		String requestURL = request.getRequestURL().toString();
-		String baseURL = StringUtil.getBaseURL(requestURL);
-		try{
-			emailService.sendEditShopEmail(baseURL, shop);	
-		} catch(MailException | InterruptedException e) {
-			logger.warn("Error sending email : " + e.getMessage());
-		}
-		return "redirect:/stylist/mypage";
-	}
+//	@PostMapping("/edit")
+//	public String editShop(@Valid Shop shop, BindingResult result, HttpServletRequest request){
+//		
+//		Stylist stylist = (Stylist) request.getSession().getAttribute("stylist");
+//		int stylistCode = stylist.getStylistCode();
+//		
+//		if(result.hasErrors()){
+//			logger.debug("From data has errors");
+//			List<ObjectError> errors = result.getAllErrors();
+//			for(ObjectError error : errors){
+//				error.getDefaultMessage();
+//			}
+//			return "editShop";
+//		}
+//		// set shop status
+//		shop.setShopStatus(ShopStatus.OPENED);
+//		
+//		String shopName = shop.getShopName();
+//		
+//		// save images
+//		MultipartFile shopImage = shop.getShopImage();
+//		storageService.storeShopImage(stylistCode, shopName, shopImage);
+//		
+//		// save imagepaths
+//		String imagePath = null;
+//		try {
+//			imagePath = getUploadedImage(stylistCode, shopName);
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//		}
+//		shop.setImagePath(imagePath);
+//		
+//		// set products, options, stylist FKs
+//		shop.setStylist(stylist);
+//		
+//		List<Product> products = shop.getProducts();
+//		List<ProductOption> options = shop.getOptions();
+//		shopService.saveProduct(products, shop);
+//		shopService.saveOption(options, shop);
+//		
+//		shopService.saveShop(shop);
+//		
+//		String requestURL = request.getRequestURL().toString();
+//		String baseURL = StringUtil.getBaseURL(requestURL);
+//		try{
+//			emailService.sendEditShopEmail(baseURL, shop);	
+//		} catch(MailException | InterruptedException e) {
+//			logger.warn("Error sending email : " + e.getMessage());
+//		}
+//		return "redirect:/stylist/mypage";
+//	}
 	
-	public String getUploadedImage(int stylistCode, String shopName) throws IOException {
-		logger.warn("getUploadedImage 메서드 진입");
-		
-		Path path = storageService.loadShopImage(stylistCode, shopName);
-		
-		String url = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", stylistCode, shopName, path.getFileName().toString())
-						.build().toString();
-		logger.warn("getUploadedImage : " + url);
-		
-		return url;
-    }
+	
 
 	@GetMapping("/chat/{shopCode}")
 	public String chat(@PathVariable int shopCode, Model model){

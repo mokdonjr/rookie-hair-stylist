@@ -4,13 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.ServletContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import yapp.devcamp.hairstylistserver.controller.StorageRestController;
 import yapp.devcamp.hairstylistserver.dao.BookRepository;
 import yapp.devcamp.hairstylistserver.dao.ProductOptionRepository;
 import yapp.devcamp.hairstylistserver.dao.ProductRepository;
@@ -40,52 +38,43 @@ public class ShopService {
 	private StorageService storageService;
 	
 	//shop 등록
-//	public void saveShop(Shop shopModel,MultipartFile[] thumbnail) throws IOException{
-//		int stylistCode = 0;
-//		String shopName = shopModel.getShopName();
-//		
-//		if(shopModel != null){
-//			Stylist stylist = new Stylist();
-//			//세션에서 받아와서 저장할 것
-//			stylist.setStylistCode(1);
-//			stylistCode = stylist.getStylistCode();
-//			shopModel.setStylist(stylist);
-//			shopModel.setShopStatus("true");
-//		}
-//		int shopCode = shopModel.getShopCode();
-//		//shopname 수정
-//		if(shopCode !=0){
-//			Shop resultShop = selectShopByShopCode(shopCode);
-//			int resultStylistCode = resultShop.getStylist().getStylistCode();
-//			String resultShopName = resultShop.getShopName();
-//			
+	public void saveShop(Shop shopModel) throws IOException{
+		String shopName = shopModel.getShopName();
+		int shopCode = shopModel.getShopCode();
+		
+		//shop 수정
+		if(shopCode !=0){
+			Shop resultShop = selectShopByShopCode(shopCode);
+			int resultStylistCode = resultShop.getStylist().getStylistCode();
+			String resultShopName = resultShop.getShopName();
+			
 //			String originPath = storageService.shopLoad(resultStylistCode, resultShopName).toString();
 //			File originFile = new File(originPath);
 //			
 //			String newPath = storageService.shopLoad(stylistCode, shopName).toString();
 //			File newFile = new File(newPath);
 //			originFile.renameTo(newFile);
-//			
+			
 //			originPath = storageService.postscriptLoad(resultStylistCode, resultShopName).toString();
 //			originFile = new File(originPath);
 //			
 //			newPath = storageService.postscriptLoad(resultStylistCode, resultShopName).toString();
 //			newFile = new File(newPath);
 //			originFile.renameTo(newFile);
-//		}
+		}
 //		if(thumbnail !=null){
 //			for(int i=0;i<thumbnail.length;i++){
 //				if(!thumbnail[i].getOriginalFilename().equals("")){
-//					storageService.storeShopImage(shopModel.getStylist().getStylistCode(), shopModel.getShopName(), thumbnail[i],i);
+//					//storageService.storeShopImage(shopModel.getStylist().getStylistCode(), shopModel.getShopName(), thumbnail[i],i);
 //				}
 //			}
 //		}
-//		
-//		shopRepository.save(shopModel);
-//	}
-	public void saveShop(Shop shop){
-		shopRepository.save(shop);
+		
+		shopRepository.save(shopModel);
 	}
+//	public void saveShop(Shop shop){
+//		shopRepository.save(shop);
+//	}
 	
 	//shop_code 알아오기
 	public Shop selectShopByShopName(String shopName){
@@ -96,8 +85,17 @@ public class ShopService {
 		return shopRepository.findByShopCode(shopCode);
 	}
 	
+//	public List<Shop> findByStylist(Stylist stylist){
+//		return shopRepository.findByStylist(stylist);
+//	}
 	public List<Shop> findByStylist(Stylist stylist){
-		return shopRepository.findByStylist(stylist);
+		List<Shop> list = shopRepository.findByStylist(stylist);
+		for(Shop shop : list){
+			String url = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", stylist.getStylistCode(), shop.getShopName(), "thumbnail.jpg")
+			.build().toString();
+			shop.setImagePath(url);
+		}
+		return list;
 	}
 	
 	public boolean isExistAnyShop(){
@@ -127,14 +125,11 @@ public class ShopService {
 	//shop selectAll
 	public List<Shop> selectAllShop(){
 		List<Shop> list = shopRepository.orderByshopDate();
-		
-//		for(Shop shop : list){
-//			String filePath = storageService.shopLoad(shop.getStylist().getStylistCode(), shop.getShopName()).toString();
-//			File file = new File(filePath);
-//			if(file != null && file.listFiles()!=null){
-//				shop.setFiles(file.listFiles());
-//			}
-//		}
+		for(Shop shop : list){
+			String url = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", shop.getStylist().getStylistCode(), shop.getShopName(), "thumbnail.jpg")
+			.build().toString();
+			shop.setImagePath(url);
+		}
 		return list;
 	}
 	

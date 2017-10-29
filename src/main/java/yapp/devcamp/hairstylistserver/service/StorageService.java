@@ -126,7 +126,6 @@ public class StorageService {
 		String filename = SHOP_THUMBNAIL_IMAGE_NAME;
 		
 		Path shopImageLocation = this.rootLocation.resolve(String.valueOf(stylist_code)).resolve(shop_name);
-		
 		try {
 			if (filename.contains("..")) { // security check
 				throw new StorageException("Cannot store file with relative path outside current directory " + filename);
@@ -180,45 +179,45 @@ public class StorageService {
 	
 	
 
-	public void storePostscriptImage(int stylist_code, String shop_name, int user_id, MultipartFile file) {
-
-		String filename = user_id +"_"+ StringUtils.cleanPath(file.getOriginalFilename());
-		Calendar cal = Calendar.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		String dateTime= sdf.format(cal.getTime());
-		dateTime += "_"+System.currentTimeMillis();
-		
-		String[] subStr = filename.split("\\.");
-		if(subStr.length>1){
-			subStr[0] = user_id+"_"+dateTime;
-			filename = subStr[0]+"."+subStr[subStr.length-1];
-		} 
-		Path postscriptImageLocation = this.rootLocation.resolve(String.valueOf(stylist_code)).resolve("postscript").resolve(shop_name);
-
-		try {
-			if (filename.contains("..")) { // security check
-				throw new StorageException("Cannot store file with relative path outside current directory " + filename);
-			}
-			logger.warn("storePostscriptImage메서드 : " + postscriptImageLocation.resolve(filename).toString());
-
-			Files.createDirectories(postscriptImageLocation);// mkdir
-
-			Files.copy(file.getInputStream(), postscriptImageLocation.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
-
-		}catch (DirectoryNotEmptyException e){} 
-		catch (IOException e) {
-			throw new StorageException("Failed to store file " + filename, e);
-		}
-	}
+//	public void storePostscriptImage(int stylist_code, String shop_name, int user_id, MultipartFile file) {
+//
+//		String filename = user_id +"_"+ StringUtils.cleanPath(file.getOriginalFilename());
+//		Calendar cal = Calendar.getInstance();
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+//		String dateTime= sdf.format(cal.getTime());
+//		dateTime += "_"+System.currentTimeMillis();
+//		
+//		String[] subStr = filename.split("\\.");
+//		if(subStr.length>1){
+//			subStr[0] = user_id+"_"+dateTime;
+//			filename = subStr[0]+"."+subStr[subStr.length-1];
+//		} 
+//		Path postscriptImageLocation = this.rootLocation.resolve(String.valueOf(stylist_code)).resolve("postscript").resolve(shop_name);
+//
+//		try {
+//			if (filename.contains("..")) { // security check
+//				throw new StorageException("Cannot store file with relative path outside current directory " + filename);
+//			}
+//			logger.warn("storePostscriptImage메서드 : " + postscriptImageLocation.resolve(filename).toString());
+//
+//			Files.createDirectories(postscriptImageLocation);// mkdir
+//
+//			Files.copy(file.getInputStream(), postscriptImageLocation.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
+//
+//		}catch (DirectoryNotEmptyException e){} 
+//		catch (IOException e) {
+//			throw new StorageException("Failed to store file " + filename, e);
+//		}
+//	}
 	
 //	public Path stylistLoad(int stylistCode){
 //		return this.rootLocation.resolve(String.valueOf(stylistCode));
 //	}
 	
-//	public Path shopLoad(int stylistCode,String shopName){
-//		
-//		return this.rootLocation.resolve(String.valueOf(stylistCode)).resolve(shopName);
-//	}
+	public Path shopLoad(int stylistCode,String shopName){
+		
+		return this.rootLocation.resolve(String.valueOf(stylistCode)).resolve(shopName);
+	}
 	
 	public Path postscriptLoad(int stylistCode,String shopName){
 		return this.rootLocation.resolve(String.valueOf(stylistCode)).resolve("postscript").resolve(shopName);
@@ -230,6 +229,7 @@ public class StorageService {
 	
 	public Path loadShopImage(int stylistCode, String shopName){
 		return this.rootLocation.resolve(String.valueOf(stylistCode)).resolve(shopName).resolve(SHOP_THUMBNAIL_IMAGE_NAME);
+		
 	}
 	
 	public Stream<Path> loadAllShopImages(){ // get all thumbnails

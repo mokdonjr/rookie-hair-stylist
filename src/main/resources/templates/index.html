@@ -17,24 +17,6 @@
                 <div id="mainShopBox">
                     <shop-select-btn></shop-select-btn>
                     <div class="row">
-                        <div th:each="shop : ${shopList}" class="col-xl-3 col-sm-12">
-                            <a href="/detail2">
-                            	<div id="shopCard" class="shop_card">
-	          						  <div id="mcLocation" class="sc_location">
-	           						     <span th:text="${shop.stylist.location}">혜화/대학로</span>
-	          						  </div>
-	          						
-	          						  <div class="sc_imgarea" id="scImg">
-	                					
-	             					   	<div class="profile_img" id="profileImg">
-	                    
-	              					  	</div>
-	           						 </div>
-						            <div class="sc_bottom">
-						                <h4 class="sc_title" th:text="${shop.shopName}">남자 투블럭/염색/스타일링</h4>  
-						                <span class="sc_des">#투블럭 #남자 #머리 #염색 #컷</span>
-						                <div class="sc_info clearnext">
-						                    <span  th:text="${shop.stylist.user.nickname}" class="designer_name"><span>Designer</span"> 은진</span>
                         <!-- <shop-box></shop-box> -->
                         <div th:each="shop : ${shopList}" class="col-xl-3 col-sm-12">
                             <a th:href="@{'/shop/' + ${shop.shopCode}}">

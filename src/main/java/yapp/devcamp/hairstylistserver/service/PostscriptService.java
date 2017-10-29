@@ -43,13 +43,13 @@ public class PostscriptService {
 		
 		Shop resultShop = shopService.selectShopByShopCode(postscript.getShop().getShopCode());
 		
-		if(files != null && resultShop != null && resultShop.getStylist() != null){	
-			for(MultipartFile file : files){
-				if(!file.getOriginalFilename().equals("")){
-					storageService.storePostscriptImage(resultShop.getStylist().getStylistCode(), resultShop.getShopName(), postscript.getUser().getId(), file);
-				}
-			}
-		}
+//		if(files != null && resultShop != null && resultShop.getStylist() != null){	
+//			for(MultipartFile file : files){
+//				if(!file.getOriginalFilename().equals("")){
+//					storageService.storePostscriptImage(resultShop.getStylist().getStylistCode(), resultShop.getShopName(), postscript.getUser().getId(), file);
+//				}
+//			}
+//		}
 		postscriptRepository.save(postscript);
 	}
 	
