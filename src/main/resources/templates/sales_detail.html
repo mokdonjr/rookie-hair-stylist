@@ -47,9 +47,9 @@
 								<a th:href="@{'/shop/chat/' + ${shop.shopCode}}"><span>채팅문의하기&nbsp;&nbsp;</span></a>
                             </header>
                             <ul class="pf_list">
-                                <li><img th:src="@{${shop.imagePath}}" alt="" class="center-block img-responsive"></li>
-                                <li><img src="https://i.ytimg.com/vi/zFy0C7PCgWE/maxresdefault.jpg" alt="" class="center-block img-responsive"></li>
-                                <li><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDME5dszXlS-Ip4Bo12a8cEpwYuG7126PYoQtIo5NKYsw_dCqMKQ" class="img-responsive center-block"></li>
+                                <li><img th:src="@{${shop.portfolioImg[0]}}" alt="" class="center-block img-responsive"></li>
+                                <li><img th:src="@{${shop.portfolioImg[1]}}" alt="" class="center-block img-responsive"></li>
+                                <li><img th:src="@{${shop.portfolioImg[2]}}" class="img-responsive center-block"></li>
                             </ul>
                         </section>
                         <section id="replySect" class="rp_wrap">
@@ -67,7 +67,7 @@
                                             <input type="file" name="inputFiles" />
                                         </span>
                                         <span class="submit_btn">
-                                            <input class="btn btn-default" type="submit" value="후기 등록하기"></input>
+                                            <input class="btn btn-default" type="submit" name="제출" value="후기 등록하기"></input>
                                         </span>
                                     </div>
                                     

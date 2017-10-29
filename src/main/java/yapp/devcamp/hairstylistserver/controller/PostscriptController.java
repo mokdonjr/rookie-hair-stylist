@@ -24,16 +24,16 @@ public class PostscriptController {
 	PostscriptService postscriptService;
 	
 	@RequestMapping(value="/enroll",method=RequestMethod.POST)
-	public String enrollScript(Postscript postscript,MultipartFile[] inputFiles){
-		System.out.println("*************");
+	public String enrollScript(Postscript postscript){
 		if(postscript != null){
-			postscriptService.enrollScript(postscript,inputFiles);
+			postscriptService.enrollScript(postscript);
 		}
 		return "index";
 	}
 	
 	@RequestMapping(value="/{postscriptCode}",method=RequestMethod.GET)
 	public String deleteScript(@PathVariable("postscriptCode") int postscriptCode){
+		
 		if(postscriptCode != 0)
 			postscriptService.deleteScript(postscriptCode);
 		

@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,8 +44,8 @@ public class Postscript implements Serializable {
 	@Column(name="image_path")
 	private String imagePath;
 	
-//	@Transient
-//	private File[] resultFiles;
+	@Transient
+	private MultipartFile postscriptImg;
 	
 	@ManyToOne
 	@JoinColumn(name="shop_code")

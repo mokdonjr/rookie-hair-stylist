@@ -51,37 +51,33 @@ public class ShopController {
 	private EmailService emailService;
 	
 	/**
-	 * Shop delete method
-	 */
-	@RequestMapping(value="/{shopCode}",method=RequestMethod.DELETE)
-	public String delete(@PathVariable("shopCode") int shopCode){
-		Shop resultShop = shopService.selectShopByShopCode(shopCode);
-		if(resultShop != null){
-			shopService.deleteShop(resultShop);
-		}
-		return "redirect:home";
-	}
-	
-	/**
 	 * select Shop by shopCode
 	 */
 	@RequestMapping(value="/{shopCode}", method=RequestMethod.GET)
 	public ModelAndView selectByShopCode(@PathVariable("shopCode") int shopCode) throws IOException{
 		ModelAndView mv = new ModelAndView();
 		Shop shop = shopService.selectShopByShopCode(shopCode);
+		
+		//썸네일 URL 만들기
 		String url = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", shop.getStylist().getStylistCode(), shop.getShopName(), "thumbnail.jpg")
 				.build().toString();
 		shop.setImagePath(url);
 		
+		//포트폴리오 Url 만들기
 		String portfolioPath = getUploadedImage(shop.getStylist().getStylistCode(), shop.getShopName());
 		File file = new File(portfolioPath);
 		File[] fileList = file.listFiles();
-		for(File f : fileList){
-			String filename = f.getName();
-			String portfolioUrl = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", shop.getStylist().getStylistCode(), shop.getShopName(), "thumbnail.jpg")
-					.build().toString();
-			
+		String[] getPort = new String[fileList.length-1];
+		
+		for(int i=0;i<fileList.length;i++){
+			String filename = fileList[i].getName();
+			if(!filename.equals("thumbnail.jpg")){
+				String portfolioUrl = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", shop.getStylist().getStylistCode(), shop.getShopName(), filename)
+									.build().toString();
+				getPort[i] = portfolioUrl;
+			}
 		}
+		shop.setPortfolioImg(getPort);
 		
 		Stylist stylist = shop.getStylist();
 		//수정 페이지 정해지면 수정할 것
@@ -318,6 +314,17 @@ public class ShopController {
 //		return "redirect:/stylist/mypage";
 //	}
 	
+	/**
+	 * Shop delete method
+	 */
+//	@RequestMapping(value="/{shopCode}",method=RequestMethod.DELETE)
+//	public String delete(@PathVariable("shopCode") int shopCode){
+//		Shop resultShop = shopService.selectShopByShopCode(shopCode);
+//		if(resultShop != null){
+//			shopService.deleteShop(resultShop);
+//		}
+//		return "redirect:home";
+//	}
 	
 
 	@GetMapping("/chat/{shopCode}")
@@ -333,10 +340,7 @@ public class ShopController {
 	@RequestMapping("/book")
 	public String book(HttpSession session,Book bookModel) throws Exception{
 		if(bookModel != null){
-//			User user = (User)session.getAttribute("user");
-//			bookModel.setUser(user);
-			User user = new User();
-			user.setId(1);
+			User user = (User)session.getAttribute("user");
 			bookModel.setUser(user);
 			bookModel.setBookStatus(true);
 			shopService.book(bookModel);

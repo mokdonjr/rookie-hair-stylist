@@ -32,7 +32,7 @@ public class PostscriptService {
 	@Autowired
 	ShopService shopService;
 	
-	public void enrollScript(Postscript postscript,MultipartFile[] files){
+	public void enrollScript(Postscript postscript){
 		Calendar calendar = Calendar.getInstance();
 		String today = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(calendar.getTime()));
 		postscript.setWriteDate(today);

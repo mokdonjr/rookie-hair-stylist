@@ -227,8 +227,8 @@ public class StorageService {
 		return this.rootLocation.resolve(String.valueOf(stylistCode)).resolve(STYLIST_ENROLL_IMAGE_NAME);
 	}
 	
-	public Path loadShopImage(int stylistCode, String shopName){
-		return this.rootLocation.resolve(String.valueOf(stylistCode)).resolve(shopName).resolve(SHOP_THUMBNAIL_IMAGE_NAME);
+	public Path loadShopImage(int stylistCode, String shopName,String filename){
+		return this.rootLocation.resolve(String.valueOf(stylistCode)).resolve(shopName).resolve(filename);
 		
 	}
 	
@@ -271,7 +271,7 @@ public class StorageService {
 	
 	public Resource loadShopImageAsResource(String filename, int stylistCode, String shopName) {
 		try {
-			Path file = loadShopImage(stylistCode, shopName);
+			Path file = loadShopImage(stylistCode, shopName,filename);
 			logger.warn("loadShopImageAsResources 메서드 : " + file.toUri().toString());
 			Resource resource = new UrlResource(file.toUri());
 

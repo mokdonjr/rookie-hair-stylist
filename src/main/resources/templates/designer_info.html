@@ -73,7 +73,7 @@
 						            </div>
 						        </div>
 							</a>
-                        </div>
+                        
 <!--                             <div class="col-xl-3 col-sm-12"> -->
 <!--                                 <a href="/detail"><shop-box></shop-box></a> -->
 <!--                             </div> -->
@@ -90,17 +90,27 @@
 <!--                             <div class="col-xl-3 col-sm-12"> -->
 <!--                                 <a href="/detail"><shop-box></shop-box></a> -->
 <!--                             </div> -->
+							
                         </div>
+                    	</div>
                     </div>
-                    <div class="tab-pane fade" id="pf_tab" role="tabpanel">
-                        <div class="row">
-                            <pf-img></pf-img>
-                            <pf-img></pf-img>
-                            <pf-img></pf-img>
-                            <pf-img></pf-img>
-                            <pf-img></pf-img>
-                            <pf-img></pf-img>
-                        </div>
+                   	<div class="tab-pane fade" id="pf_tab" role="tabpanel">
+		                        <div class="row">
+		                             <div th:each="shop : ${shopList}" class="col-xl-4 col-sm-12">
+		                             	<div th:each="portfolio : ${shop.portfolioImg}">
+		            						<img th:src="@{${portfolio}}" class="center-block img-responsive" />
+		            					</div>
+		       						</div>
+		                            <!-- <div class="col-xl-4 col-sm-12">
+		            					<img th:src="@{${portfolio}}" class="center-block img-responsive" />
+		       						</div>
+		                           <div class="col-xl-4 col-sm-12">
+		            					<img th:src="@{${shop.portfolioImg[0]}}" class="center-block img-responsive" />
+		       						</div>
+		                            <pf-img></pf-img>
+		                            <pf-img></pf-img>
+		                            <pf-img></pf-img>  -->
+		                        </div>
                     </div>
                     <div class="tab-pane fade" id="reply_tab" role="tabpanel">
                         

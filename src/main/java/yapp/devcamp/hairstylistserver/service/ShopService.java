@@ -91,9 +91,26 @@ public class ShopService {
 	public List<Shop> findByStylist(Stylist stylist){
 		List<Shop> list = shopRepository.findByStylist(stylist);
 		for(Shop shop : list){
+			//썸네일 URL 만들기
 			String url = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", stylist.getStylistCode(), shop.getShopName(), "thumbnail.jpg")
 			.build().toString();
 			shop.setImagePath(url);
+			
+			//포트폴리오 Url 만들기
+			String portfolioPath = storageService.shopLoad(stylist.getStylistCode(), shop.getShopName()).toString();
+			File file = new File(portfolioPath);
+			File[] fileList = file.listFiles();
+			String[] getPort = new String[fileList.length-1];
+			
+			for(int i=0;i<fileList.length;i++){
+				String filename = fileList[i].getName();
+				if(!filename.equals("thumbnail.jpg")){
+					String portfolioUrl = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", shop.getStylist().getStylistCode(), shop.getShopName(), filename)
+										.build().toString();
+					getPort[i] = portfolioUrl;
+				}
+			}
+			shop.setPortfolioImg(getPort);
 		}
 		return list;
 	}
