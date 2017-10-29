@@ -334,33 +334,5 @@ public class ShopController {
 		return "chat";
 	}
 	
-	/**
-	 * shop 예약하기
-	 */
-	@RequestMapping("/book")
-	public String book(HttpSession session,Book bookModel) throws Exception{
-		if(bookModel != null){
-			User user = (User)session.getAttribute("user");
-			bookModel.setUser(user);
-			bookModel.setBookStatus(true);
-			shopService.book(bookModel);
-		}
-		return "index";
-	}
-	/**
-	 * 예약 취소
-	 */
-	@RequestMapping(value="/cancel/{bookCode}",method=RequestMethod.GET)
-	public String cancelBook(@PathVariable("bookCode") int bookCode){
-		shopService.cancelBook(bookCode);
-		return "index";
-	}
-	/**
-	 * 예약 완료
-	 */
-	@RequestMapping(value ="/complete/{bookCode}",method=RequestMethod.GET)
-	public String conpleteBook(@PathVariable("bookCode") int bookCode){
-		shopService.completeBook(bookCode);
-		return "index";
-	}
+	
 }
