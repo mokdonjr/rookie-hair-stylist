@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import yapp.devcamp.hairstylistserver.model.Book;
 import yapp.devcamp.hairstylistserver.model.User;
+import yapp.devcamp.hairstylistserver.service.BookService;
 import yapp.devcamp.hairstylistserver.service.ShopService;
 
 /**
@@ -21,7 +22,7 @@ import yapp.devcamp.hairstylistserver.service.ShopService;
 public class BookController {
 	
 	@Autowired
-	private ShopService shopService;
+	private BookService bookService;
 	
 	/**
 	 * shop 예약하기
@@ -32,7 +33,7 @@ public class BookController {
 			User user = (User)session.getAttribute("user");
 			bookModel.setUser(user);
 			bookModel.setBookStatus(true);
-			shopService.book(bookModel);
+			bookService.book(bookModel);
 		}
 		return "index";
 	}
@@ -41,7 +42,7 @@ public class BookController {
 	 */
 	@RequestMapping(value="/cancel/{bookCode}",method=RequestMethod.GET)
 	public String cancelBook(@PathVariable("bookCode") int bookCode){
-		shopService.cancelBook(bookCode);
+		bookService.cancelBook(bookCode);
 		return "index";
 	}
 	/**
@@ -49,7 +50,7 @@ public class BookController {
 	 */
 	@RequestMapping(value ="/complete/{bookCode}",method=RequestMethod.GET)
 	public String conpleteBook(@PathVariable("bookCode") int bookCode){
-		shopService.completeBook(bookCode);
+		bookService.completeBook(bookCode);
 		return "index";
 	}
 }
