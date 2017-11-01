@@ -26,12 +26,15 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 
 import yapp.devcamp.hairstylistserver.enums.ShopStatus;
 import yapp.devcamp.hairstylistserver.model.Book;
+import yapp.devcamp.hairstylistserver.model.Postscript;
 import yapp.devcamp.hairstylistserver.model.Shop;
 import yapp.devcamp.hairstylistserver.model.Stylist;
 import yapp.devcamp.hairstylistserver.model.User;
 import yapp.devcamp.hairstylistserver.service.EmailService;
+import yapp.devcamp.hairstylistserver.service.PostscriptService;
 import yapp.devcamp.hairstylistserver.service.ShopService;
 import yapp.devcamp.hairstylistserver.service.StorageService;
+import yapp.devcamp.hairstylistserver.service.UserService;
 
 /**
  * Shop Management Controller
@@ -50,11 +53,17 @@ public class ShopController {
 	@Autowired
 	private EmailService emailService;
 	
+	@Autowired
+	private PostscriptService postscriptService;
+	
+	@Autowired
+	private UserService userService;
+	
 	/**
 	 * select Shop by shopCode
 	 */
 	@RequestMapping(value="/{shopCode}", method=RequestMethod.GET)
-	public ModelAndView selectByShopCode(@PathVariable("shopCode") int shopCode) throws IOException{
+	public ModelAndView selectByShopCode(@PathVariable("shopCode") int shopCode,HttpServletRequest request) throws IOException{
 		ModelAndView mv = new ModelAndView();
 		Shop shop = shopService.selectShopByShopCode(shopCode);
 		
@@ -79,12 +88,42 @@ public class ShopController {
 		}
 		shop.setPortfolioImg(getPort);
 		
+		//후기 평균 계산
+		List<Postscript> postscriptList = postscriptService.selectAll(shop);
+		float sum=0;
+		for(Postscript postscript : postscriptList){
+			float grade = postscript.getGrade(); 
+			sum += grade;
+			postscript.setOpinion(makeOpinion((int)grade));
+			postscript.setUser(userService.findById(postscript.getUser().getId()));
+		}
+		int count = postscriptList.size();
+		float avg = (int)((sum/count)*10)/10.0f;
+		String opinion = makeOpinion((int)avg);
+		
 		Stylist stylist = shop.getStylist();
-		//수정 페이지 정해지면 수정할 것
+		
 		mv.setViewName("sales_detail");
 		mv.addObject("shop", shop);
 		mv.addObject("stylist", stylist);
+		mv.addObject("postscripts",postscriptList);
+		mv.addObject("average", avg);
+		mv.addObject("count", count);
+		mv.addObject("opinion", opinion);
 		return mv;
+	}
+	
+	private String makeOpinion(int avg){
+		String result = "";
+		switch(avg){
+			case 5 : result="\"완전 대박이에요!!\""; break;
+			case 4 : result="\"완전 좋아요!\""; break;
+			case 3 : result="\"마음에 들어요\""; break;
+			case 2 : result="\"괜찮은 편이에요\""; break;
+			case 1 : result="\"별로에요\""; break;
+			case 0 : result="\"완전 망했어요\""; break;
+		}
+		return result;
 	}
 	
 	
@@ -153,16 +192,6 @@ public class ShopController {
 		return "redirect:/stylist/mypage";
 	}
 	
-//	public String getUploadedImage(int stylistCode, String shopName) throws IOException {
-//		logger.warn("getUploadedImage 메서드 진입");
-//		
-//		Path path = storageService.loadShopImage(stylistCode, shopName);
-//		String url = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", stylistCode, shopName, path.getFileName().toString())
-//						.build().toString();
-//		logger.warn("getUploadedImage : " + url);
-//				
-//		return url;
-//    }
 	public String getUploadedImage(int stylistCode, String shopName) throws IOException {
 		logger.warn("getUploadedImage 메서드 진입");
 		

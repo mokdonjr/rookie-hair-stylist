@@ -22,7 +22,7 @@
                         <section id="hairstyleInfo">
                             <h3 class="hidden">헤어스타일 설명</h3>
                             <figure class="hair_info">
-<!--                                 <div class="img_wrap"></div> -->
+							<!--<div class="img_wrap"></div> -->
 								<div class="img_wrap" th:style="'background-image:url(' + @{${shop.imagePath}} + ');'"></div>
                                 <figcaption>
                                     <h4 th:text="${shop.shopName}" class="hi_title">여자 탈색/염색 스타일링</h4>
@@ -46,40 +46,44 @@
 								<a th:href="@{'/stylist/designerInfo/' + ${stylist.stylistCode}}">포트폴리오 더보기&nbsp;&nbsp;</a>
 								<a th:href="@{'/shop/chat/' + ${shop.shopCode}}"><span>채팅문의하기&nbsp;&nbsp;</span></a>
                             </header>
-                            <ul class="pf_list">
-                                <li><img th:src="@{${shop.portfolioImg[0]}}" alt="" class="center-block img-responsive"></li>
-                                <li><img th:src="@{${shop.portfolioImg[1]}}" alt="" class="center-block img-responsive"></li>
-                                <li><img th:src="@{${shop.portfolioImg[2]}}" class="img-responsive center-block"></li>
+                            <ul th:each="portfolio : ${shop.portfolioImg}" class="pf_list">
+                                <li><img th:src="@{${portfolio}}" alt="" class="center-block img-responsive"></li>
                             </ul>
                         </section>
                         <section id="replySect" class="rp_wrap">
                             <div class="rp_write">
-                                <form id="rpFrm" method="post" enctype="multipart/form-data" th:action="@{/postscript/enroll}" class="rp_frm">
+  
+                             <form id="rpFrm" class="rp_frm" th:action="@{/postscript/enroll}" enctype="multipart/form-data" method="post">
+                                    
+                                  	 <input type="hidden" name="shop.shopCode" th:value="${shop.shopCode}"><br>
+  									<input type="hidden" name="user.id" th:value="${session.user.id}"> <br>
                                     <div class="form-group star_rating">
                                         <div id="starRating"></div>
-                                        <input id="starRatingVal" name="grade" type="hidden" value="" />
+                                        <input type="hidden" id="starRatingVal" name="grade"  value="" />
                                     </div>
                                     <div class="form-group">
-                                        <textarea name="content" id="" rows="10" class="form-control" placeholder="후기를 작성해 주세요."></textarea>
+                                        <textarea name="content"  rows="10" class="form-control" placeholder="후기를 작성해 주세요."></textarea>
                                     </div>
                                     <div class="form-group clearnext">
                                         <span class="photo_add">
-                                            <input type="file" name="inputFiles" />
+                                            <input type="file" th:name="postscriptImg" />
                                         </span>
                                         <span class="submit_btn">
-                                            <input class="btn btn-default" type="submit" name="제출" value="후기 등록하기"></input>
+                                            <input class="btn btn-default" type="submit" name="업로드" value="후기등록하기"></input>
                                         </span>
                                     </div>
-                                    
                                 </form>
+                                
                             </div>
                             <div class="rp_average">
-                                <h3 class="sect_title">평점/후기 (<span class="reply_num">15</span>개)</h3>
+                                <h3 class="sect_title">평점/후기 (<span id="count" class="reply_num" th:text="${count}"></span>개)</h3>
+                               
                                 <div class="w-100 clearfix"></div>
                                 <div class="eval_wrap clearnext">
+                                	<input type="hidden" id="average" th:value="${average}">
                                     <div id="starRatingReadAverage" class="starrating_read_average"></div>
-                                    <span id="ratingResult" class="rating_val">4.0</span>
-                                    <span class="eval_cont">"마음에 들어요"</span>
+                                    <span id="ratingResult" class="rating_val"></span>
+                                    <span th:text="${opinion}" class="eval_cont"></span>
                                 </div>
                                 <ul class="rp_photo_list clearfix">
                                     <li class="rp_photo_wrap"></li>
@@ -89,58 +93,30 @@
                                     <li class="rp_photo_wrap"></li>
                                 </ul>
                             </div>
-                            <div class="rp_content">
+                            
+                            <div th:each="i : ${#numbers.sequence( 1, count)}" class="rp_content">
                                 <header class="rp_content_header">
                                     <span id="userThumb" class="user_thumb">
-                                        <i class="xi-user"></i>
+                                       <!--  <i class="xi-user"></i> -->
+                                       <img th:src="@{${postscripts[i-1].user.profileImagePath}}"> 
                                     </span>
-                                    <span id="userName" class="user_name">dongdong2</span>
-                                    <span class="date">작성일: 2017.09.23</span>
+                                    <span id="userName" class="user_name" th:text="${postscripts[i-1].user.username}"></span>
+                                    <span th:text="${postscripts[i-1].writeDate}" class="date"></span>
                                 </header>
                                 <div class="w-100 clearfix"></div>
                                 <div class="eval_wrap">
-                                    <div id="starRatingReadOnly" class="starrating_read_only"></div>
-                                    <span class="eval_cont">"마음에 들어요"</span>
+ 									<input type="hidden" th:id="${i}" th:value="${postscripts[i-1].grade}">
+                                    <div id="starRatingReadOnly" th:class="${i}"></div>
+                                    
+                                    <span th:text="${postscripts[i-1].opinion}" class="eval_cont"></span>
                                     <div class="clearfix w-100"></div>
-                                    <p id="replyDes" class="reply_des">처음 접해보는 미용실이라 처음엔 조금 긴가민가 했는데,<br>다른 어떤 미용실보다 더 마음에 드는 결과가 나왔어요!<br>상담도 친절하게 잘해주셔서 더 좋았습니다~</p>
-                                    <button class="reply_more_btn">더보기</button>
-                                    <div class="rp_photo_wrap"></div>
-                                </div>
-                            </div>
-                            <div class="rp_content">
-                                <header class="rp_content_header">
-                                    <span id="userThumb" class="user_thumb">
-                                        <i class="xi-user"></i>
-                                    </span>
-                                    <span id="userName" class="user_name">dongdong2</span>
-                                    <span class="date">작성일: 2017.09.23</span>
-                                </header>
-                                <div class="w-100 clearfix"></div>
-                                <div class="eval_wrap">
-                                    <div id="starRatingReadOnly" class="starrating_read_only"></div>
-                                    <span class="eval_cont">"마음에 들어요"</span>
-                                    <div class="clearfix w-100"></div>
-                                    <p id="replyDes" class="reply_des">처음 접해보는 미용실이라 처음엔 조금 긴가민가 했는데,<br>다른 어떤 미용실보다 더 마음에 드는 결과가 나왔어요!<br>상담도 친절하게 잘해주셔서 더 좋았습니다~</p>
-                                    <button class="reply_more_btn">더보기</button>
-                                    <div class="reply_photo_wrap"></div>
-                                </div>
-                            </div>
-                            <div class="rp_content">
-                                <header class="rp_content_header">
-                                    <span id="userThumb" class="user_thumb">
-                                        <i class="xi-user"></i>
-                                    </span>
-                                    <span id="userName" class="user_name">dongdong2</span>
-                                    <span class="date">작성일: 2017.09.23</span>
-                                </header>
-                                <div class="w-100 clearfix"></div>
-                                <div class="eval_wrap">
-                                    <div id="starRatingReadOnly" class="starrating_read_only"></div>
-                                    <span class="eval_cont">"마음에 들어요"</span>
-                                    <div class="clearfix w-100"></div>
-                                    <p id="replyDes" class="reply_des">처음 접해보는 미용실이라 처음엔 조금 긴가민가 했는데,<br>다른 어떤 미용실보다 더 마음에 드는 결과가 나왔어요!<br>상담도 친절하게 잘해주셔서 더 좋았습니다~</p>
-                                    <button class="reply_more_btn">더보기</button>
-                                    <div class="reply_photo_wrap"></div>
+                                    <p id="replyDes" th:utext="${postscripts[i-1].content}" class="reply_des"></p>
+                                    
+                                    <div class="rp_photo_wrap">
+                                    	<img th:src="@{${postscripts[i-1].imagePath}}" alt="" class="center-block img-responsive">
+                                    </div>
+                                    
+                                    <!-- <button class="reply_more_btn">더보기</button> -->
                                 </div>
                             </div>
                         </section>

@@ -31,5 +31,13 @@ public class StorageRestController {
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
+	
+	@GetMapping("/files/{stylistCode}/postscript/{shopName}/{filename:.+}")
+    public ResponseEntity<Resource> servePostscriptImage(@PathVariable("stylistCode") int stylistCode, @PathVariable("shopName") String shopName, @PathVariable String filename) {
+
+        Resource file = storageService.loadPostscriptImgAsResource(filename, stylistCode, shopName);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+    }
 
 }

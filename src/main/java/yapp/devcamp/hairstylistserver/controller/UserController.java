@@ -99,7 +99,7 @@ public class UserController {
 			session.setAttribute("stylist", stylist);
 		}
 		
-		session.setAttribute("user", user);
+		session.setAttribute("user", currentUser);
 		
 		return "complete";
 	}

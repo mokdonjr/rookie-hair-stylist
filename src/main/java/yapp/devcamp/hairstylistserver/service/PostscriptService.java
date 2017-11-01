@@ -36,20 +36,7 @@ public class PostscriptService {
 		Calendar calendar = Calendar.getInstance();
 		String today = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(calendar.getTime()));
 		postscript.setWriteDate(today);
-		
-//		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
-//		HttpSession session = request.getSession();
-//		User user = (User)session.getAttribute("user");
-		
-		Shop resultShop = shopService.selectShopByShopCode(postscript.getShop().getShopCode());
-		
-//		if(files != null && resultShop != null && resultShop.getStylist() != null){	
-//			for(MultipartFile file : files){
-//				if(!file.getOriginalFilename().equals("")){
-//					storageService.storePostscriptImage(resultShop.getStylist().getStylistCode(), resultShop.getShopName(), postscript.getUser().getId(), file);
-//				}
-//			}
-//		}
+
 		postscriptRepository.save(postscript);
 	}
 	
@@ -57,8 +44,8 @@ public class PostscriptService {
 		postscriptRepository.deleteByCode(postscriptCode);
 	}
 	
-	public List<Postscript> selectAll(){
-		return postscriptRepository.findAll();
+	public List<Postscript> selectAll(Shop shop){
+		return postscriptRepository.findByShop(shop);
 	}
 	
 	public Postscript selectByPostscriptCode(int postscriptCode){

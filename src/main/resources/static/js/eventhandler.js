@@ -46,15 +46,17 @@ $(function() {
 
     // 평균 별점 받기
     $("#starRatingReadAverage").rateYo({
-        rating: 4.0,
+        rating: $("#average").val(),
         readOnly: true
     });
-    
-    $('.starrating_read_only').rateYo({
-        rating: 4.0,
-        starWidth: "20px",
-        readOnly: true
-    });
+    var count = $("#count").text();
+    for(var i=1;i<=count;i++){
+	    $('.'+i).rateYo({
+	    	rating: $("#"+i).val(),
+	        starWidth: "20px",
+	        readOnly: true
+	    });
+    }
     
 });
 

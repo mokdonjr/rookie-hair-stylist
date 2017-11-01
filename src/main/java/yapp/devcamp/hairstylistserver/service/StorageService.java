@@ -179,36 +179,40 @@ public class StorageService {
 	
 	
 
-//	public void storePostscriptImage(int stylist_code, String shop_name, int user_id, MultipartFile file) {
-//
-//		String filename = user_id +"_"+ StringUtils.cleanPath(file.getOriginalFilename());
-//		Calendar cal = Calendar.getInstance();
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-//		String dateTime= sdf.format(cal.getTime());
-//		dateTime += "_"+System.currentTimeMillis();
-//		
-//		String[] subStr = filename.split("\\.");
-//		if(subStr.length>1){
-//			subStr[0] = user_id+"_"+dateTime;
-//			filename = subStr[0]+"."+subStr[subStr.length-1];
-//		} 
-//		Path postscriptImageLocation = this.rootLocation.resolve(String.valueOf(stylist_code)).resolve("postscript").resolve(shop_name);
-//
-//		try {
-//			if (filename.contains("..")) { // security check
-//				throw new StorageException("Cannot store file with relative path outside current directory " + filename);
-//			}
-//			logger.warn("storePostscriptImage메서드 : " + postscriptImageLocation.resolve(filename).toString());
-//
-//			Files.createDirectories(postscriptImageLocation);// mkdir
-//
-//			Files.copy(file.getInputStream(), postscriptImageLocation.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
-//
-//		}catch (DirectoryNotEmptyException e){} 
-//		catch (IOException e) {
-//			throw new StorageException("Failed to store file " + filename, e);
-//		}
-//	}
+	public String storePostscriptImage(int stylist_code, String shop_name, MultipartFile file) {
+
+		String filename = StringUtils.cleanPath(file.getOriginalFilename());
+		
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		String dateTime = sdf.format(cal.getTime());
+		dateTime += "_" + System.currentTimeMillis();
+		
+		String[] subStr = filename.split("\\.");
+		if(subStr.length > 1){
+			subStr[0] = "Rookies_" + dateTime;
+			filename = subStr[0] + "." + subStr[subStr.length-1];
+		}
+		
+		Path postscriptImageLocation = this.rootLocation.resolve(String.valueOf(stylist_code)).resolve("postscript").resolve(shop_name);
+
+		try {
+			if (filename.contains("..")) { // security check
+				throw new StorageException("Cannot store file with relative path outside current directory " + filename);
+			}
+			logger.warn("storePostscriptImage메서드 : " + postscriptImageLocation.resolve(filename).toString());
+
+			Files.createDirectories(postscriptImageLocation);// mkdir
+
+			Files.copy(file.getInputStream(), postscriptImageLocation.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
+
+		}catch (DirectoryNotEmptyException e){} 
+		catch (IOException e) {
+			throw new StorageException("Failed to store file " + filename, e);
+		}
+		
+		return filename;
+	}
 	
 //	public Path stylistLoad(int stylistCode){
 //		return this.rootLocation.resolve(String.valueOf(stylistCode));
@@ -219,8 +223,8 @@ public class StorageService {
 		return this.rootLocation.resolve(String.valueOf(stylistCode)).resolve(shopName);
 	}
 	
-	public Path postscriptLoad(int stylistCode,String shopName){
-		return this.rootLocation.resolve(String.valueOf(stylistCode)).resolve("postscript").resolve(shopName);
+	public Path loadPostscriptImg(int stylistCode,String shopName, String filename){
+		return this.rootLocation.resolve(String.valueOf(stylistCode)).resolve("postscript").resolve(shopName).resolve(filename);
 	}
 	
 	public Path loadStylistEnrollImage(int stylistCode){
@@ -272,7 +276,23 @@ public class StorageService {
 	public Resource loadShopImageAsResource(String filename, int stylistCode, String shopName) {
 		try {
 			Path file = loadShopImage(stylistCode, shopName,filename);
-			logger.warn("loadShopImageAsResources 메서드 : " + file.toUri().toString());
+			//logger.warn("loadShopImageAsResources 메서드 : " + file.toUri().toString());
+			Resource resource = new UrlResource(file.toUri());
+
+			if (resource.exists() || resource.isReadable()) {
+				return resource;
+			} else {
+				throw new StorageFileNotFoundException("Could not read file : " + filename);
+			}
+
+		} catch (MalformedURLException e) {
+			throw new StorageFileNotFoundException("Could not read file : " + filename, e);
+		}
+	}
+	
+	public Resource loadPostscriptImgAsResource(String filename,int stylistCode,String shopName) {
+		try {
+			Path file = loadPostscriptImg(stylistCode, shopName, filename);
 			Resource resource = new UrlResource(file.toUri());
 
 			if (resource.exists() || resource.isReadable()) {

@@ -34,7 +34,7 @@ public class Postscript implements Serializable {
 	@Column(name="postscript_code")
 	private int postscriptCode;
 	
-	private int grade;
+	private float grade;
 	
 	private String content; 
 	
@@ -46,6 +46,9 @@ public class Postscript implements Serializable {
 	
 	@Transient
 	private MultipartFile postscriptImg;
+	
+	@Transient
+	private String opinion;
 	
 	@ManyToOne
 	@JoinColumn(name="shop_code")
