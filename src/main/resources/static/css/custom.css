@@ -23,7 +23,7 @@
     display: block;
 }
 
-/* ÆùÆ® ½ºÅ¸ÀÏ */
+/* í°íŠ¸ ìŠ¤íƒ€ì¼ */
 
 h1, h2, h3, h4, h5, h6, div, p, th, td, dt, dd, span:not(.glyficon) {
     font-family: "noto sans KR", sans-serif;
@@ -36,7 +36,7 @@ a {
     text-decoration: none;
 }
 
-/* ¹öÆ° ½ºÅ¸ÀÏ */
+/* ë²„íŠ¼ ìŠ¤íƒ€ì¼ */
 /* totop btn */
 .to-top-btn {
     position: fixed;
@@ -75,7 +75,7 @@ a {
 }
 
 
-/* ·¹ÀÌ¾Æ¿ô ¼¼ÆÃ */
+/* ë ˆì´ì•„ì›ƒ ì„¸íŒ… */
 
 .container {
     max-width: 1520px;
@@ -96,7 +96,7 @@ ul > li, ol > li {
 }
 
 
-/*** »ó´Ü ³×ºñ°ÔÀÌ¼Ç ¹Ù ***/
+/*** ìƒë‹¨ ë„¤ë¹„ê²Œì´ì…˜ ë°” ***/
 
 .navbar-inverse {
     padding: 10px 0;
@@ -149,16 +149,16 @@ ul > li, ol > li {
     font-size: 18px;
 }
 
-/*************** ¸ŞÀÎÆäÀÌÁö ½ºÅ¸ÀÏ ¼³Á¤ ****************/
+/*************** ë©”ì¸í˜ì´ì§€ ìŠ¤íƒ€ì¼ ì„¤ì • ****************/
 
-/*** ¸ŞÀÎÆäÀÌÁö ½½¶óÀÌµå ***/
+/*** ë©”ì¸í˜ì´ì§€ ìŠ¬ë¼ì´ë“œ ***/
 
 .main_slide {
     padding: 78px 0 76px;
     border-bottom: 1px solid #ddd;
 }
 
-/* ¸ŞÀÎ ÄÁÅÙÃ÷ µå·Ó´Ù¿î ¹öÆ° */
+/* ë©”ì¸ ì»¨í…ì¸  ë“œë¡­ë‹¤ìš´ ë²„íŠ¼ */
 .main_service .dropdown {
     margin-bottom: 80px;
     text-align: right;
@@ -191,7 +191,7 @@ ul > li, ol > li {
 }
 
 
-/*** ¸ŞÀÎÆäÀÌÁö ¼ó ¹Ú½º ¿µ¿ª ***/
+/*** ë©”ì¸í˜ì´ì§€ ìˆ ë°•ìŠ¤ ì˜ì—­ ***/
 .main_service {
     padding: 40px 0 115px;
 }
@@ -216,7 +216,7 @@ ul > li, ol > li {
 }
 
 
-/* ¼¥¹Ú½º ÀÌ¹ÌÁö ¿µ¿ª */
+/* ìƒµë°•ìŠ¤ ì´ë¯¸ì§€ ì˜ì—­ */
 .sc_imgarea {
     height: 300px;
     position: relative;
@@ -231,11 +231,12 @@ ul > li, ol > li {
     z-index: 99;
     right: 42px;
     bottom: -42px;
-    border: 1px solid #fff;
     background: url('http://scontent-sea1-1.cdninstagram.com/t51.2885-15/s480x480/e35/13397472_1080416115385606_879028410_n.jpg?ig_cache_key=MTI3NjAzMDE5MzgwMTg1MTM4OQ%3D%3D.2') no-repeat center / cover;
+	background-size: cover !important;
+	background-position: center !important;
 }
 
-/* ¼¥¹Ú½º Á¤º¸ ¿µ¿ª */
+/* ìƒµë°•ìŠ¤ ì •ë³´ ì˜ì—­ */
 
 .sc_bottom {
     padding: 35px 20px 25px;
@@ -277,7 +278,7 @@ ul > li, ol > li {
     color: #646464;    
 }
 
-/* ¼¥Ä«µå È¿°ú */
+/* ìƒµì¹´ë“œ íš¨ê³¼ */
 .shop_card:hover .sc_bottom {
     background: #333;
 }
@@ -290,19 +291,19 @@ ul > li, ol > li {
 }
 
 
-/*************** ¼¥ »ó¼¼ÆäÀÌÁö ½ºÅ¸ÀÏ ¼³Á¤ ****************/
-/* ±âº» ·¹ÀÌ¾Æ¿ô */
+/*************** ìƒµ ìƒì„¸í˜ì´ì§€ ìŠ¤íƒ€ì¼ ì„¤ì • ****************/
+/* ê¸°ë³¸ ë ˆì´ì•„ì›ƒ */
 .sales_detail {
     padding-bottom: 115px;
 }
 
-/* »ó´Ü Å¸ÀÌÆ² */
+/* ìƒë‹¨ íƒ€ì´í‹€ */
 .sales_detail .sect_header {
     margin-bottom: 40px;
 }
 
 
-/* ±âº» ÆùÆ® */
+/* ê¸°ë³¸ í°íŠ¸ */
 .sales_detail .sect_title {
     font-size: 40px;
     font-weight: bold;
@@ -311,7 +312,7 @@ ul > li, ol > li {
 }
 
 
-/* ¼¥ ³»¿ë ³×ºñ°ÔÀÌÅÍ */
+/* ìƒµ ë‚´ìš© ë„¤ë¹„ê²Œì´í„° */
 
 .sales_navigator {
     margin: 85px 0px;
@@ -346,7 +347,7 @@ ul > li, ol > li {
     margin-right: 10px;
 }
 
-/* Æ÷Æ®Æú¸®¿À ¼³¸í ¿µ¿ª  */
+/* í¬íŠ¸í´ë¦¬ì˜¤ ì„¤ëª… ì˜ì—­  */
 
 .hair_info {
     border: 1px solid #252525;
@@ -380,7 +381,7 @@ ul > li, ol > li {
     font-weight: 500;
 }
 
-/* ½Ã¼ú Àå¼Ò */
+/* ì‹œìˆ  ì¥ì†Œ */
 .shop_location {
     margin-top: 70px;
 }
@@ -401,7 +402,7 @@ ul > li, ol > li {
 }
 
 
-/* Æ÷Æ®Æú¸®¿À ¸®½ºÆ® ¿µ¿ª  */
+/* í¬íŠ¸í´ë¦¬ì˜¤ ë¦¬ìŠ¤íŠ¸ ì˜ì—­  */
 
 .pf_wrap {
     margin-top: 70px;
@@ -427,14 +428,14 @@ ul > li, ol > li {
     margin-top: 70px;
 }
 
-/* ÈÄ±â ¿µ¿ª */
+/* í›„ê¸° ì˜ì—­ */
 
 .rp_wrap {
     margin-top: 100px;
 }
 
 
-/* ÈÄ±â ÀÛ¼º Æû */
+/* í›„ê¸° ì‘ì„± í¼ */
 .rp_frm {
     margin-top: 20px;
 }
@@ -458,7 +459,7 @@ ul > li, ol > li {
     float: right;
 }
 
-/* ´ëÇ¥ ÈÄ±â */
+/* ëŒ€í‘œ í›„ê¸° */
 .rp_average {
     margin: 50px 0;
 }
@@ -496,7 +497,7 @@ ul > li, ol > li {
 }
 
 
-/* ÈÄ±â ³»¿ë  */
+/* í›„ê¸° ë‚´ìš©  */
 .rp_content {
     padding: 50px 0;
     border-top: 2px solid #ccc;
@@ -549,7 +550,7 @@ ul > li, ol > li {
     font-size: 18px;
 }
 
-/* ¿¹¾àÇÏ±â ¹Ú½º */
+/* ì˜ˆì•½í•˜ê¸° ë°•ìŠ¤ */
 .reserve_box {
     margin: 205px auto 0;
     padding: 70px 40px;
@@ -643,7 +644,7 @@ ul > li, ol > li {
 }
 
 
-/*************** µğÀÚÀÌ³Ê Á¤º¸ ÆäÀÌÁö ½ºÅ¸ÀÏ ¼³Á¤ ****************/
+/*************** ë””ìì´ë„ˆ ì •ë³´ í˜ì´ì§€ ìŠ¤íƒ€ì¼ ì„¤ì • ****************/
 
 .designer_info_box {
     padding: 70px 0;
@@ -689,7 +690,7 @@ ul > li, ol > li {
     color: #838383;
 }
 
-/* µğÀÚÀÌ³Ê ÆäÀÌÁö ÅÇ¸Ş´º ³×ºñ°ÔÀÌÅÍ */
+/* ë””ìì´ë„ˆ í˜ì´ì§€ íƒ­ë©”ë‰´ ë„¤ë¹„ê²Œì´í„° */
 
 .designer_info_tabbox > li {
     padding: 0px;
@@ -715,7 +716,7 @@ ul > li, ol > li {
 }
 
 
-/* ÅÇ¸Ş´º »ó¼¼ ÆäÀÌÁö */
+/* íƒ­ë©”ë‰´ ìƒì„¸ í˜ì´ì§€ */
 
 #sales_tab .shop_add_btn {
     display: inline-block;
@@ -736,7 +737,7 @@ ul > li, ol > li {
 }
 
 
-/*************** ¼¥ µî·Ï ÆäÀÌÁö ½ºÅ¸ÀÏ ¼³Á¤ ****************/
+/*************** ìƒµ ë“±ë¡ í˜ì´ì§€ ìŠ¤íƒ€ì¼ ì„¤ì • ****************/
 
 .shop_create_frm form {
     padding-bottom: 115px;
