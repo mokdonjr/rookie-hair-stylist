@@ -12,13 +12,13 @@ Vue.component('main-slider', {
             </ol>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="d-block w-100" src="http://placehold.it/1520x485" alt="First slide">
+                    <img class="d-block w-100" src="/images/main/main_img01.jpg" alt="First slide">
                 </div>
                 <div class="carousel-item">
-                    <img class="d-block w-100" src="http://placehold.it/1520x485" alt="Second slide">
+                    <img class="d-block w-100" src="/images/main/main_img02.jpg" alt="Second slide">
                 </div>
                 <div class="carousel-item">
-                    <img class="d-block w-100" src="http://placehold.it/1520x485" alt="Third slide">
+                    <img class="d-block w-100" src="/images/main/main_img03.jpg" alt="Third slide">
                 </div>
             </div>
             <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
