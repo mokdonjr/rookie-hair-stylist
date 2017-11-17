@@ -59,15 +59,12 @@ public class Shop implements Serializable {
 	private ShopStatus shopStatus;
 	
 	@Column(name="shop_time")
-	@NotEmpty(message="가능한 시간대 입력란은 필수 항목 입니다.")
 	private String shopTime;
 	
 	@Column(name="shop_date")
-	@NotEmpty(message="가능한 날짜 입력란은 필수 항목 입니다.")
 	private String shopDate;
 	
 	@Column(name="shop_day")
-	@NotEmpty(message="가능한 요일 입력란은 필수 항목 입니다.")
 	private String shopDay;
 	
 	@Transient

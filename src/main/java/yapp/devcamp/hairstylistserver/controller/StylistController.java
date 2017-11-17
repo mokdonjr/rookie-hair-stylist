@@ -75,7 +75,6 @@ public class StylistController {
 	 */
 	@GetMapping("/apply")
 	public String applyStylistPage(HttpServletRequest request, Model model) {
-		
 		User user = getCurrentUser();
 		
 		Stylist stylist = new Stylist();
