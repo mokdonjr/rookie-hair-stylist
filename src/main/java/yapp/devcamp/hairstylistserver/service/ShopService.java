@@ -35,7 +35,7 @@ public class ShopService {
 	private StorageService storageService;
 	
 	//shop 등록
-	public void saveShop(Shop shopModel) throws IOException{
+	public void saveShop(Shop shopModel) throws IOException{ 
 		String shopName = shopModel.getShopName();
 		int shopCode = shopModel.getShopCode();
 		

@@ -43,7 +43,8 @@
                             <header class="sect_header clearnext">
                                 <h3 class="sect_title">포트폴리오</h3>
 <!--                                 <a href="./designer_info.html">포트폴리오 더보기</a> -->
-								<a th:href="@{'/stylist/designerInfo/' + ${stylist.stylistCode}}">포트폴리오 더보기&nbsp;&nbsp;</a>
+									<a th:href="@{'/stylist/designerInfo/' + ${shop.stylist.stylistCode}}">포트폴리오 더보기&nbsp;&nbsp;</a>
+<!-- 								<a th:href="@{'/stylist/designerInfo/' + ${stylist.stylistCode}}">포트폴리오 더보기&nbsp;&nbsp;</a> -->
 								<a th:href="@{'/shop/chat/' + ${shop.shopCode}}"><span>채팅문의하기&nbsp;&nbsp;</span></a>
                             </header>
                             <ul th:each="portfolio : ${shop.portfolioImg}" class="pf_list">
@@ -134,7 +135,7 @@
                                             </div>
                                             <div class="col-lg-9">
                                                 <div class="reserve_info">
-                                                    <span class="designer_name">Designer 은진</span>
+                                                    <span class="designer_name" th:text="${'Designer' + shop.stylist.stylistNickname}">Designer 은진</span>
                                                     <span class="hairstyle_name">여자 탈색/염색 스타일링</span>
                                                 </div>
                                             </div>

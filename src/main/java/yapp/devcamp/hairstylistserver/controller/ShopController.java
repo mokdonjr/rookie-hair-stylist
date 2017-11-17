@@ -12,12 +12,14 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +29,8 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import yapp.devcamp.hairstylistserver.enums.ShopStatus;
 import yapp.devcamp.hairstylistserver.model.Book;
 import yapp.devcamp.hairstylistserver.model.Postscript;
+import yapp.devcamp.hairstylistserver.model.Product;
+import yapp.devcamp.hairstylistserver.model.ProductOption;
 import yapp.devcamp.hairstylistserver.model.Shop;
 import yapp.devcamp.hairstylistserver.model.Stylist;
 import yapp.devcamp.hairstylistserver.model.User;
@@ -35,6 +39,7 @@ import yapp.devcamp.hairstylistserver.service.PostscriptService;
 import yapp.devcamp.hairstylistserver.service.ShopService;
 import yapp.devcamp.hairstylistserver.service.StorageService;
 import yapp.devcamp.hairstylistserver.service.UserService;
+import yapp.devcamp.hairstylistserver.utils.StringUtil;
 
 /**
  * Shop Management Controller
@@ -76,17 +81,22 @@ public class ShopController {
 		String portfolioPath = getUploadedImage(shop.getStylist().getStylistCode(), shop.getShopName());
 		File file = new File(portfolioPath);
 		File[] fileList = file.listFiles();
-		String[] getPort = new String[fileList.length-1];
-		
-		for(int i=0;i<fileList.length;i++){
-			String filename = fileList[i].getName();
-			if(!filename.equals("thumbnail.jpg")){
-				String portfolioUrl = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", shop.getStylist().getStylistCode(), shop.getShopName(), filename)
-									.build().toString();
-				getPort[i] = portfolioUrl;
+
+		// 추가, 포트폴리오 등록 안했을 경우
+		if(fileList != null) {
+			String[] getPort = new String[fileList.length-1];
+			for(int i=0;i<fileList.length;i++){
+				String filename = fileList[i].getName();
+				if(!filename.equals("thumbnail.jpg")){
+					String portfolioUrl = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", shop.getStylist().getStylistCode(), shop.getShopName(), filename)
+										.build().toString();
+					getPort[i] = portfolioUrl;
+				}
 			}
+			shop.setPortfolioImg(getPort);
 		}
-		shop.setPortfolioImg(getPort);
+		
+		
 		
 		//후기 평균 계산
 		List<Postscript> postscriptList = postscriptService.selectAll(shop);
@@ -131,8 +141,8 @@ public class ShopController {
 	 * Shop enroll method
 	 */
 	@RequestMapping(value="/enroll", method=RequestMethod.POST)
-	public String enroll(@Valid Shop shop
-			,BindingResult result,HttpServletRequest request) throws Exception{
+	public String enroll(@Valid Shop shop, BindingResult result, HttpServletRequest request, Model model) 
+								throws IOException {
 		
 		
 		if(result.hasErrors()){
@@ -141,6 +151,13 @@ public class ShopController {
 			for(ObjectError error : errors){
 				error.getDefaultMessage();
 			}
+			return "shop_create";
+		}
+		
+		// if shop already exists
+		String shopName = shop.getShopName();
+		if(shopService.isAlreadyEnrollShopName(shopName)){
+			model.addAttribute("alreadyExistShop", shopName);
 			return "shop_create";
 		}
 		
@@ -180,24 +197,35 @@ public class ShopController {
 			throw new NullPointerException("shop이 null입니다.");
 		}
 		
-//		// send enroll email
-//		String requestURL = request.getRequestURL().toString();
-//		String baseURL = StringUtil.getBaseURL(requestURL);
-//		try{
-//			emailService.sendCreatedShopEmail(baseURL, shop);	
-//		} catch(MailException | InterruptedException e) {
-//			logger.warn("Error sending email : " + e.getMessage());
-//		}
+		// send enroll email
+		String requestURL = request.getRequestURL().toString();
+		String baseURL = StringUtil.getBaseURL(requestURL);
+		try{
+			emailService.sendCreatedShopEmail(baseURL, shop);	
+		} catch(MailException | InterruptedException e) {
+			logger.warn("Error sending email : " + e.getMessage());
+		}
 		
 		return "redirect:/stylist/mypage";
 	}
 	
+//	public String getUploadedImage(int stylistCode, String shopName) throws IOException {
+//		logger.warn("getUploadedImage 메서드 진입");
+//		
+//		
+//		Path path = storageService.shopLoad(stylistCode, shopName);
+//		return path.toString();
+//    }
 	public String getUploadedImage(int stylistCode, String shopName) throws IOException {
 		logger.warn("getUploadedImage 메서드 진입");
+		String encodedShopName = StringUtil.encodePath(shopName);
 		
+		Path path = storageService.loadShopImage(stylistCode, encodedShopName);
+		String url = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", stylistCode, encodedShopName, path.getFileName().toString())
+						.build().toString();
+		logger.warn("getUploadedImage : " + url);
 		
-		Path path = storageService.shopLoad(stylistCode, shopName);
-		return path.toString();
+		return url;
     }
 	
 //	@PostMapping(value="/enroll")
@@ -291,57 +319,62 @@ public class ShopController {
 		return "editShop";
 	}
 	
-//	@PostMapping("/edit")
-//	public String editShop(@Valid Shop shop, BindingResult result, HttpServletRequest request){
-//		
-//		Stylist stylist = (Stylist) request.getSession().getAttribute("stylist");
-//		int stylistCode = stylist.getStylistCode();
-//		
-//		if(result.hasErrors()){
-//			logger.debug("From data has errors");
-//			List<ObjectError> errors = result.getAllErrors();
-//			for(ObjectError error : errors){
-//				error.getDefaultMessage();
-//			}
-//			return "editShop";
-//		}
-//		// set shop status
-//		shop.setShopStatus(ShopStatus.OPENED);
-//		
-//		String shopName = shop.getShopName();
-//		
-//		// save images
-//		MultipartFile shopImage = shop.getShopImage();
-//		storageService.storeShopImage(stylistCode, shopName, shopImage);
-//		
-//		// save imagepaths
-//		String imagePath = null;
-//		try {
-//			imagePath = getUploadedImage(stylistCode, shopName);
-//		} catch (IOException e1) {
-//			e1.printStackTrace();
-//		}
-//		shop.setImagePath(imagePath);
-//		
-//		// set products, options, stylist FKs
-//		shop.setStylist(stylist);
-//		
-//		List<Product> products = shop.getProducts();
-//		List<ProductOption> options = shop.getOptions();
-//		shopService.saveProduct(products, shop);
-//		shopService.saveOption(options, shop);
-//		
-//		shopService.saveShop(shop);
-//		
-//		String requestURL = request.getRequestURL().toString();
-//		String baseURL = StringUtil.getBaseURL(requestURL);
-//		try{
-//			emailService.sendEditShopEmail(baseURL, shop);	
-//		} catch(MailException | InterruptedException e) {
-//			logger.warn("Error sending email : " + e.getMessage());
-//		}
-//		return "redirect:/stylist/mypage";
-//	}
+	@PostMapping("/edit")
+	public String editShop(@Valid Shop shop, BindingResult result, HttpServletRequest request){
+		
+		Stylist stylist = (Stylist) request.getSession().getAttribute("stylist");
+		int stylistCode = stylist.getStylistCode();
+		
+		if(result.hasErrors()){
+			logger.debug("From data has errors");
+			List<ObjectError> errors = result.getAllErrors();
+			for(ObjectError error : errors){
+				error.getDefaultMessage();
+			}
+			return "editShop";
+		}
+		// set shop status
+		shop.setShopStatus(ShopStatus.OPENED);
+		
+		String shopName = shop.getShopName();
+		
+		// save images
+		MultipartFile shopImage = shop.getShopImage();
+		storageService.storeShopImage(stylistCode, shopName, shopImage);
+		
+		// save imagepaths
+		String imagePath = null;
+		try {
+			imagePath = getUploadedImage(stylistCode, shopName);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		shop.setImagePath(imagePath);
+		
+		// set products, options, stylist FKs
+		shop.setStylist(stylist);
+		
+		List<Product> products = shop.getProducts();
+		List<ProductOption> options = shop.getOptions();
+		shopService.saveProduct(products, shop);
+		shopService.saveOption(options, shop);
+		
+		try {
+			shopService.saveShop(shop);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		String requestURL = request.getRequestURL().toString();
+		String baseURL = StringUtil.getBaseURL(requestURL);
+		try{
+			emailService.sendEditShopEmail(baseURL, shop);	
+		} catch(MailException | InterruptedException e) {
+			logger.warn("Error sending email : " + e.getMessage());
+		}
+		return "redirect:/stylist/mypage";
+	}
 	
 	/**
 	 * Shop delete method
