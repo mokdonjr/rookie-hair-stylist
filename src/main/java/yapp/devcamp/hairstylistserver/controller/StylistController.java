@@ -244,7 +244,7 @@ public class StylistController {
 		model.addAttribute("stylist", stylist);
 		model.addAttribute("shopList", shopList);
 		
-		return "designer_info";
+		return "designer_order_view";
 	}
 	
 	@GetMapping("/designerInfo/{stylistCode}")
@@ -256,7 +256,7 @@ public class StylistController {
 		model.addAttribute("stylist", stylist);
 		model.addAttribute("shopList", shopList);
 		
-		return "designer_info";
+		return "designer_page_sales_list";
 	}
 	
 	/**

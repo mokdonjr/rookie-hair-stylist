@@ -74,6 +74,10 @@ $("#datepicker").click(function(){
   $(this).datepicker({firstDay: 1});  
 });
 
+$("#dateUpload").click(function(){
+  $(this).datepicker({firstDay: 1});  
+});
+
 
 // 주소찾기 api controller
 //load함수를 이용하여 core스크립트의 로딩이 완료된 후, 우편번호 서비스를 실행합니다.
@@ -88,6 +92,5 @@ function daumLocationApi(){
         }).open();
     }); 
 };
-
 
 

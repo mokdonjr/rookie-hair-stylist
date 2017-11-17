@@ -8,7 +8,7 @@
 <body>
 <div id="page-wrapper" layout:fragment="content">
     <div id="pageWrap">
-        <nav-header></nav-header>
+        
         <div class="container">
             <div class="shop_create_frm">
                 <header>
@@ -112,6 +112,7 @@
 	                            <label for="dateUpload">날짜</label>
 	                            <label th:if="${#fields.hasErrors('shopDate')}" th:errors="*{shopDate}" class="validation-message"></label>
 	                            <input id="dateUpload" th:field="*{shopDate}" class="form-control" type="text" placeholder="가능한 날짜를 모두 입력해주세요">
+	                            <div id="datepicker" class="calendar"></div>
 	                        </div>
 	                        <div class="col-md-4">
 	                            <label for="dayUpload">요일</label>

@@ -27,7 +27,6 @@ public class HomeController {
 	public String home(Model model, HttpServletRequest request){
 		String requestURL = request.getRequestURL().toString();
 		List<Shop> shopList = shopService.selectAllShop();
-		
 		logger.warn("Rookies Request URL : " + requestURL);
 		model.addAttribute("shopList", shopList);
 		
