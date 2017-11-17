@@ -93,8 +93,8 @@
                                     <li class="rp_photo_wrap"></li>
                                 </ul>
                             </div>
-                            
-                            <div th:each="i : ${#numbers.sequence( 1, count)}" class="rp_content">
+                            <div th:if="${count} > 0">
+                            <div th:each="i : ${#numbers.sequence(1, count)}" class="rp_content">
                                 <header class="rp_content_header">
                                     <span id="userThumb" class="user_thumb">
                                        <!--  <i class="xi-user"></i> -->
@@ -119,6 +119,8 @@
                                     <!-- <button class="reply_more_btn">더보기</button> -->
                                 </div>
                             </div>
+                            </div>
+                            
                         </section>
                         </div>
                         <div class="col-xl-4 col-sm-12">
