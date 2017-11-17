@@ -216,12 +216,12 @@ public class ShopController {
 //		Path path = storageService.shopLoad(stylistCode, shopName);
 //		return path.toString();
 //    }
+	
 	public String getUploadedImage(int stylistCode, String shopName) throws IOException {
 		logger.warn("getUploadedImage 메서드 진입");
-		String encodedShopName = StringUtil.encodePath(shopName);
 		
-		Path path = storageService.loadShopImage(stylistCode, encodedShopName);
-		String url = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", stylistCode, encodedShopName, path.getFileName().toString())
+		Path path = storageService.loadShopImage(stylistCode, shopName);
+		String url = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", stylistCode, shopName, path.getFileName().toString())
 						.build().toString();
 		logger.warn("getUploadedImage : " + url);
 		
