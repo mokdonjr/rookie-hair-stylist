@@ -1,5 +1,29 @@
 //// 글로벌 컴포넌트 설정 ////
 
+// 페이지 상단 네비게이션 바 
+Vue.component('nav-header', {
+    template: `
+    <header role="banner">
+        <div class="navbar navbar-inverse justify-content-between">
+            <div class="container">
+                <h1 class="navbar-header">
+                    <a class="navbar-brand" href="./"><img src="../images/logo.png" alt="rookies" class="img-responsive center-block"></a>
+                </h1>
+                <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="text" placeholder="검색어를 입력해주세요" aria-label="Search">
+                    <button class="btn btn-outline-default my-2 my-sm-0" type="submit"><i class="xi-search"></i></button>
+                </form>
+                <ul class="nav navbar-nav navbar-right" role="navigation">
+                    <li><a href="">회원가입/로그인</a></li>
+                    <li><a href="#">서비스 소개</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+  `
+})
+
+
 // 메인 슬라이더
 Vue.component('main-slider', {
     template: `
@@ -12,13 +36,13 @@ Vue.component('main-slider', {
             </ol>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="d-block w-100" src="http://placehold.it/1520x485" alt="First slide">
+                    <img class="d-block w-100" src="/images/main/main_img01.jpg" alt="First slide">
                 </div>
                 <div class="carousel-item">
-                    <img class="d-block w-100" src="http://placehold.it/1520x485" alt="Second slide">
+                    <img class="d-block w-100" src="/images/main/main_img02.jpg" alt="Second slide">
                 </div>
                 <div class="carousel-item">
-                    <img class="d-block w-100" src="http://placehold.it/1520x485" alt="Third slide">
+                    <img class="d-block w-100" src="/images/main/main_img03.jpg" alt="Third slide">
                 </div>
             </div>
             <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -71,9 +95,38 @@ Vue.component('shop-box', {
                 </div>
             </div>
         </div>
+    `
+});
+
+Vue.component('sales-shop-box', {
+    template: `
+        <div id="shopCard" class="shop_card">
+            <div id="mcLocation" class="sc_location">
+                <span>혜화/대학로</span>
+            </div>
+            <div class="sc_imgarea">
+                
+                <div class="profile_img">
+                    
+                </div>
+            </div>
+            <div class="sc_bottom">
+                <h4 class="sc_title">남자 투블럭/염색/스타일링</h4>  
+                <span class="sc_des">#투블럭 #남자 #머리 #염색 #컷</span>
+                <div class="sc_info clearnext">
+                    <span class="designer_name"><span>Designer</span> 은진</span>
+                    <span class="stars">
+                        <i class="xi-star"></i><i class="xi-star"></i><i class="xi-star"></i><i class="xi-star"></i><i class="xi-star"></i>
+                        <span class="reply_num">(15)</span>
+                    </span>
+                </div>
+            </div>
+        </div>
     `,
     
 });
+
+
 
 Vue.component('pf-img', {
     template: `
