@@ -75,11 +75,22 @@
 			<artifactId>webjars-locator</artifactId>
 		</dependency>
 
+<<<<<<< HEAD
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+=======
+		<!-- live reload-->
+		<dependency> 
+ 			<groupId>org.springframework.boot</groupId> 
+ 			<artifactId>spring-boot-devtools</artifactId> 
+ 			<scope>runtime</scope> 
+ 		</dependency> 
+		
+		
+>>>>>>> 0334c547b92ca6f6c23b9bd043b50fabefedd8dd
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
