@@ -9,16 +9,16 @@
 <body>
 <div id="page-wrapper" layout:fragment="content">
 
-	<h1>Hair Stylist Server - Login Page</h1>
+	<h1 class="login_title">Hair Stylist Server - Login Page</h1>
 	
 	<!-- Login Error Status -->
 	<h3 th:text="${errorMsg}"></h3><br>
-	
+	s
 	<!-- Logout Status -->
 	<h3 th:text="${logoutMsg}"></h3><br>
 	
 	<!-- Logged in Status -->
-	<div sec:authorize="isAuthenticated()">
+	<div sec:authorize="isAuthenticated()" class="login_box">
 	
 		<h2>안녕하세요, </h2>
 		<h2 th:text="${name}"></h2>
@@ -35,7 +35,7 @@
 	</div>
 	
 	<!-- Login Requests -->
-	<div sec:authorize="isAnonymous()">
+	<div sec:authorize="isAnonymous()" class="login_box">
 		<h3>SNS 계정으로 로그인</h3>
 		<a href="javascript:;" class="btn_social" data-social="facebook"><img src="/images/facebook.png" width="40px" height="40px"></a>
     	<a href="javascript:;" class="btn_social" data-social="kakao"><img src="/images/kakao.png" width="40px" height="40px"></a>

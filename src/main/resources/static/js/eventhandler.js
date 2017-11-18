@@ -74,7 +74,11 @@ $("#datepicker").click(function(){
   $(this).datepicker({firstDay: 1});  
 });
 
-$("#dateUpload").click(function(){
+$("#dateUpload01").click(function(){
+  $(this).datepicker({firstDay: 1});  
+});
+
+$("#dateUpload02").click(function(){
   $(this).datepicker({firstDay: 1});  
 });
 
@@ -92,5 +96,30 @@ function daumLocationApi(){
         }).open();
     }); 
 };
+
+function shopCreateSubmit(){
+	var date01 = $('#dateUpload01').val().split('/').reverse().join('-');
+	var date02 = $('#dateUpload02').val().split('/').reverse().join('-');
+	var itr = moment.twix(new Date(date01),new Date(date02)).iterate("days");
+	var range=[];
+	while(itr.hasNext()){
+		range.push(itr.next().toDate());
+	}
+	range = range + "";
+	$('.total_date').val(range);
+}
+
+
+$('.navbar-right li').each(function() {
+    if ($(this).find('img').length) {
+        $(this).css({
+			"top": "-7.5px",
+			"position": "relative"
+		});
+    }
+});
+
+
+
 
 

@@ -15,7 +15,7 @@
                     <h3 class="frm_big_title">판매 상품 등록</h3>
                     <p class="frm_big_des">판매할 헤어스타일링 상품 정보를 작성해주세요.</p>
                 </header>
-				<form th:object="${shop}" method="post" enctype="multipart/form-data" th:action="@{/shop/enroll}">
+				<form th:object="${shop}" method="post" enctype="multipart/form-data" th:action="@{/shop/enroll}" onsubmit="shopCreateSubmit();">
 					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                     <div class="btn-group">
                         <button id="tmpSaveBtn" class="tmp_save_btn">임시 저장</button>
@@ -109,10 +109,19 @@
                         <p class="frm_des">시술이 가능한 날짜를 등록해주세요. 최대 한 달 이내까지 등록할 수 있으며 판매기간이 만료된 후에 연장할 수 있습니다.</p>
                     	<div class="row">
 	                        <div class="col-md-4">
-	                            <label for="dateUpload">날짜</label>
-	                            <label th:if="${#fields.hasErrors('shopDate')}" th:errors="*{shopDate}" class="validation-message"></label>
-	                            <input id="dateUpload" th:field="*{shopDate}" class="form-control" type="text" placeholder="가능한 날짜를 모두 입력해주세요">
-	                            <div id="datepicker" class="calendar"></div>
+								<div class="datewrap">
+									<label for="dateUpload">시작날짜</label>
+									<label th:if="${#fields.hasErrors('shopDate')}" th:errors="*{shopDate}" class="validation-message"></label>
+									<input id="dateUpload01" th:field="*{shopDate}" class="form-control" type="text" placeholder="가능한 날짜를 모두 입력해주세요">
+									<div id="datepicker" class="calendar"></div>	
+								</div>		
+	                            <div class="datewrap">
+									<label for="dateUpload02">끝나는 날짜</label>
+									<label th:if="${#fields.hasErrors('shopDate')}" th:errors="*{shopDate}" class="validation-message"></label>
+									<input id="dateUpload02" th:field="*{shopDate}" class="form-control" type="text" placeholder="가능한 날짜를 모두 입력해주세요">
+									<div id="datepicker" class="calendar"></div>	
+								</div>
+								<input type="hidden" class="hidden form-control total_date">
 	                        </div>
 	                        <div class="col-md-4">
 	                            <label for="dayUpload">요일</label>
