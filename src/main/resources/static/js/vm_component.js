@@ -21,7 +21,7 @@ Vue.component('nav-header', {
         </div>
     </header>
   `
-})
+});
 
 
 // 메인 슬라이더

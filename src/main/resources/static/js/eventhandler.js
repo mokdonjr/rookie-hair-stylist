@@ -266,3 +266,5 @@ $(".designer_complete_btn").click(function(){
 	location.href='/book/complete/'+$(this).attr("id");
 })
 
+
+
