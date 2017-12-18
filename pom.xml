@@ -6,7 +6,7 @@
 	<groupId>yapp.devcamp</groupId>
 	<artifactId>hair-stylist-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>hair-stylist-server</name>
 	<description>Demo project for Spring Boot</description>

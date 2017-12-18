@@ -136,19 +136,6 @@ $(function() {
 		  	}).focus();
 	});
 	
-	//예약된 날짜 막기
-//	var bookDays = [];
-//	function disableBookDays(date) {
-//		var m = date.getMonth(), d=date.getDate(), y=date.getFullYear();
-//		for(i=0;i<bookDays.length;i++){
-//			if($.inArray(y+'-'+(m+1)+'-'+d,bookDays) != -1){
-//				return [false];
-//			}
-//		}
-//		return [true];
-//	}
-	
-	
 	//timepicker
 	$("#timeUpload").timepicker({
 		dynamic: false
@@ -224,13 +211,11 @@ $("#productSelect").change(function(){
 	//선택된 상품 가격 추출
 	var str = $.trim($("#productSelect option:selected").text());
 	strArr = str.split(" ");
-	var productAmount = parseInt(strArr[1].substring(0,strArr[1].length-1));
-	
+	var productAmount = parseInt(strArr[1].substring(0,strArr[1].length-1).replace(/,/g,''));
 	//선택된 옵션 가격 추출
 	var opStr = $.trim($("#optionSelect option:selected").text());
 	strArr2 = opStr.split(" ");
-	var optionAmount = parseInt(strArr2[1].substring(0,strArr2[1].length-1));
-	
+	var optionAmount = parseInt(strArr2[1].substring(0,strArr2[1].length-1).replace(/,/g,''));
 	$("#price").text(productAmount+optionAmount);
 });
 
@@ -239,12 +224,12 @@ $("#optionSelect").change(function(){
 	//선택된 상품 가격 추출
 	var str = $.trim($("#productSelect option:selected").text());
 	strArr = str.split(" ");
-	var productAmount = parseInt(strArr[1].substring(0,strArr[1].length-1));
+	var productAmount = parseInt(strArr[1].substring(0,strArr[1].length-1).replace(/,/g,''));
 	
 	//선택된 옵션 가격 추출
 	var opStr = $.trim($("#optionSelect option:selected").text());
 	strArr2 = opStr.split(" ");
-	var optionAmount = parseInt(strArr2[1].substring(0,strArr2[1].length-1));
+	var optionAmount = parseInt(strArr2[1].substring(0,strArr2[1].length-1).replace(/,/g,''));
 	
 	$("#price").text(productAmount+optionAmount);
 });
