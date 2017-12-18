@@ -45,27 +45,8 @@ public class ShopService {
 			int resultStylistCode = resultShop.getStylist().getStylistCode();
 			String resultShopName = resultShop.getShopName();
 			
-//			String originPath = storageService.shopLoad(resultStylistCode, resultShopName).toString();
-//			File originFile = new File(originPath);
-//			
-//			String newPath = storageService.shopLoad(stylistCode, shopName).toString();
-//			File newFile = new File(newPath);
-//			originFile.renameTo(newFile);
-			
-//			originPath = storageService.postscriptLoad(resultStylistCode, resultShopName).toString();
-//			originFile = new File(originPath);
-//			
-//			newPath = storageService.postscriptLoad(resultStylistCode, resultShopName).toString();
-//			newFile = new File(newPath);
-//			originFile.renameTo(newFile);
+
 		}
-//		if(thumbnail !=null){
-//			for(int i=0;i<thumbnail.length;i++){
-//				if(!thumbnail[i].getOriginalFilename().equals("")){
-//					//storageService.storeShopImage(shopModel.getStylist().getStylistCode(), shopModel.getShopName(), thumbnail[i],i);
-//				}
-//			}
-//		}
 		
 		shopRepository.save(shopModel);
 	}
@@ -126,6 +107,16 @@ public class ShopService {
 			product.setShop(shop);
 			productRepository.save(product);
 		}
+	}
+	
+	//shopCode로 product 알아오기
+	public List<Product> findByshopCode(Shop shop){
+		return productRepository.findByShop(shop);
+	}
+	
+	//shopCode로 option 알아오기
+	public List<ProductOption> findByshopCodeOption(Shop shop){
+		return productOptionRepository.findByShop(shop);
 	}
 	
 	//option 등록

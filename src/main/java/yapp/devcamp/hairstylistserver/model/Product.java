@@ -41,6 +41,9 @@ public class Product implements Serializable {
 	@Column(name="product_price")
 	private int productPrice;
 	
+	@Transient
+	private String productPriceStr;
+	
 	@ManyToOne
 	@JoinColumn(name="shop_code")
 	private Shop shop;

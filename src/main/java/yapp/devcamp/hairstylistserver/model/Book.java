@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,20 +34,20 @@ public class Book implements Serializable {
 	@Column(name="book_date")
 	private String bookDate;
 	
-	@Column(name="book_day")
-	private String bookDay;
-	
 	@Column(name="book_time")
 	private String bookTime;
 	
 	@Column(name="book_status")
-	private boolean bookStatus = true;
+	private int bookStatus;
 	
 	@Column(name="product_code")
 	private int productCode;
 	
 	@Column(name="option_code")
 	private int optionCode;
+	
+	@Column(name="stylist_code")
+	private int stylistCode;
 	
 	@ManyToOne
 	@JoinColumn(name="user_id")
@@ -55,4 +56,13 @@ public class Book implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="shop_code")
 	private Shop shop;
+	
+	@Transient
+	private Stylist stylist;
+	
+	@Transient
+	private Product product;
+	
+	@Transient
+	private ProductOption option;
 }

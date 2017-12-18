@@ -3,6 +3,7 @@ package yapp.devcamp.hairstylistserver.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -70,6 +71,7 @@ public class ShopController {
 	@RequestMapping(value="/{shopCode}", method=RequestMethod.GET)
 	public ModelAndView selectByShopCode(@PathVariable("shopCode") int shopCode,HttpServletRequest request) throws IOException{
 		ModelAndView mv = new ModelAndView();
+		
 		Shop shop = shopService.selectShopByShopCode(shopCode);
 		
 		//썸네일 URL 만들기
@@ -82,7 +84,7 @@ public class ShopController {
 		File file = new File(portfolioPath);
 		File[] fileList = file.listFiles();
 
-		// 추가, 포트폴리오 등록 안했을 경우
+		//포트폴리오 사진 가져오기
 		if(fileList != null) {
 			String[] getPort = new String[fileList.length-1];
 			for(int i=0;i<fileList.length;i++){
@@ -96,8 +98,6 @@ public class ShopController {
 			shop.setPortfolioImg(getPort);
 		}
 		
-		
-		
 		//후기 평균 계산
 		List<Postscript> postscriptList = postscriptService.selectAll(shop);
 		float sum=0;
@@ -110,6 +110,20 @@ public class ShopController {
 		int count = postscriptList.size();
 		float avg = (int)((sum/count)*10)/10.0f;
 		String opinion = makeOpinion((int)avg);
+		
+		List<Product> pList = shopService.findByshopCode(shop);
+		List<ProductOption> oList = shopService.findByshopCodeOption(shop);
+		
+		shop.setProducts(pList);
+		shop.setOptions(oList);
+		DecimalFormat df = new DecimalFormat("#,###");
+		
+		for(Product pro : pList){
+			pro.setProductPriceStr(df.format(pro.getProductPrice()));
+		}
+		for(ProductOption op : oList){
+			op.setOptionPriceStr(df.format(op.getOptionPrice()));
+		}
 		
 		Stylist stylist = shop.getStylist();
 		
@@ -143,7 +157,6 @@ public class ShopController {
 	@RequestMapping(value="/enroll", method=RequestMethod.POST)
 	public String enroll(@Valid Shop shop, BindingResult result, HttpServletRequest request, Model model) 
 								throws IOException {
-		
 		
 		if(result.hasErrors()){
 			logger.debug("From data has errors");
@@ -206,95 +219,15 @@ public class ShopController {
 			logger.warn("Error sending email : " + e.getMessage());
 		}
 		
-		return "redirect:/stylist/mypage";
+		return "redirect:/stylist/designerInfo/"+stylist.getStylistCode();
 	}
-	
-//	public String getUploadedImage(int stylistCode, String shopName) throws IOException {
-//		logger.warn("getUploadedImage 메서드 진입");
-//		
-//		
-//		Path path = storageService.shopLoad(stylistCode, shopName);
-//		return path.toString();
-//    }
 	
 	public String getUploadedImage(int stylistCode, String shopName) throws IOException {
 		logger.warn("getUploadedImage 메서드 진입");
-		
-		Path path = storageService.loadShopImage(stylistCode, shopName);
-		String url = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", stylistCode, shopName, path.getFileName().toString())
-						.build().toString();
-		logger.warn("getUploadedImage : " + url);
-		
-		return url;
+		Path path = storageService.shopLoad(stylistCode, shopName);
+		return path.toString();
     }
 	
-//	@PostMapping(value="/enroll")
-//	public String enrollShop(@Valid Shop shop, BindingResult result, HttpServletRequest request, Model model) {
-//		
-//		Stylist stylist = (Stylist) request.getSession().getAttribute("stylist");
-//		int stylistCode = stylist.getStylistCode();
-//		
-//		if(result.hasErrors()){
-//			logger.debug("From data has errors");
-//			List<ObjectError> errors = result.getAllErrors();
-//			for(ObjectError error : errors){
-//				error.getDefaultMessage();
-//			}
-//			return "shop_create";
-//		}
-//		
-//		// if shop already exists
-//		String shopName = shop.getShopName();
-//		if(shopService.isAlreadyEnrollShopName(shopName)){
-//			model.addAttribute("alreadyExistShop", shopName);
-//			return "shop_create";
-//		}
-//		
-//		// shopCode >= 1
-//		if(!shopService.isExistAnyShop()){
-//			shop.setShopCode(1);
-//		}
-//		
-//		// save images
-//		MultipartFile shopImage = shop.getShopImage();
-//		storageService.storeShopImage(stylistCode, shopName, shopImage);
-//		
-//		// save imagepaths
-//		String imagePath = null;
-//		try {
-//			imagePath = getUploadedImage(stylistCode, shopName);
-//		} catch (IOException e1) {
-//			e1.printStackTrace();
-//		}
-//		shop.setImagePath(imagePath);
-//
-//		// set products, options, stylist FKs
-//		List<Product> products = shop.getProducts();
-//		for(Product product : products){
-//			product.setShop(shop);
-//		}
-//		// set options
-//		List<ProductOption> options = shop.getOptions();
-//		for(ProductOption option : options){
-//			option.setShop(shop);
-//		}
-//		shop.setStylist(stylist);
-//		
-//		// set shopStatus
-//		shop.setShopStatus(ShopStatus.OPENED); // 신고 또는 영업종료시 CLOSED
-//		shopService.saveShop(shop);
-//		
-//		// send enroll email
-//		String requestURL = request.getRequestURL().toString();
-//		String baseURL = StringUtil.getBaseURL(requestURL);
-//		try{
-//			emailService.sendCreatedShopEmail(baseURL, shop);	
-//		} catch(MailException | InterruptedException e) {
-//			logger.warn("Error sending email : " + e.getMessage());
-//		}
-//		
-//		return "redirect:/stylist/mypage";
-//	}
 	
 	@GetMapping("/enroll")
 	public String enrollShopPage(Model model, HttpSession session){
@@ -389,12 +322,12 @@ public class ShopController {
 //	}
 	
 
-	@GetMapping("/chat/{shopCode}")
-	public String chat(@PathVariable int shopCode, Model model){
-		Shop shop = shopService.selectShopByShopCode(shopCode);
-		model.addAttribute("shop", shop);
-		return "chat";
-	}
+//	@GetMapping("/chat/{shopCode}")
+//	public String chat(@PathVariable int shopCode, Model model){
+//		Shop shop = shopService.selectShopByShopCode(shopCode);
+//		model.addAttribute("shop", shop);
+//		return "chat";
+//	}
 	
 	
 }

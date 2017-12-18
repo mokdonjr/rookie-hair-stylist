@@ -58,12 +58,19 @@ public class Shop implements Serializable {
 	@Column(name="shopstatus")
 	private ShopStatus shopStatus;
 	
+	//오픈 시간
 	@Column(name="shop_time")
 	private String shopTime;
 	
+	//마감 시간
+	@Column(name="shop_endtime")
+	private String shopEndTime;
+	
+	//오픈 날짜
 	@Column(name="shop_date")
 	private String shopDate;
 	
+	//종료 날짜
 	@Column(name="shop_day")
 	private String shopDay;
 	
@@ -75,6 +82,12 @@ public class Shop implements Serializable {
 	
 	@Transient
 	private String[] portfolioImg;
+	
+	@Transient
+	private float avg;
+	
+	@Transient
+	private int count;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="stylist_code")

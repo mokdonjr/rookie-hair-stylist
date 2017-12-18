@@ -162,6 +162,20 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			
+			<!-- 메이븐을 통한 서버 배포 -->
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<url>http://13.125.89.170:8080/manager/text</url>
+					<path>/devbcamp</path>
+					<username>devcampyapp</username>
+           		 	<password>devcamp!23</password>
+				</configuration>
+			</plugin>
+			 
 		</plugins>
 	</build>
 

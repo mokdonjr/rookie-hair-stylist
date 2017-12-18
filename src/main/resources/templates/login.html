@@ -1,49 +1,47 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
-	layout:decorator="layouts/commonLayout">
+   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+   layout:decorator="layouts/commonLayout">
 <head>
-	<meta charset="utf-8">
-	<title>Rookies::로그인</title>
+   <meta charset="utf-8">
+   <title>Rookies::로그인</title>
 </head>
 <body>
 <div id="page-wrapper" layout:fragment="content">
 
-	<h1>Hair Stylist Server - Login Page</h1>
-	
-	<!-- Login Error Status -->
-	<h3 th:text="${errorMsg}"></h3><br>
-	
-	<!-- Logout Status -->
-	<h3 th:text="${logoutMsg}"></h3><br>
-	
-	<!-- Logged in Status -->
-	<div sec:authorize="isAuthenticated()">
-	
-		<h2>안녕하세요, </h2>
-		<h2 th:text="${name}"></h2>
-		
-		<div sec:authorize="hasRole('ROLE_STYLIST')">
-		<h2>스타일리스트님!</h2>
-		</div>
-		<div sec:authorize="hasRole('ROLE_USER')">
-		<h2>고객님!</h2>
-		</div>
-		<div sec:authorize="hasRole('ROLE_ADMIN')">
-		<h2>관리자님!</h2>
-		</div>
-	</div>
-	
-	<!-- Login Requests -->
-	<div sec:authorize="isAnonymous()">
-		<h3>SNS 계정으로 로그인</h3>
-		<a href="javascript:;" class="btn_social" data-social="facebook"><img src="/images/facebook.png" width="40px" height="40px"></a>
-    	<a href="javascript:;" class="btn_social" data-social="kakao"><img src="/images/kakao.png" width="40px" height="40px"></a>
-	</div>
-	
-	<!-- JQuery -->
-	<script src="/webjars/jquery/3.1.0/jquery.min.js"></script>
-	<script>
+   <h1 class="login_title">Hair Stylist Server - Login Page</h1>
+   
+   <!-- Login Error Status -->
+   <h3 th:text="${errorMsg}"></h3><br>
+   
+   
+   <!-- Logged in Status -->
+   <div sec:authorize="isAuthenticated()" class="login_box">
+   
+      <h2>안녕하세요, </h2>
+      <h2 th:text="${name}"></h2>
+      
+      <div sec:authorize="hasRole('ROLE_STYLIST')">
+      <h2>스타일리스트님!</h2>
+      </div>
+      <div sec:authorize="hasRole('ROLE_USER')">
+      <h2>고객님!</h2>
+      </div>
+      <div sec:authorize="hasRole('ROLE_ADMIN')">
+      <h2>관리자님!</h2>
+      </div>
+   </div>
+   
+   <!-- Login Requests -->
+   <div sec:authorize="isAnonymous()" class="login_box">
+      <h3>SNS 계정으로 로그인</h3>
+      <a href="javascript:;" class="btn_social" data-social="facebook"><img src="/images/facebook.png" width="40px" height="40px"></a>
+       <a href="javascript:;" class="btn_social" data-social="kakao"><img src="/images/kakao.png" width="40px" height="40px"></a>
+   </div>
+   
+   <!-- JQuery -->
+   <script src="/webjars/jquery/3.1.0/jquery.min.js"></script>
+   <script>
     $('.btn_social').click(function () {
         var socialType = $(this).data('social');
         window.open('/login/'+socialType, '', 'scrollbars=yes, resizable=yes, status=yes, location=yes, width=500, height=350, left=0, top=0');
@@ -52,8 +50,8 @@
             window['onSuccess'] = null;
         }
     });
-	</script>
-	
+   </script>
+   
 </div>
 </body>
 </html>

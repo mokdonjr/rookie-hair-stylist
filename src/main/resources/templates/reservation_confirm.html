@@ -3,7 +3,7 @@
 	layout:decorator="layouts/commonLayout">
 <head>
 	<meta charset="utf-8">
-  	<title>Stylist My Page</title>
+  	<title>Rookies</title>
 </head>
 
 <body>
@@ -18,7 +18,7 @@
             <div class="rv_status">
                 <header class="clearfix">
                     <span class="title inline-block">주문정보</span>
-                    <span class="rv_num inline-block">주문번호: <span id="rvNum"></span></span>
+                    <span class="rv_num inline-block">주문번호: 52158648<span id="rvNum"></span></span>
                 </header>
                 <table class="table rv_status_tb">
                     <colgroup>
@@ -38,21 +38,19 @@
                     <tbody>
                         <tr>
                             <td>
-                                <div class="row">
-                                    <div class="col" id="rvImg"></div>
-                                    <div class="col" id="rvTitle"></div>
-                                </div>
+                                <span id="rvProduct" class="center-block" th:text="${product.productName}"></span>
+                                <span id="rvOption" class="center-block" th:text="'옵션 : '+${option.optionName}"></span>
                             </td>
                             <td>
-                                <span id="rvPrice" class="center-block">24, 000원</span>
-                                <span id="rvPayment" class="center-block">카카오페이</span>
+                                <span id="rvPrice" class="center-block" th:text="${product.productPrice}+${option.optionPrice}+'원'"></span>
+                                <span id="rvPayment" class="center-block">현장 결제</span>
                             </td>
                             <td>
-                                <span id="rvRegdate" class="center-block">2017.10.15</span>
-                                <span id="rvTime" class="center-block">8:00</span>
+                                <span id="rvRegdate" class="center-block" th:text="${book.bookDate}"></span>
+                                <span id="rvTime" class="center-block" th:text="${book.bookTime}"></span>
                             </td>
                             <td>
-                                <span id="rvDesigner">Designer 은진</span>
+                                <span id="rvDesigner" th:text="'Designer '+${stylist.stylistNickname}"></span>
                             </td>
                         </tr>
                     </tbody>

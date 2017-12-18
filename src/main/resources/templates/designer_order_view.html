@@ -3,7 +3,7 @@
 	layout:decorator="layouts/commonLayout">
 <head>
 	<meta charset="utf-8">
-  	<title>Stylist My Page</title>
+  	<title>Rookies</title>
 </head>
 
 <body>
@@ -18,26 +18,28 @@
                             <header>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <div class="designer_profile">
-
+                                        <div class="designer_profile" th:style="'background:url(' + @{${stylist.user.profileImagePath}} + ');'">
+											<img th:src="@{${stylist.user.profileImagePath}}" class="designer_profile" />
                                         </div>
-                                        <span class="designer_name">Designer 은진</span>
+                                        
+                                        <span th:text="'Designer '+${stylist.stylistNickname}" class="designer_name"></span>
                                     </div>
                                 </div>
                             </header>
                             <ul class="side_menu_list">
-                                <li class="active"><a href="">주문 조회</a></li>
-                                <li><a href="">전체 조회</a></li>
-                                <li><a href="">진행중인 예약 조회</a></li>
+                                <li><a href="/stylist/mypage">전체 조회</a></li>
+                                <li><a href="/stylist/mypage?type=order">주문 조회</a></li>
+                                <li><a href="/stylist/mypage?type=waiting">진행중인 예약 조회</a></li>
                             </ul>
                             <ul class="side_menu_list">
                                 <li><a th:href="@{'/stylist/designerInfo/'+${stylist.stylistCode}}">판매 상품 관리</a></li>
-                                <li><a href="">포트폴리오 관리</a></li>
-                                <li><a href="">고객 후기 관리</a></li>
+                                <li><a th:href="@{'/stylist/portfolioInfo/'+${stylist.stylistCode}}">포트폴리오 관리</a></li>
+                                <li><a th:href="@{'/stylist/postscriptInfo/'+${stylist.stylistCode}}">고객 후기 관리</a></li>
                             </ul>
+                           
                             <ul class="side_menu_list">
-                                <li><a href="">프로필 수정</a></li>
-                                <li><a href="">계좌 관리</a></li>
+                                <li><a href="#" onclick="alert('서비스 준비중 입니다!')">프로필 수정</a></li>
+                                <li><a href="#" onclick="alert('서비스 준비중 입니다!')">계좌 관리</a></li>
                             </ul>
                         </aside>
                     </div>
@@ -62,18 +64,20 @@
                             <button type="button" id="showFilterMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-secondary dropdown-toggle"><span class="btn_title">2017.08 - 2017.09</span><span class="btn_icon"></span></button>
                             
                             <header class="clearfix">
-                                <span class="title inline-block">주문정보<span>총 5건의 내역이 있습니다.</span></span>
+                                <span class="title inline-block">주문정보<span th:text="'총 '+${count}+'건의 내역이 있습니다.'"></span></span>
                                 <button type="button" id="showFilterMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="flr btn btn-secondary dropdown-toggle ml-auto mr-0"><span class="btn_title">전체 상태</span><span class="btn_icon"></span></button>
                             </header>
                             <table class="table rv_status_tb">
                                 <colgroup>
-                                    <col width="40%">
+                                	<col width="15%">
+                                    <col width="25%">
                                     <col width="25%">
                                     <col width="15%">
                                     <col width="20%">
                                 </colgroup>
                                 <thead>
                                     <tr>
+                                    	<th>샵 이름</th>
                                         <th>상품명</th>
                                         <th>예약자</th>
                                         <th>예약 날짜</th>
@@ -81,121 +85,50 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr th:each="book : ${bookList}">
+                                    	<td>
+                                            <span style="font-weight:bold" th:text="${book.shop.shopName}"></span>
+                                        </td>
                                         <td>
                                             <div class="row">
-                                                <div class="col" id="rvImg"></div>
+                                                <div class="col" id="rvImg">
+                                                	<img th:src="@{${book.shop.imagePath}}" width="70%" height="100%">
+                                                </div>
                                                 <div class="col" id="rvTitle">
-                                                    <span class="rv_title">투블럭 / 염색 스타일링</span>
-                                                    <span class="option">옵션 / 투블럭 + 염색</span>
-                                                    <span class="price">27,000원</span>
+                                                    <span class="rv_title" th:text="${book.product.productName}"></span>
+                                                    <span class="option" th:text="${book.option.optionName}"></span>
+                                                    <span class="price" th:text="${book.product.productPrice}+${book.option.optionPrice}+'원'"></span>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <span id="rvCusterId" class="center-block">hyahya</span>
-                                            <button id="rvContact" class="tb_btn">연락하기</button>
+                                            <span id="rvCusterId" class="center-block" th:text="${book.user.username}"></span>
+                                            <!-- <button id="rvContact" class="tb_btn">연락하기</button> -->
                                         </td>
                                         <td>
-                                            <span id="rvRegdate" class="center-block">2017.10.15</span>
-                                            <span id="rvTime" class="center-block">8:00</span>
+                                            <span id="rvRegdate" class="center-block" th:text="${book.bookDate}"></span>
+                                            <span id="rvTime" class="center-block" th:text="${book.bookTime}"></span>
                                         </td>
                                         <td>
-                                            <span id="rvStatus">스타일링 대기중</span>
+                                            <div th:if="${book.bookStatus}==0">
+                                           		<span id="rvStatus">예약 접수</span>
+                                           		<br><button th:id="${book.bookCode}" class="designer_confirm_btn">진행하기</button>
+                                           		<br><button th:id="${book.bookCode}" class="designer_tb_btn">취소하기</button>
+                                           	</div>
+                                           	<div th:if="${book.bookStatus}==1">
+                                           		<span id="rvStatus">스타일링 대기중</span>
+                                           		<br><button th:id="${book.bookCode}" class="designer_complete_btn">완료하기</button>
+                                           		<br><button th:id="${book.bookCode}" class="designer_tb_btn">취소하기</button>
+                                           	</div>
+                                           	<div th:if="${book.bookStatus}==2">
+                                           		<span id="rvStatus">예약 취소</span>
+                                           	</div>
+                                           	<div th:if="${book.bookStatus}==3">
+                                           		<span id="rvStatus">스타일링 완료</span>
+                                           	</div>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col" id="rvImg"></div>
-                                                <div class="col" id="rvTitle">
-                                                    <span class="rv_title">투블럭 / 염색 스타일링</span>
-                                                    <span class="option">옵션 / 투블럭 + 염색</span>
-                                                    <span class="price">27,000원</span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span id="rvCusterId" class="center-block">hyahya</span>
-                                            <button id="rvContact" class="tb_btn">연락하기</button>
-                                        </td>
-                                        <td>
-                                            <span id="rvRegdate" class="center-block">2017.10.15</span>
-                                            <span id="rvTime" class="center-block">8:00</span>
-                                        </td>
-                                        <td>
-                                            <span id="rvStatus"><button id="continueBtn" class="tb_btn">진행하기</button></span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col" id="rvImg"></div>
-                                                <div class="col" id="rvTitle">
-                                                    <span class="rv_title">투블럭 / 염색 스타일링</span>
-                                                    <span class="option">옵션 / 투블럭 + 염색</span>
-                                                    <span class="price">27,000원</span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span id="rvCusterId" class="center-block">hyahya</span>
-                                            <button id="rvContact" class="tb_btn">연락하기</button>
-                                        </td>
-                                        <td>
-                                            <span id="rvRegdate" class="center-block">2017.10.15</span>
-                                            <span id="rvTime" class="center-block">8:00</span>
-                                        </td>
-                                        <td>
-                                            <span id="rvStatus">스타일링 대기중</span>
-                                        </td>
-                                    </tr>
-                                    <tr class="complete">
-                                        <td>
-                                            <div class="row">
-                                                <div class="col" id="rvImg"></div>
-                                                <div class="col" id="rvTitle">
-                                                    <span class="rv_title">투블럭 / 염색 스타일링</span>
-                                                    <span class="option">옵션 / 투블럭 + 염색</span>
-                                                    <span class="price">27,000원</span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span id="rvCusterId" class="center-block">hyahya</span>
-                                            <button id="rvContact" class="tb_btn">연락하기</button>
-                                        </td>
-                                        <td>
-                                            <span id="rvRegdate" class="center-block">2017.10.15</span>
-                                            <span id="rvTime" class="center-block">8:00</span>
-                                        </td>
-                                        <td>
-                                            <span id="rvStatus">취소 완료</span>
-                                        </td>
-                                    </tr>
-                                    <tr class="complete">
-                                        <td>
-                                            <div class="row">
-                                                <div class="col" id="rvImg"></div>
-                                                <div class="col" id="rvTitle">
-                                                    <span class="rv_title">투블럭 / 염색 스타일링</span>
-                                                    <span class="option">옵션 / 투블럭 + 염색</span>
-                                                    <span class="price">27,000원</span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span id="rvCusterId" class="center-block">hyahya</span>
-                                            <button id="rvContact" class="tb_btn">연락하기</button>
-                                        </td>
-                                        <td>
-                                            <span id="rvRegdate" class="center-block">2017.10.15</span>
-                                            <span id="rvTime" class="center-block">8:00</span>
-                                        </td>
-                                        <td>
-                                            <span id="rvStatus">스타일링 대기중</span>
-                                        </td>
-                                    </tr>
+                                    
                                 </tbody>
                             </table>
                         </div>

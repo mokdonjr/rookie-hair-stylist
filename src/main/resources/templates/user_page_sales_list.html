@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" 
+	layout:decorator="layouts/commonLayout">
+<head>
+	<meta charset="utf-8">
+  	<title>Rookies</title>
+</head>
+
+<body>
+<div id="page-wrapper" layout:fragment="content">
+    <div id="pageWrap">
+		<article class="sales_list">
+            <h2 class="hidden">디자이너 샵</h2>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-3 col-sm-12">
+                        <aside id="sideMenu" class="side_menu">
+                            <header>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="designer_profile">
+											<img th:src="@{${stylist.user.profileImagePath}}" class="designer_profile" />
+                                        </div>
+                                        <span th:text="'Designer '+${stylist.stylistNickname}" class="designer_name"></span>
+                                    </div>
+                                </div>
+                            </header>
+                            
+                           <ul class="side_menu_list">
+                                <li><a th:href="@{'/users/designerInfo/'+${stylist.stylistCode}}">판매중인 상품</a></li>
+                                <li><a th:href="@{'/users/portfolioInfo/'+${stylist.stylistCode}}">포트폴리오</a></li>
+                                <li><a th:href="@{'/users/postscriptInfo/'+${stylist.stylistCode}}">고객 후기</a></li>
+                            </ul>
+                        </aside>
+                    </div>
+                    <div class="col-xl-9 col-sm-12">
+                        <div class="sales_status">
+                            <header class="clearfix">
+                                <span class="title inline-block">판매중인 상품<span>디자이너가 오픈한 샵을 구경해보세요!</span></span>
+                            </header>
+                            <div class="sales_shop_box">
+                                <div class="row">
+                                    <div th:each="shop : ${shopList}" class="col-xl-3 col-sm-12">
+		                            <a th:href="@{'/shop/' + ${shop.shopCode}}">
+										<div id="shopCard" class="shop_card">
+								            <div id="mcLocation" class="sc_location">
+								                <span th:text="${shop.location}">혜화/대학로</span>
+								            </div>
+								            <div class="sc_imgarea">
+								                <img th:src="@{${shop.imagePath}}" width="100%" class="sc_imgarea" style="padding:1px">
+								                <div class="profile_img" th:style="'background:url(' + @{${shop.stylist.user.profileImagePath}} + ');'">
+								                </div>
+								            </div>
+								            <div class="sc_bottom">
+								                <h4 th:text="${shop.shopName}" class="sc_title">남자 투블럭/염색/스타일링</h4>  
+								                <span class="sc_des">#투블럭 #남자 #머리 #염색 #컷</span>
+								                <div class="sc_info clearnext">
+								                    <span th:text="${shop.stylist.stylistNickname}" class="designer_name"><span>Designer</span> 은진</span>
+								                    <div th:if="${shop.avg} > 0">
+									                    <span class="stars">
+							                    			<span th:each="i : ${#numbers.sequence( 1, shop.avg)}">
+							                       			 	<i class="xi-star">
+							                       			 </span>
+							                      		 <span th:text="'('+${shop.count}+')'" class="reply_num">(15)</span>
+						                      		 </div>
+						                    	</span>
+								                </div>
+								            </div>
+								        </div>
+									</a>
+		                        </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </article>
+        </div>
+        <div class="to-top-btn"><i class="xi-caret-up"></i></div>
+    </div>
+</body>
+</html>

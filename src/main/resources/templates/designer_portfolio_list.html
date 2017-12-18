@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" 
+	layout:decorator="layouts/commonLayout">
+<head>
+	<meta charset="utf-8">
+  	<title>Rookies</title>
+</head>
+
+<body>
+<div id="page-wrapper" layout:fragment="content">
+    <div id="pageWrap">
+		<article class="sales_list">
+            <h2 class="hidden">디자이너 샵</h2>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-3 col-sm-12">
+                        <aside id="sideMenu" class="side_menu">
+                            <header>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="designer_profile">
+											<img th:src="@{${stylist.user.profileImagePath}}" class="designer_profile" />
+                                        </div>
+                                        <span th:text="'Designer '+${stylist.stylistNickname}" class="designer_name"></span>
+                                    </div>
+                                </div>
+                            </header>
+                            <ul class="side_menu_list">
+                                <li><a href="/stylist/mypage">주문 조회</a></li>
+                                <li><a href="/stylist/mypage?type=order">전체 조회</a></li>
+                                <li><a href="/stylist/mypage?type=waiting">진행중인 예약 조회</a></li>
+                            </ul>
+                            <ul class="side_menu_list">
+                                <li><a th:href="@{'/stylist/designerInfo/'+${stylist.stylistCode}}">판매 상품 관리</a></li>
+                                <li><a th:href="@{'/stylist/portfolioInfo/'+${stylist.stylistCode}}">포트폴리오 관리</a></li>
+                                <li><a th:href="@{'/stylist/postscriptInfo/'+${stylist.stylistCode}}">고객 후기 관리</a></li>
+                            </ul>
+                            <ul class="side_menu_list">
+                                <li><a href="#" onclick="alert('서비스 준비중 입니다!')">프로필 수정</a></li>
+                                <li><a href="#" onclick="alert('서비스 준비중 입니다!')">계좌 관리</a></li>
+                            </ul>
+                        </aside>
+                    </div>
+                    <div class="col-xl-9 col-sm-12">
+                        <div class="sales_status">
+                            <header class="clearfix">
+                                <span class="title inline-block">포트폴리오<span>고객들에게 보여줄 포트폴리오 입니다.</span></span>
+                            </header>
+                            <div class="sales_shop_box">
+                                <div class="row">
+                                    <div class="container">
+									    	<div th:each="shop : ${shopList}" class="item-list">
+												<div th:each="portfolio : ${shop.portfolioImg}" class="item">
+													<a href='#'>
+														<img th:src="@{${portfolio}}" class="img-responsive img-size">
+													</a>
+												</div>
+									    	</div>
+								    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </article>
+        </div>
+        <div class="to-top-btn"><i class="xi-caret-up"></i></div>
+    </div>
+</body>
+</html>

@@ -40,6 +40,9 @@ public class ProductOption implements Serializable {
 	
 	@Column(name="option_price")
 	private int optionPrice;
+	
+	@Transient
+	private String optionPriceStr;
 
 	@ManyToOne
 	@JoinColumn(name="shop_code")

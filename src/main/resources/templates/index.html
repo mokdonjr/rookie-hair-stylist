@@ -3,13 +3,12 @@
 	layout:decorator="layouts/commonLayout">
 <head>
 	<meta charset="utf-8">
-  	<title>Stylist My Page</title>
+  	<title>Rookies</title>
 </head>
 
 <body>
 <div id="page-wrapper" layout:fragment="content">
     <div id="pageWrap">
-        
         <main-slider></main-slider>
         <section class="main_service">
             <h3 class="hidden">헤어샵 리스트</h3>
@@ -24,8 +23,8 @@
 						            <div id="mcLocation" class="sc_location">
 						                <span th:text="${shop.location}">혜화/대학로</span>
 						            </div>
-						            <div class="sc_imgarea" th:style="'background:url(' + @{${shop.imagePath}} + ');'">
-						                
+						            <div class="sc_imgarea">
+						                <img th:src="@{${shop.imagePath}}" width="100%" class="sc_imgarea" style="padding:1px">
 						                <div class="profile_img" th:style="'background:url(' + @{${shop.stylist.user.profileImagePath}} + ');'">
 						                </div>
 						            </div>
@@ -33,45 +32,26 @@
 						                <h4 th:text="${shop.shopName}" class="sc_title">남자 투블럭/염색/스타일링</h4>  
 						                <span class="sc_des">#투블럭 #남자 #머리 #염색 #컷</span>
 						                <div class="sc_info clearnext">
-						                    <span th:text="${shop.stylist.stylistNickname}" class="designer_name"><span>Designer</span> 은진</span>
+						                    <span th:text="'Designer '+${shop.stylist.stylistNickname}" class="designer_name"><span>Designer</span> 은진</span>
 						                    <span class="stars">
-						                        <i class="xi-star"></i><i class="xi-star"></i><i class="xi-star"></i><i class="xi-star"></i><i class="xi-star"></i>
-						                        <span class="reply_num">(15)</span>
+						                    	<div th:if="${shop.avg} > 0">
+							                    	<span th:each="i : ${#numbers.sequence( 1, shop.avg)}">
+							                        	<i class="xi-star">
+							                        </span>
+							                        <span th:text="'('+${shop.count}+')'" class="reply_num">(15)</span>
+						                        </div>
 						                    </span>
 						                </div>
 						            </div>
 						        </div>
                             </a>
-							</a>
                         </div>
-                        <!-- <div class="col-xl-3 col-sm-12">
-                            <a href="/detail"><shop-box></shop-box></a>
-                        </div>
-                        <div class="col-xl-3 col-sm-12">
-                            <a href="/detail"><shop-box></shop-box></a>
-                        </div>
-                        <div class="col-xl-3 col-sm-12">
-                            <a href="/detail"><shop-box></shop-box></a>
-                        </div>
-                        <div class="w-100 br"></div>
-                        <div class="col-xl-3 col-sm-12">
-                            <a href="/detail"><shop-box></shop-box></a>
-                        </div>
-                        <div class="col-xl-3 col-sm-12">
-                            <a href="/detail"><shop-box></shop-box></a>
-                        </div>
-                        <div class="col-xl-3 col-sm-12">
-                            <a href="/detail"><shop-box></shop-box></a>
-                        </div>
-                        <div class="col-xl-3 col-sm-12">
-                            <a href="/detail"><shop-box></shop-box></a>
-                        </div> -->
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-    </div>
+         </section>
+      </div>
+</div>
     <div id="preLoader" class="preloader">
         <img src="./images/logo_big.png" alt="" class="img-responsive center-block tada animated">
         <!--<div class="letter-wrap">-->
@@ -85,14 +65,6 @@
         <!--</div>-->
     </div>
 	<br/>
-	<!-- merged backbranch -->
-	<!-- <table>
-		<tr th:each="shop : ${shopList}">
-			<td><img th:src="@{shop.imagePath}"/ alt="shop image"></td>
-			<td><a th:href="@{'/shop/' + ${shop.shopCode}}"><span th:text="${shop.shopName}"></span></a>
-			</td>
-		</tr>
-	</table>-->
     </div>
 </body>
 </html>

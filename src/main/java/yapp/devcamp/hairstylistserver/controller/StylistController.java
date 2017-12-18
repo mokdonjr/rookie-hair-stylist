@@ -1,7 +1,9 @@
 package yapp.devcamp.hairstylistserver.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -25,15 +27,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import yapp.devcamp.hairstylistserver.exception.StylistAlreadyEnrollException;
+import yapp.devcamp.hairstylistserver.model.Book;
+import yapp.devcamp.hairstylistserver.model.Postscript;
+import yapp.devcamp.hairstylistserver.model.ProductOption;
 import yapp.devcamp.hairstylistserver.model.Shop;
 import yapp.devcamp.hairstylistserver.model.Stylist;
 import yapp.devcamp.hairstylistserver.model.User;
 import yapp.devcamp.hairstylistserver.oauth.AuthorityType;
+import yapp.devcamp.hairstylistserver.service.BookService;
 import yapp.devcamp.hairstylistserver.service.EmailService;
+import yapp.devcamp.hairstylistserver.service.PostscriptService;
+import yapp.devcamp.hairstylistserver.service.ProductService;
 import yapp.devcamp.hairstylistserver.service.ShopService;
 import yapp.devcamp.hairstylistserver.service.StorageService;
 import yapp.devcamp.hairstylistserver.service.StylistService;
@@ -66,6 +73,15 @@ public class StylistController {
 	
 	@Autowired
 	private ShopService shopService;
+	
+	@Autowired
+	private PostscriptService postscriptService;
+	
+	@Autowired
+	private BookService bookService;
+	
+	@Autowired
+	private ProductService productService;
 	
 	private static AtomicInteger counter = new AtomicInteger(); // only use applyStylist method
 	
@@ -230,28 +246,49 @@ public class StylistController {
 	 * redirect mypage method
 	 * @return : stylist shop, portfolio, postscript data 
 	 */
-	
 	@GetMapping("/mypage")
-	public String mypage(HttpSession session, Model model){
+	public String mypage(HttpSession session, Model model,String type){
 		
 		Stylist stylist;
 		if((stylist = (Stylist) session.getAttribute("stylist")) == null){
 			model.addAttribute("errorMsg", "권한이 없습니다");
 			return "error";
 		}
-		List<Shop> shopList = shopService.findByStylist(stylist);
+		
+		List<Book> bookList = bookService.stylistBookList(stylist, type);
+		
+		for(Book book : bookList){
+			book.setProduct(productService.selectProductByCode(book.getProductCode()));
+			book.setOption(productService.selectOptionByCode(book.getOptionCode()));
+		}
+		int count = bookList.size();
 		
 		model.addAttribute("stylist", stylist);
-		model.addAttribute("shopList", shopList);
-		
+		model.addAttribute("bookList", bookList);
+		model.addAttribute("count", count);
 		return "designer_order_view";
 	}
-	
+	/**
+	 * 스타일리스트 고객주문 페이지
+	 */
 	@GetMapping("/designerInfo/{stylistCode}")
 	public String showDesignerInfo(@PathVariable("stylistCode") int stylistCode, Model model){
 		
 		Stylist stylist = stylistService.findStylistByStylistCode(stylistCode);
 		List<Shop> shopList = shopService.findByStylist(stylist);
+		
+		for(Shop shop : shopList){
+			//후기 평균 계산
+			List<Postscript> postscriptList = postscriptService.selectAll(shop);
+			float sum=0;
+			for(Postscript postscript : postscriptList){
+				float grade = postscript.getGrade(); 
+				sum += grade;
+			}
+			int count = postscriptList.size();
+			shop.setCount(count);
+			shop.setAvg((int)((sum/count)*10)/10.0f);
+		}
 		
 		model.addAttribute("stylist", stylist);
 		model.addAttribute("shopList", shopList);
@@ -260,42 +297,96 @@ public class StylistController {
 	}
 	
 	/**
-	 * redirect mypage
+	 * 스타일리스트 포트폴리오 페이지
 	 */
-	@RequestMapping("/sellproduct")
-	public String sellproduct(){
+	@GetMapping("/portfolioInfo/{stylistCode}")
+	public String showPortfolio(@PathVariable("stylistCode") int stylistCode, Model model) throws IOException{
+		Stylist stylist = stylistService.findStylistByStylistCode(stylistCode);
+		List<Shop> shopList = shopService.findByStylist(stylist);
 		
-		return "redirect:mypage";
+		for(Shop shop : shopList){
+			//포트폴리오 Url 만들기
+			String portfolioPath = getUploadedImage(shop.getStylist().getStylistCode(), shop.getShopName());
+			File file = new File(portfolioPath);
+			File[] fileList = file.listFiles();
+			
+			//포트폴리오 사진 가져오기
+			if(fileList != null) {
+				String[] getPort = new String[fileList.length-1];
+				for(int i=0;i<fileList.length;i++){
+					String filename = fileList[i].getName();
+					if(!filename.equals("thumbnail.jpg")){
+						String portfolioUrl = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", shop.getStylist().getStylistCode(), shop.getShopName(), filename)
+											.build().toString();
+						getPort[i] = portfolioUrl;
+					}
+				}
+				shop.setPortfolioImg(getPort);
+			}
+		}
+		
+		model.addAttribute("shopList", shopList);
+		model.addAttribute("stylist", stylist);
+		
+		return "designer_portfolio_list";
 	}
 	
-	/**
-	 * redirect mypage
-	 */
-	@RequestMapping("/portfolio")
-	public String portfolio(){
-		return "redirect:mypage";
-	}
+	public String getUploadedImage(int stylistCode, String shopName) throws IOException {
+		logger.warn("getUploadedImage 메서드 진입");
+		Path path = storageService.shopLoad(stylistCode, shopName);
+		return path.toString();
+    }
 	
 	/**
-	 * redirect mypage
+	 * 스타일리스트 후기 페이지
 	 */
-	@RequestMapping("/postscript")
-	public String postscript(){
-		return "redirect:mypage";
+	@GetMapping("postscriptInfo/{stylistCode}")
+	public String showPostscript(@PathVariable("stylistCode") int stylistCode,Model model){
+		Stylist stylist = stylistService.findStylistByStylistCode(stylistCode);
+		List<Shop> shopList = shopService.findByStylist(stylist);
+		List<List<Postscript>> allList = new ArrayList<>();
+		int count=0;
+		float sum=0;
+		float avg=0;
+		
+		for(Shop shop : shopList){
+			List<Postscript> postList = postscriptService.selectAll(shop);
+			int length = postList.size();
+			if(length > 0){
+				//평균 계산
+				for(Postscript post : postList){
+					float grade = post.getGrade();
+					sum += grade;
+					post.setOpinion(makeOpinion((int)grade));
+					post.setUser(userService.findById(post.getUser().getId()));
+				}
+				
+				allList.add(postList);
+				count += length;
+			}
+		}
+		avg += (int)((sum/count)*10)/10.0f;
+		String opinion = makeOpinion((int)avg);
+		
+		model.addAttribute("opinion", opinion);
+		model.addAttribute("count", count);
+		model.addAttribute("average", avg);
+		model.addAttribute("postList", allList);
+		model.addAttribute("stylist", stylist);
+		
+		return "designer_postscript_list";
 	}
 	
-	/**
-	 * redirect to shop.html
-	 * @return : shopData
-	 */
-	@RequestMapping("/shop")
-	public ModelAndView shop(Shop shop){
-		
-		
-		ModelAndView model = new ModelAndView();
-		model.setViewName("shop");
-		
-		return model;
+	private String makeOpinion(int avg){
+		String result = "";
+		switch(avg){
+			case 5 : result="\"완전 대박이에요!!\""; break;
+			case 4 : result="\"완전 좋아요!\""; break;
+			case 3 : result="\"마음에 들어요\""; break;
+			case 2 : result="\"괜찮은 편이에요\""; break;
+			case 1 : result="\"별로에요\""; break;
+			case 0 : result="\"완전 망했어요\""; break;
+		}
+		return result;
 	}
-
 }

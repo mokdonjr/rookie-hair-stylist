@@ -45,8 +45,7 @@ public class PostscriptController {
 			
 			//후기 이미지 저장
 			MultipartFile postscriptImg = postscript.getPostscriptImg();
-			if(postscriptImg != null){
-				
+			if(!postscriptImg.getOriginalFilename().equals("")){
 				String filename = storageService.storePostscriptImage(stylistCode, shopName, postscriptImg);
 				String imagePath = getPostscriptImage(stylistCode, shopName, filename);
 				postscript.setImagePath(imagePath);

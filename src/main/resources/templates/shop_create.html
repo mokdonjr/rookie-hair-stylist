@@ -15,19 +15,18 @@
                     <h3 class="frm_big_title">판매 상품 등록</h3>
                     <p class="frm_big_des">판매할 헤어스타일링 상품 정보를 작성해주세요.</p>
                 </header>
-				<form th:object="${shop}" method="post" enctype="multipart/form-data" th:action="@{/shop/enroll}">
-					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                    <div class="btn-group">
+                 <div class="btn-group">
                         <button id="tmpSaveBtn" class="tmp_save_btn">임시 저장</button>
                         <button id="deleteBtn" class="delete_btn">삭제</button>
-                    </div>
+                 </div>
+				<form th:object="${shop}" method="post" enctype="multipart/form-data" th:action="@{/shop/enroll}">
+					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                     <div class="form-group">
                         <h4 class="frm_title">샵 이름 등록</h4>
                         <p class="frm_des">홈 화면에 노출될 샵 이름을 등록해주세요.</p>
                         <div class="form-row">
 	                        <div class="form-group col-md-12">
 	                            <label th:if="${alreadyExistShop != null}" for="shopNameUpload" th:text="@{'이미 존재합니다.' + ${alreadyExistShop}}" class="validation-message">샵 이름</label>
-<!-- 	                            <label th:if="${#fields.hasErrors('shopName')}" th:errors="*{shopName}" class="validation-message"></label> -->
 	                            <input id="shopNameUpload" th:field="*{shopName}" class="form-control" type="text" placeholder="샵 이름">
 	                        </div>
 	                    </div>
@@ -37,7 +36,6 @@
                         <p class="frm_des">홈 화면에 노출될 상품 썸네일 이미지를 등록해주세요.</p>
                         <div class="photo_upload_wrap clearfix">
                             <label for="photoUpload" class="hidden">메인 썸네일 이미지</label>
-<!--                             <input id="photoUpload" th:field="*{shopImages[0]}" class="form-control" type="file" placeholder="등록"> -->
                         	<input id="photoUpload" th:field="*{shopImage}" class="form-control" type="file" placeholder="등록">
                         </div>
                     </div>
@@ -52,44 +50,45 @@
                         <div class="col-lg-6 col-md-12">
                             <h4 class="frm_title">상품 등록</h4>
                             <p class="frm_des">헤어스타일링 상품을 등록해주세요.</p>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
+                            <div class="row">
+                                <div id="productName" class="col-md-6">
                                     <label for="productUpload">상품명</label>
                                     <p class="frm_small_des">(예시)</p>
                                     <div class="example_frm">물결펌</div>
                                     <label th:if="${#fields.hasErrors('products[0].productName')}" th:errors="*{products[0].productName}" class="validation-message"></label>
-                                    <input id="productUpload" th:field="*{products[0].productName}" class="form-control inline_input" type="text" placeholder="상품명을 입력해 주세요">
+                                    <input name="products[0].productName" value="" class="form-control inline_input" type="text" placeholder="상품명을 입력해 주세요">
                                 </div>
-                                <div class="form-group col-md-6">
+                                <div id="productPrice" class="col-md-6">
                                     <label for="productPriceUpload">상품 가격</label>
                                     <p class="frm_small_des">&nbsp;</p>
-                                    <div class="example_frm">20,000원</div>
+                                    <div class="example_frm">20000</div>
                                     <label th:if="${#fields.hasErrors('products[0].productPrice')}" th:errors="*{products[0].productPrice}" class="validation-message"></label>
-                                    <input id="productPriceUpload" th:field="*{products[0].productPrice}" class="form-control inline_input" type="text" placeholder="상품가격을 입력해 주세요">
+                                    <input name="products[0].productPrice" value="" class="form-control inline_input" type="text" placeholder="0">
                                 </div>
                             </div>
-                            <button id="pdAddBtn" class="btn btn-default right_btn">상품 추가</button>
+                            <button type="button" id="pdAddBtn" class="btn btn-default right_btn">상품 추가</button>
+                            
                         </div>
                         <div class="col-lg-6 col-md-12">
                             <h4 class="frm_title">옵션 등록</h4>
                             <p class="frm_des">헤어스타일링 상품의 추가 옵션을 등록해주세요.</p>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div id="optionName" class="col-md-6">
                                     <label for="optionUpload">옵션</label>
                                     <p class="frm_small_des">(예시)</p>
                                     <div class="example_frm">두피 마사지</div>
                                     <label th:if="${#fields.hasErrors('options[0].optionName')}" th:errors="*{options[0].optionName}" class="validation-message"></label>
-                                    <input id="optionUpload" th:field="*{options[0].optionName}" class="form-control inline_input" type="text" placeholder="옵션명을 입력해 주세요">
+                                    <input id="optionUpload" name="options[0].optionName" value="" class="form-control inline_input" type="text" placeholder="옵션명을 입력해 주세요">
                                 </div>
-                                <div class="col-md-6">
+                                <div id="optionPrice" class="col-md-6">
                                     <label for="optionPriceUpload">옵션 가격</label>
                                     <p class="frm_small_des">&nbsp;</p>
-                                    <div class="example_frm">3,000원</div>
+                                    <div class="example_frm">3000</div>
                                     <label th:if="${#fields.hasErrors('options[0].optionPrice')}" th:errors="*{options[0].optionPrice}" class="validation-message"></label>
-                                    <input id="optionPriceUpload" th:field="*{options[0].optionPrice}" class="form-control inline_input" type="text" placeholder="옵션가격을 입력해 주세요">
+                                    <input id="optionPriceUpload" name="options[0].optionPrice" value="" class="form-control inline_input" type="text" placeholder="옵션가격을 입력해 주세요">
                                 </div>
                             </div>
-                            <button id="optionAddBtn" class="btn btn-default right_btn">옵션 추가</button>
+                            <button type="button" id="optionAddBtn" class="btn btn-default right_btn">옵션 추가</button>
                         </div>
                     </div>
                     <div class="form-group">
@@ -100,29 +99,36 @@
 	                            <label for="locationUpload" class="hidden">장소</label>
 	                            <label th:if="${#fields.hasErrors('location')}" th:errors="*{location}" class="validation-message"></label>
 	                            <input id="locationUpload" th:field="*{location}" class="form-control" type="text" placeholder="장소를 입력해 주세요">
-<!-- 	                            <input id="locationUpload" th:value="@{${stylist.location} + ' ' + ${stylist.detailLocation}}" th:field="*{location}" class="form-control" type="text" placeholder="장소를 입력해 주세요"> -->
 	                        </div>
 	                    </div>
                     </div>
                     <div class="form-group">
-                        <h4 class="frm_title">날짜 등록</h4>
+                        <h4 class="frm_title">날짜/시간 등록</h4>
                         <p class="frm_des">시술이 가능한 날짜를 등록해주세요. 최대 한 달 이내까지 등록할 수 있으며 판매기간이 만료된 후에 연장할 수 있습니다.</p>
                     	<div class="row">
 	                        <div class="col-md-4">
-	                            <label for="dateUpload">날짜</label>
+	                            <label for="dateUpload">오픈 날짜</label>
 	                            <label th:if="${#fields.hasErrors('shopDate')}" th:errors="*{shopDate}" class="validation-message"></label>
-	                            <input id="dateUpload" th:field="*{shopDate}" class="form-control" type="text" placeholder="가능한 날짜를 모두 입력해주세요">
+	                            <input id="dateUpload" readonly="readonly" th:field="*{shopDate}" class="form-control" type="text" placeholder="가능한 날짜를 선택해주세요">
 	                            <div id="datepicker" class="calendar"></div>
 	                        </div>
 	                        <div class="col-md-4">
-	                            <label for="dayUpload">요일</label>
+	                            <label for="dayUpload">종료 날짜</label>
 	                            <label th:if="${#fields.hasErrors('shopDay')}" th:errors="*{shopDay}" class="validation-message"></label>
-	                            <input id="dayUpload" th:field="*{shopDay}" class="form-control" type="text" placeholder="가능한 요일을 모두 입력해주세요">
+	                            <input id="dayUpload" readonly="readonly" th:field="*{shopDay}" class="form-control" type="text" placeholder="가능한 날짜를 선택해주세요">
+	                        	<div id="datepicker2" class="calendar"></div>
+	                        </div>
+	                    </div><br>
+	                    <div class="row">
+	                    	<div class="col-md-4">
+	                            <label for="timeUpload">시작 시간</label>
+	                            <label th:if="${#fields.hasErrors('shopTime')}" th:errors="*{shopTime}" class="validation-message"></label>
+	                            <input id="timeUpload" readonly="readonly" th:field="*{shopTime}" class="form-control" type="text" placeholder="가능한 시간대를 입력해주세요">
 	                        </div>
 	                        <div class="col-md-4">
-	                            <label for="timeUpload">시간</label>
-	                            <label th:if="${#fields.hasErrors('shopTime')}" th:errors="*{shopTime}" class="validation-message"></label>
-	                            <input id="timeUpload" th:field="*{shopTime}" class="form-control" type="text" placeholder="가능한 시간대를 모두 입력해주세요">
+	                            <label for="endUpload">마감 시간</label>
+	                            <label th:if="${#fields.hasErrors('shopEndTime')}" th:errors="*{shopEndTime}" class="validation-message"></label>
+	                            <input id="endUpload" readonly="readonly" th:field="*{shopEndTime}" class="form-control" type="text" placeholder="가능한 시간대를 입력해주세요">
 	                        </div>
 	                    </div>
                     </div>
@@ -130,17 +136,14 @@
                         <h4 class="frm_title">포트폴리오 및 설명 등록</h4>
                         <p class="frm_des">해당 헤어스타일링에 대한 본인의 포트폴리오 이미지와 시술 시간, 특징 등 설명을 등록해주세요.<br>고객이 시술을 결정하는데 도움이 됩니다.</p>
                         <label for="pfUpload hidden">포트폴리오 및 설명 등록</label>
+                        
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <button class="btn btn-default preview_btn">미리보기</button>
-                        </div>    
-                        <input id="photoUpload" th:field="*{portfolio}" class="form-control" type="file" placeholder="등록">
-                        <input id="photoUpload" th:field="*{portfolio}" class="form-control" type="file" placeholder="등록">
-                        <input id="photoUpload" th:field="*{portfolio}" class="form-control" type="file" placeholder="등록">
-                        <div class="col">
-                            <button class="btn btn-default" type="submit">등록하기</button>
-                        </div>    
+                    <div id="portfolioFile" class="row">
+                        <input id="photoUpload" name="portfolio" class="form-control" type="file" placeholder="등록">
+                    </div>
+                    <button type="button" id="portfolioAddBtn" class="btn btn-default right_btn" style="max-width:200px;float:left">포트폴리오 추가</button>
+                    <div class="col">
+                         <button class="btn btn-default right_btn" type="submit">등록하기</button>
                     </div>
                 </form>
             </div>

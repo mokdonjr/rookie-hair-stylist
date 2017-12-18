@@ -28,50 +28,24 @@
 					</li>
 					<li sec:authorize="hasRole('ROLE_STYLIST')">
 						<a href="/stylist/mypage">My Page</a>
+					</li>
+					<li sec:authorize="hasRole('ROLE_USER')">
+						<a href="/users/mypage">My Page</a>
+					</li>
 					<li>
-						<img th:src="@{${session.user.profileImagePath}}">
+						<img th:src="@{${session.user.profileImagePath}}" width="50" height="50">
 						<a href="#" th:text="${session.user.username}"></a>
 					</li>
-					<li><a href="#">알림</a></li>
-					<li sec:authorize="hasAnyRole('ROLE_STYLIST', 'ROLE_ADMIN')"><a href="/chat">채팅</a></li>
+					
+					<li><a id="alarm" href="#" onclick="alert('서비스 준비중 입니다!')">알림</a></li>
+					<li sec:authorize="hasAnyRole('ROLE_STYLIST', 'ROLE_ADMIN')"><a id="chat" href="#" onclick="alert('서비스 준비중 입니다!')">채팅</a></li>
+					
 					<li><a href="/users/logout">로그아웃</a></li>
 				</ul>
                 
             </div>
         </div>
     </header>	
-
-					<!-- Merged backbranch -->
-					<!-- <div sec:authorize="isAuthenticated()">
-							<ul class="nav navbar-nav pull-right">
-								<li sec:authorize="hasRole('ROLE_USER')">
-									<a th:if="${session.stylist == null}" href="/stylist/apply">헤어디자이너 신청</a>
-									<a th:if="${session.stylist != null}" href="/stylist/enroll">헤어디자이너 등록</a>
-								</li>
-								<li sec:authorize="hasRole('ROLE_STYLIST')">
-									<a href="/stylist/mypage">My Page</a>
-								<li>
-									<a><span th:text="${session.user.username}"></span>님 환영합니다!</a>
-									<img src="${session.user.profileImagePath}" alt="profile image">
-									<span th:text="${session.user.profileImagePath}"></span>
-								</li>
-								<li><a>알림</a></li>
-								<li sec:authorize="hasRole('ROLE_STYLIST')"><a href="/chat">채팅</a></li>
-								<li><a href="/users/logout">Log out</a></li>
-							</ul>
-						</div>
-						<div sec:authorize="isAnonymous()">
-							<ul class="nav navbar-nav pull-right">
-								<li><a href="/users/login">Log in</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</nav>
-		</div>
-	</div>
-	</div> -->
-    </header>
 </div>
 </body>
 </html>
