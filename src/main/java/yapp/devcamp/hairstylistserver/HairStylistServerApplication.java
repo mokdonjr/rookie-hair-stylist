@@ -16,7 +16,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 @SpringBootApplication
 @EnableAuthorizationServer
 @Order(6)
-public class HairStylistServerApplication extends SpringBootServletInitializer{
+public class HairStylistServerApplication {
 	
 	Logger logger = LoggerFactory.getLogger(HairStylistServerApplication.class);
 	
@@ -30,15 +30,6 @@ public class HairStylistServerApplication extends SpringBootServletInitializer{
 			// @formatter:on
 		}
 	}
-	
-	
-	//maven war 배포시 재정의 필요
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-		return builder.sources(HairStylistServerApplication.class);
-	}
-
-
 
 	public static void main(String[] args) {
 		SpringApplication.run(HairStylistServerApplication.class, args);
