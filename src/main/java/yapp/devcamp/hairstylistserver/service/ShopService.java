@@ -36,7 +36,6 @@ public class ShopService {
 	
 	//shop 등록
 	public void saveShop(Shop shopModel) throws IOException{ 
-		String shopName = shopModel.getShopName();
 		int shopCode = shopModel.getShopCode();
 		
 		//shop 수정
@@ -44,15 +43,10 @@ public class ShopService {
 			Shop resultShop = selectShopByShopCode(shopCode);
 			int resultStylistCode = resultShop.getStylist().getStylistCode();
 			String resultShopName = resultShop.getShopName();
-			
-
 		}
 		
 		shopRepository.save(shopModel);
 	}
-//	public void saveShop(Shop shop){
-//		shopRepository.save(shop);
-//	}
 	
 	//shop_code 알아오기
 	public Shop selectShopByShopName(String shopName){
@@ -77,18 +71,24 @@ public class ShopService {
 			//포트폴리오 Url 만들기
 			String portfolioPath = storageService.shopLoad(stylist.getStylistCode(), shop.getShopName()).toString();
 			File file = new File(portfolioPath);
-			File[] fileList = file.listFiles();
-			String[] getPort = new String[fileList.length-1];
-			
-			for(int i=0;i<fileList.length;i++){
-				String filename = fileList[i].getName();
-				if(!filename.equals("thumbnail.jpg")){
-					String portfolioUrl = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", shop.getStylist().getStylistCode(), shop.getShopName(), filename)
-										.build().toString();
-					getPort[i] = portfolioUrl;
+			if (file != null) {
+				File[] fileList = file.listFiles();
+				if (fileList != null) {
+					String[] getPort = new String[fileList.length - 1];
+
+					for (int i = 0; i < fileList.length; i++) {
+						String filename = fileList[i].getName();
+						if (!filename.equals("thumbnail.jpg")) {
+							String portfolioUrl = MvcUriComponentsBuilder
+									.fromMethodName(StorageRestController.class, "serveShopImage",
+											shop.getStylist().getStylistCode(), shop.getShopName(), filename)
+									.build().toString();
+							getPort[i] = portfolioUrl;
+						}
+					}
+					shop.setPortfolioImg(getPort);
 				}
 			}
-			shop.setPortfolioImg(getPort);
 		}
 		return list;
 	}

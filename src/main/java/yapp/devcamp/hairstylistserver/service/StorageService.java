@@ -232,7 +232,7 @@ public class StorageService {
 	}
 	
 	public Path loadShopImage(int stylistCode, String shopName,String filename){
-		return this.rootLocation.resolve(String.valueOf(stylistCode)).resolve(shopName).resolve(filename);
+		return this.rootLocation.resolve(String.valueOf(stylistCode)).resolve(shopName.replaceAll(" ", "")).resolve(filename);
 		
 	}
 //	public Path loadShopImage(int stylistCode, String shopName){

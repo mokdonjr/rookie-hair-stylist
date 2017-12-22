@@ -75,12 +75,12 @@ public class ShopController {
 		Shop shop = shopService.selectShopByShopCode(shopCode);
 		
 		//썸네일 URL 만들기
-		String url = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", shop.getStylist().getStylistCode(), shop.getShopName(), "thumbnail.jpg")
+		String url = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", shop.getStylist().getStylistCode(), shop.getShopName().replaceAll(" ", ""), "thumbnail.jpg")
 				.build().toString();
 		shop.setImagePath(url);
 		
 		//포트폴리오 Url 만들기
-		String portfolioPath = getUploadedImage(shop.getStylist().getStylistCode(), shop.getShopName());
+		String portfolioPath = getUploadedImage(shop.getStylist().getStylistCode(), shop.getShopName().replaceAll(" ", ""));
 		File file = new File(portfolioPath);
 		File[] fileList = file.listFiles();
 
@@ -90,7 +90,7 @@ public class ShopController {
 			for(int i=0;i<fileList.length;i++){
 				String filename = fileList[i].getName();
 				if(!filename.equals("thumbnail.jpg")){
-					String portfolioUrl = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", shop.getStylist().getStylistCode(), shop.getShopName(), filename)
+					String portfolioUrl = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", shop.getStylist().getStylistCode(), shop.getShopName().replaceAll(" ", ""), filename)
 										.build().toString();
 					getPort[i] = portfolioUrl;
 				}
@@ -178,18 +178,18 @@ public class ShopController {
 		
 		if(shop != null){
 			MultipartFile shopImage = shop.getShopImage();
-			storageService.storeShopImage(stylist.getStylistCode(), shop.getShopName(), shopImage);
+			storageService.storeShopImage(stylist.getStylistCode(), shop.getShopName().replaceAll(" ", ""), shopImage);
 			
 			//포트폴리오 이미지 업로드
 			MultipartFile[] pImages = shop.getPortfolio();
 			for(MultipartFile pImage : pImages){
-				storageService.storePortfolioImage(stylist.getStylistCode(), shop.getShopName(), pImage);
+				storageService.storePortfolioImage(stylist.getStylistCode(), shop.getShopName().replaceAll(" ", ""), pImage);
 			}
 			
 			// save imagepaths
 			String imagePath = null;
 			try {
-				imagePath = getUploadedImage(stylist.getStylistCode(), shop.getShopName());
+				imagePath = getUploadedImage(stylist.getStylistCode(), shop.getShopName().replaceAll(" ", ""));
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

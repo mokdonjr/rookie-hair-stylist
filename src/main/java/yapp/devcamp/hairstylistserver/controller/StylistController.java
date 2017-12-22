@@ -306,7 +306,7 @@ public class StylistController {
 		
 		for(Shop shop : shopList){
 			//포트폴리오 Url 만들기
-			String portfolioPath = getUploadedImage(shop.getStylist().getStylistCode(), shop.getShopName());
+			String portfolioPath = getUploadedImage(shop.getStylist().getStylistCode(), shop.getShopName().replaceAll(" ", ""));
 			File file = new File(portfolioPath);
 			File[] fileList = file.listFiles();
 			
@@ -316,7 +316,7 @@ public class StylistController {
 				for(int i=0;i<fileList.length;i++){
 					String filename = fileList[i].getName();
 					if(!filename.equals("thumbnail.jpg")){
-						String portfolioUrl = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", shop.getStylist().getStylistCode(), shop.getShopName(), filename)
+						String portfolioUrl = MvcUriComponentsBuilder.fromMethodName(StorageRestController.class, "serveShopImage", shop.getStylist().getStylistCode(), shop.getShopName().replaceAll(" ", ""), filename)
 											.build().toString();
 						getPort[i] = portfolioUrl;
 					}
